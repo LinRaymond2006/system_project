@@ -1,0 +1,63 @@
+Next at t=0
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+b 0x7c00
+c
+(0) Breakpoint 1, 0x0000000000007c00 in ?? ()
+Next at t=17844262
+(0) [0x000000007c00] 0000:7c00 (unk. ctxt): jmp .+88  (0x00007c5a)    ; eb58
+mov 0xb8000, 'AA'
+:3: syntax error at 'mov'
+set word 0xb8000 ='AA'
+:4: syntax error at 'word'
+set word [0xb8000] ='AA'
+:5: syntax error at 'word'
+set {word}0xb8000 ='AA'
+:6: syntax error at '{'
+help
+h|help - show list of debugger commands
+h|help command - show short command description
+-*- Debugger control -*-
+    help, q|quit|exit, set, instrument, show, trace, trace-reg,
+    trace-mem, u|disasm, ldsym, slist
+-*- Execution control -*-
+    c|cont|continue, s|step, p|n|next, modebp, vmexitbp
+-*- Breakpoint management -*-
+    vb|vbreak, lb|lbreak, pb|pbreak|b|break, sb, sba, blist,
+    bpe, bpd, d|del|delete, watch, unwatch
+-*- CPU and memory contents -*-
+    x, xp, setpmem, writemem, crc, info,
+    r|reg|regs|registers, fp|fpu, mmx, sse, sreg, dreg, creg,
+    page, set, ptime, print-stack, ?|calc
+-*- Working with bochs param tree -*-
+    show "param", restore
+set
+:8: syntax error at '
+'
+setpmem 0xb8000, 'AA'
+:9: syntax error at ','
+setpmem 0xb8000= 'AA'
+:10: syntax error at '='
+setpmem 0xb8000 = 'AA'
+:11: syntax error at '='
+setpmem 0xb8000 'AA'
+:12: syntax error at '
+'
+setpmem 0xb8000 0x4141
+:13: syntax error at '
+'
+setpmem 0xb8000= 0x4141
+:14: syntax error at '='
+setpmem 0xb8000 2 0x4141
+setpmem 0xb8000 2 0x4141
+setpmem 0xb8001 2 0x4141
+setpmem 0xb8002 2 0x4141
+N
+:19: syntax error at 'N'
+n
+Next at t=17844263
+(0) [0x000000007c5a] 0000:7c5a (unk. ctxt): add byte ptr ds:[bx+si], al ; 0000
+c
+Next at t=176309871
+(0) [0x000000007e45] 0000:7e45 (unk. ctxt): jmp .-2  (0x00007e45)     ; ebfe
+exit
+(0).[176309871] [0x000000007e45] 0000:7e45 (unk. ctxt): jmp .-2  (0x00007e45)     ; ebfe
