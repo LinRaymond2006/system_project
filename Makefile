@@ -19,8 +19,8 @@ all:
 	xxd -g 1 $(DIST_BIN)
 	wc < $(DIST_BIN)
 	#not tested the dd command yet
-	#dd if=$(DIST_BIN) of=$(DISK_IMG) bs=1 seek=90 skip=90 count=420 conv=notrunc
-	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 conv=notrunc
+	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
+	#dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 conv=notrunc
 	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
 	cp $(LOADER_NAME) ./mount_dir/
 	sync
