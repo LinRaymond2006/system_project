@@ -30,6 +30,7 @@ dump:
 cleanup:
 	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log 
 run:
+	make all
 	clear
 	-rm boot.img.lock bochs.log debug.log
 	bochs
