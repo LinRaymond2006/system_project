@@ -26,12 +26,19 @@ all:
 	sync
 	sudo umount ./mount_dir/
 dump:
-	objdump -mi8086 -bbinary -Mintel -D $(DIST_BIN)
+	#objdump -mi8086 -bbinary -Mintel -D $(DIST_BIN)
+	objdump -mi8086 -bbinary -Mintel -D $(LOADER_NAME)
 cleanup:
 	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log 
 run:
+	make all
 	clear
 	-rm boot.img.lock bochs.log debug.log
 	bochs
 read:
 	hexedit mem.dump
+term:
+	make all
+	-rm boot.img.lock bochs.log debug.log
+	clear
+	bochs -qf bochsrc.term

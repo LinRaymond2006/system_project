@@ -1,0 +1,11 @@
+Next at t=0
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+Next at t=112874113
+(0) [0x000000007e65] 0000:7e65 (unk. ctxt): jmp .-2 (0x00007e65)      ; ebfe
+x/g 100000
+[bochs]:
+0x00000000000186a0 <bogus+       0>:	0xdeadbeef
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[112874113] [0x000000007e65] 0000:7e65 (unk. ctxt): jmp .-2 (0x00007e65)      ; ebfe
