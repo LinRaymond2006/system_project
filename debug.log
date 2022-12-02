@@ -1,0 +1,7 @@
+Next at t=0
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+Next at t=100326867
+(0) [0x000000007e5e] 0008:0000000000007e5e (unk. ctxt): jmp .-2 (0x00007e5e)      ; ebfe
+exit
+(0).[100326867] [0x000000007e5e] 0008:0000000000007e5e (unk. ctxt): jmp .-2 (0x00007e5e)      ; ebfe

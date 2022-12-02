@@ -36,3 +36,8 @@ run:
 	bochs
 read:
 	hexedit mem.dump
+term:
+	make all
+	-rm boot.img.lock bochs.log debug.log
+	clear
+	bochs -qf bochsrc.term
