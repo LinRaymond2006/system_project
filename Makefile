@@ -28,16 +28,27 @@ dump:
 	#objdump -mi8086 -bbinary -Mintel -D $(DIST_BIN)
 	objdump -mi8086 -bbinary -Mintel -D $(LOADER_NAME)
 cleanup:
-	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log 
-run:
+	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log boot.img
+	sudo umount ./mount_dir/
+X_debug:
 	make all
 	clear
 	-rm boot.img.lock bochs.log debug.log
 	bochs
+X:
+	make all
+	clear
+	-rm boot.img.lock bochs.log debug.log
+	echo c | bochs
 read:
 	hexedit mem.dump
-term:
+TERM_debug:
 	make all
 	-rm boot.img.lock bochs.log debug.log
 	clear
 	bochs -qf bochsrc.term
+TERM:
+	make all
+	-rm boot.img.lock bochs.log debug.log
+	clear
+	echo c | bochs -qf bochsrc.term
