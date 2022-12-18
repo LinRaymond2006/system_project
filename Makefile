@@ -16,12 +16,21 @@ all:
 	#MAKE LOADER.SYS
 	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
 	
+	#for debugging
+	nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
+
+
 	#xxd -g 1 $(DIST_BIN)
 	#wc < $(DIST_BIN)
 	#not tested the dd command yet
 	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
 	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
 	cp $(LOADER_NAME) ./mount_dir/
+
+	#for debugging
+	cp KERNEL.SYS ./mount_dir/
+
+
 	sync
 	sudo umount ./mount_dir/
 dump:

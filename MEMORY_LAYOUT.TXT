@@ -1,9 +1,9 @@
-;MEMORY LAYOUT
+;MEMORY LAYOUT (BOOT RECORD)
 
 
 ;|----------------------|
 ;|	 FE00 ~ (NOT SURE)  |
-;|	    	              |
+;|	    	            |
 ;|----------------------|
 ;|	    7E00 ~ FE00	    |
 ;|	     LOADER       	|
@@ -12,9 +12,27 @@
 ;|----------------------|
 ;|	    7C00 ~ 7E00     |
 ;|	    MBR REGION      |
-;| (WILL BE OVERWRITED	|
-;| WITH MEMORY STRUCT)  |
 ;|----------------------|
 ;|	   0x500~0x700      |
 ;|	   DISK PACKET      |
+;|----------------------|
+
+
+;MEMORY LAYOUT (LOADER)
+
+
+;|----------------------|
+;|	 FE00 ~ (NOT SURE)  |
+;|	    	            |
+;|----------------------|
+;|	    7E00 ~ FE00	    |
+;|	     LOADER       	|
+;|	  (SHOULD NOT BE    |
+;|	   OVERWRITED)      |
+;|----------------------|
+;|	    7C00 ~ 7E00     |
+;|	    MBR REGION      |
+;|----------------------|
+;|	   0x500~0x700      |
+;|	    MEM_STRUCT      |
 ;|----------------------|
