@@ -325,3 +325,6 @@ rip: 00000000_000084ba
 eflags 0x00000086: id vip vif ac vm rf nt IOPL=0 of df if tf SF zf af PF cf
 writemem "finish.dump" 0x0 0x100000
 writemem "finish.dump" 0x0 0x1000ff
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[18089107] [0x0000000084ba] 0008:00000000000084ba (unk. ctxt): ret                       ; c3
