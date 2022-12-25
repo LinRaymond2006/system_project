@@ -1,4 +1,4 @@
-.PHONY:all, dump, cleanup, run
+.PHONY:all, cleanup, X, X_debug, TERM, TERM_debug
 NASMFLAGS := -f bin
 DIST_BIN :=CODE.BIN
 SOURCE := MAIN.ASM
@@ -10,19 +10,14 @@ all:
 	-mkdir mount_dir
 	cp boot.img.bck boot.img
 	mkfs.fat -F32 -S512 -D0x80 -s4 boot.img
-	
-	#MAKE DBR
+
 	nasm $(NASMFLAGS) $(SOURCE) -o $(DIST_BIN)
 	#MAKE LOADER.SYS
 	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
-	
+
 	#for debugging
 	nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
 
-
-	#xxd -g 1 $(DIST_BIN)
-	#wc < $(DIST_BIN)
-	#not tested the dd command yet
 	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
 	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
 	cp $(LOADER_NAME) ./mount_dir/
@@ -33,12 +28,9 @@ all:
 
 	sync
 	sudo umount ./mount_dir/
-dump:
-	#objdump -mi8086 -bbinary -Mintel -D $(DIST_BIN)
-	objdump -mi8086 -bbinary -Mintel -D $(LOADER_NAME)
 cleanup:
-	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log boot.img
-	sudo umount ./mount_dir/
+	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log boot.img dump.mem
+	-sudo umount ./mount_dir/
 X_debug:
 	make all
 	clear
@@ -56,6 +48,12 @@ TERM_debug:
 	-rm boot.img.lock bochs.log debug.log
 	clear
 	bochs -qf bochsrc.term
+
+MEM_dump:
+	make all
+	-rm boot.img.lock bochs.log debug.log
+	clear
+	-echo 'c;writemem "dump.mem" 0 0xffffff' | bochs -qf bochsrc.term
 TERM:
 	make all
 	-rm boot.img.lock bochs.log debug.log
