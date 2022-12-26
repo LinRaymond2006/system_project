@@ -16,7 +16,7 @@ all:
 	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
 
 	#for debugging
-	nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
+	#nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
 
 	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
 	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
