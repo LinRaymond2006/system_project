@@ -1,5 +1,9 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+Next at t=60486802
+(0) [0x000000007d2f] 0000:7d2f (unk. ctxt): jmp .-2 (0x00007d2f)      ; ebfe
+writemem "a.mem" 0 0xfffff
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[0] [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+(0).[60486802] [0x000000007d2f] 0000:7d2f (unk. ctxt): jmp .-2 (0x00007d2f)      ; ebfe

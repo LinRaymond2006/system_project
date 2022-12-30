@@ -6,9 +6,20 @@
 %define ATA0_MASTER_base_port 0x1f0
 ;0x1f0:ata0-master
 ;reading via LBA24
-
-
 READ_ATA32:
+	pushad
+	mov ebp, eax
+	.1:
+		push cx
+		mov cx, 1
+		call READ_ATA32_imp
+		inc eax
+		pop cx
+		loop .1
+	popad
+	ret
+
+READ_ATA32_imp:
 	
 	push esi
 	push edi
@@ -55,7 +66,6 @@ READ_ATA32:
 	mov dx, ATA0_MASTER_base_port
 .contrd:
 	in ax, dx
-	;;;;;;;;;;use ebx instead of bx to address in unreal mode with A20 enabled here!;;;;;;;;;;;;;;;;;;;;
 	mov [ebx], ax
 	add ebx, 2
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

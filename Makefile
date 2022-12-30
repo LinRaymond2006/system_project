@@ -13,7 +13,7 @@ all:
 
 	nasm $(NASMFLAGS) $(SOURCE) -o $(DIST_BIN)
 	#MAKE LOADER.SYS
-	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
+	#nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
 
 	#for debugging
 	#nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
