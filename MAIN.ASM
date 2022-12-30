@@ -200,12 +200,12 @@ MOV EAX, EDX				;BOTH CMP_STOP AND NXT_CLUSTER TAKE EAX AS ARGUMENT
 	JMP .CREATE_CHAIN
 
 
-
+;note: the sector number to be read=first_data_sector+(value_in_FATchain*sec_per_clus)
 ;;;;;;;;;;;;;;;;;;;;;;
 
-MOV DWORD [SI], 0XFFFFFFFF
 PREPARE_LOAD_LOADER:
-jmp $
+MOV DWORD [SI], 0XFFFFFFFF
+;jmp $
 ;DEBUG ONLY(IT WILL BE MERGE INTO MAIN PROGRAM IF IT WORKS FINE)
 
 
