@@ -27,7 +27,15 @@
 ;|	     0X100000~      |
 ;|	      KERNEL        |
 ;|----------------------|
-;|	    7E00 ~ FE00	    |
+;|   0X90000~0X100000   |
+;|    TMP PAGE TABLE    |
+;|	  (SHOULD NOT BE    |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	 NEW PAGE TABLE     |
+;|      IS LOADED)      |
+;|----------------------|
+;|	  7E00 ~ 0X90000    |
 ;|	     LOADER       	|
 ;|	  (SHOULD NOT BE    |
 ;|	   OVERWRITED       |

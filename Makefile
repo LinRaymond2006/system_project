@@ -4,6 +4,8 @@ DIST_BIN :=CODE.BIN
 SOURCE := MAIN.ASM
 LOADER_SOURCE := LOADER.ASM
 LOADER_NAME := LOADER.SYS
+KERNEL_NAME := KERNEL.SYS
+HEAD_ASM := head.asm
 #ata0-master: type=disk, path="boot.img", mode=flat
 all:
 	-rm boot.img boot.img.lock
@@ -14,17 +16,14 @@ all:
 	nasm $(NASMFLAGS) $(SOURCE) -o $(DIST_BIN)
 	#MAKE LOADER.SYS
 	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
+	nasm $(NASMFLAGS) $(HEAD_ASM) -o $(KERNEL_NAME)
 
-	#for debugging
-	#nasm -f bin KERNEL_TMP.ASM -o KERNEL.SYS
 
 	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
 	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
+	
 	cp $(LOADER_NAME) ./mount_dir/
-
-	#for debugging
-	cp KERNEL.SYS ./mount_dir/
-
+	cp $(KERNEL_NAME) ./mount_dir/
 
 	sync
 	sudo umount ./mount_dir/
@@ -41,8 +40,6 @@ X:
 	clear
 	-rm boot.img.lock bochs.log debug.log
 	echo c | bochs
-read:
-	hexedit mem.dump
 TERM_debug:
 	make all
 	-rm boot.img.lock bochs.log debug.log
