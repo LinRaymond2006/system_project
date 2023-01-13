@@ -70,7 +70,7 @@ SETUP_PMODE:
 ;the FAT table will be temporarily located at 0x100000, the FATchain will be
 ;stored at 0x500, so there is no need to worried about the memory space!
 %define FATBASE 0x100000
-%define FATCHAINBASE 0x500
+%define FATCHAINBASE 0x700
 %DEFINE SFNSHIFT 5
 %define FILENAME_LENGTH 11
 %define SFNSIZE 32

@@ -8,7 +8,9 @@
 ;|	    7E00 ~ FE00	    |
 ;|	     LOADER       	|
 ;|	  (SHOULD NOT BE    |
-;|	   OVERWRITED)      |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	KERNEL IS LOADED)   |
 ;|----------------------|
 ;|	    7C00 ~ 7E00     |
 ;|	    MBR REGION      |
@@ -22,17 +24,26 @@
 
 
 ;|----------------------|
-;|	 FE00 ~ (NOT SURE)  |
-;|	    	            |
+;|	     0X100000~      |
+;|	      KERNEL        |
 ;|----------------------|
 ;|	    7E00 ~ FE00	    |
 ;|	     LOADER       	|
 ;|	  (SHOULD NOT BE    |
-;|	   OVERWRITED)      |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	KERNEL IS LOADED)   |
 ;|----------------------|
 ;|	    7C00 ~ 7E00     |
 ;|	    MBR REGION      |
+;|	   FAT32 HEADER     |
+;|	   INSIDE, DO NOT   |
+;|	   OVERWRITE BEFORE |
+;|	      BACKUP        |
 ;|----------------------|
-;|	   0x500~0x700      |
-;|	    MEM_STRUCT      |
+;|	    700~7C00        |
+;|	    FAT CHAIN       |
+;|----------------------|
+;|	    0x500~0x700     |
+;|	    MEM_STRUTCT     |
 ;|----------------------|
