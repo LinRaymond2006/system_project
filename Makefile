@@ -1,58 +1,24 @@
-.PHONY:all, cleanup, X, X_debug, TERM, TERM_debug
-NASMFLAGS := -f bin
-DIST_BIN :=CODE.BIN
-SOURCE := MAIN.ASM
-LOADER_SOURCE := LOADER.ASM
+.PHONY:all, run, cleanup
+mnt_point := mnt
+obj_dir := build/obj
+build_dir := build
+dsk_image := hd.iso
 LOADER_NAME := LOADER.SYS
 KERNEL_NAME := KERNEL.SYS
-HEAD_ASM := head.asm
-#ata0-master: type=disk, path="boot.img", mode=flat
 all:
-	-rm boot.img boot.img.lock
-	-mkdir mount_dir
-	cp boot.img.bck boot.img
-	mkfs.fat -F32 -S512 -D0x80 -s4 boot.img
-
-	nasm $(NASMFLAGS) $(SOURCE) -o $(DIST_BIN)
-	#MAKE LOADER.SYS
-	nasm $(NASMFLAGS) $(LOADER_SOURCE) -o $(LOADER_NAME)
-	nasm $(NASMFLAGS) $(HEAD_ASM) -o $(KERNEL_NAME)
-
-
-	dd if=$(DIST_BIN) of=boot.img bs=1 seek=90 skip=90 count=420 conv=notrunc
-	sudo mount -t vfat ./boot.img ./mount_dir/ -o rw,uid=$(shell id -u),gid=$(shell id -g)
+	make all -C boot
 	
-	cp $(LOADER_NAME) ./mount_dir/
-	cp $(KERNEL_NAME) ./mount_dir/
+	sudo mount -t vfat $(build_dir)/$(dsk_image) $(mnt_point) -o rw,uid=$(shell id -u),gid=$(shell id -g)
+	
+	cp $(obj_dir)/* $(mnt_point)/
 
 	sync
-	sudo umount ./mount_dir/
-cleanup:
-	-rm $(DIST_BIN) $(LOADER_NAME) bochs.log debug.log boot.img dump.mem
-	-sudo umount ./mount_dir/
-X_debug:
-	make all
-	clear
-	-rm boot.img.lock bochs.log debug.log
-	bochs
-X:
-	make all
-	clear
-	-rm boot.img.lock bochs.log debug.log
-	echo c | bochs
-TERM_debug:
-	make all
-	-rm boot.img.lock bochs.log debug.log
-	clear
-	bochs -qf bochsrc.term
+	sudo umount $(mnt_point)
 
-MEM_dump:
+run:
 	make all
-	-rm boot.img.lock bochs.log debug.log
-	clear
-	-echo 'c;writemem "dump.mem" 0 0xffffff' | bochs -qf bochsrc.term
-TERM:
-	make all
-	-rm boot.img.lock bochs.log debug.log
-	clear
-	echo c | bochs -qf bochsrc.term
+	bochs -f ./run/bochsrc
+#	bochs -f ./run/bochsrc.term
+cleanup:
+	-sudo rm build/*
+	-sudo rm run/log/*

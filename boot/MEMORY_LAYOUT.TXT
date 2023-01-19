@@ -1,0 +1,57 @@
+;MEMORY LAYOUT (BOOT RECORD)
+
+
+;|----------------------|
+;|	 FE00 ~ (NOT SURE)  |
+;|	    	            |
+;|----------------------|
+;|	    7E00 ~ FE00	    |
+;|	     LOADER       	|
+;|	  (SHOULD NOT BE    |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	KERNEL IS LOADED)   |
+;|----------------------|
+;|	    7C00 ~ 7E00     |
+;|	    MBR REGION      |
+;|----------------------|
+;|	   0x500~0x700      |
+;|	   DISK PACKET      |
+;|----------------------|
+
+
+;MEMORY LAYOUT (LOADER)
+
+
+;|----------------------|
+;|	     0X100000~      |
+;|	      KERNEL        |
+;|----------------------|
+;|   0X90000~0X100000   |
+;|    TMP PAGE TABLE    |
+;|	  (SHOULD NOT BE    |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	 NEW PAGE TABLE     |
+;|      IS LOADED)      |
+;|----------------------|
+;|	  7E00 ~ 0X90000    |
+;|	     LOADER       	|
+;|	  (SHOULD NOT BE    |
+;|	   OVERWRITED       |
+;|	   BEFORE THE       |
+;|	KERNEL IS LOADED)   |
+;|----------------------|
+;|	    7C00 ~ 7E00     |
+;|	    MBR REGION      |
+;|	   FAT32 HEADER     |
+;|	   INSIDE, DO NOT   |
+;|	   OVERWRITE BEFORE |
+;|	      BACKUP        |
+;|----------------------|
+;|	    700~7C00        |
+;|	    FAT CHAIN       |
+;|----------------------|
+;|	    0x500~0x700     |
+;|	    MEM_STRUTCT     |
+;|----------------------|
