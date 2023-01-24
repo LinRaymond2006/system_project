@@ -1,16 +1,17 @@
 .PHONY:all, run, cleanup
 mnt_point := mnt
-obj_dir := build/obj
+rootfs_dir := build/rootfs
 build_dir := build
+log_dir := run/log
 dsk_image := hd.iso
 LOADER_NAME := LOADER.SYS
 KERNEL_NAME := KERNEL.SYS
 all:
 	make all -C boot
-	
+	make all -C kernel
 	sudo mount -t vfat $(build_dir)/$(dsk_image) $(mnt_point) -o rw,uid=$(shell id -u),gid=$(shell id -g)
 	
-	cp $(obj_dir)/* $(mnt_point)/
+	cp $(rootfs_dir)/* $(mnt_point)/
 
 	sync
 	sudo umount $(mnt_point)
@@ -18,7 +19,10 @@ all:
 run:
 	make all
 	bochs -f ./run/bochsrc
+#	terminal emulation if you don't use a desktop interface!
 #	bochs -f ./run/bochsrc.term
 cleanup:
-	-sudo rm build/*
-	-sudo rm run/log/*
+	-sudo rm $(build)/*
+	-mkdir $(build)/tmp
+	-mkdir $(build)/tmp/kernel
+	-sudo rm $(log_dir)/*
