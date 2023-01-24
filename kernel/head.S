@@ -56,54 +56,46 @@ lmode_entry:
     pushq %rax /* offset */
     lretq
 
-.align 8 /* note: the page table have to be 8-byte aligned */
-.set PT_Roffset, 0x1000        /* relative offset of the whole stucture of page table will be stored at memory 0x100000+0x1000*/
-.set PML4E_Roffset, PT_Roffset /* relative offset of PML4E */
-.set PML4E_sz, 0x1000
-.set PDPTE_Roffset, (PT_Roffset+PML4E_sz) /* relative offset of PML4E */
-.set PDPTE_sz, 0x1000
-.set PDE_Roffset, (PDPTE_Roffset+PDPTE_sz) /* relative offset of PDE */
-.set PDE_sz, 0x1000
-
 /* the bitmask include file! */
 .include "pg_mask.S"
-
 /* PML4E, PDPTE, and PDE will ocupy continuous memory of size 0x1000*3 */
-.org PML4E_Roffset
+.org 0x1000
 
 __PML4E:
-
-	.quad	0x102007
+	/*	  ADDRESS       ATTRIBUTES        */
+	.quad __PDPTE | PML4E_P | PML4E_RW | PML4E_US /* VALID, WRITABLE, USER */
 	.fill	255,8,0
-	.quad	0x102007
+	/* 	 ADDRESS       ATTRIBUTES        */
+	.quad __PDPTE | PML4E_P | PML4E_RW | PML4E_US /* VALID, WRITABLE, USER */
 	//.fill	255,8,0
 
-.org PDPTE_Roffset
+.org 0x2000
 
 __PDPTE:
-	
-	.quad	0x103003
+	/*    ADDRESS    ATTRIBUTES        */
+	.quad __PDE | PDE_P | PDE_RW /* VALID, WRITABLE, SYSTEM	 */
 	//.fill	511,8,0
 
-.org PDE_Roffset
+.org 0x3000
 
 __PDE:
-
-	.quad	0x000083	
-	.quad	0x200083
-	.quad	0x400083
-	.quad	0x600083
-	.quad	0x800083
-	.quad	0xe0000083		/*0x a00000*/
-	.quad	0xe0200083
-	.quad	0xe0400083
-	.quad	0xe0600083		/*0x1000000*/
-	.quad	0xe0800083
-	.quad	0xe0a00083
-	.quad	0xe0c00083
-	.quad	0xe0e00083
+	/* VALID, 2M PAGES, WRITABLE, SYSTEM */
+	/*     ADDRESS            ATTRIBUTES        */
+	.quad 0x000000 		| PDE_P | PDE_2M | PDE_RW	
+	.quad 0x200000 		| PDE_P | PDE_2M | PDE_RW
+	.quad 0x400000 		| PDE_P | PDE_2M | PDE_RW
+	.quad 0x600000		| PDE_P | PDE_2M | PDE_RW
+	.quad 0x800000	 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0000000 	| PDE_P | PDE_2M | PDE_RW		/*0xa00000*/
+	.quad 0xe0200000 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0400000 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0600000 	| PDE_P | PDE_2M | PDE_RW		/*0x1000000*/
+	.quad 0xe0800000 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0a00000 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0c00000 	| PDE_P | PDE_2M | PDE_RW
+	.quad 0xe0e00000 	| PDE_P | PDE_2M | PDE_RW
 	//.fill	499,8,0
-.org PDE_Roffset+PDE_sz /* fill in the spare memory from offset 0x3000 ~ 0x4000 with zero */
+.org 0x4000 /* fill in the spare memory from offset 0x3000 ~ 0x4000 with zero */
 
 .section .data
 lmode_entry_ptr:    .quad lmode_entry
