@@ -22,7 +22,8 @@ run:
 #	terminal emulation if you don't use a desktop interface!
 #	bochs -f ./run/bochsrc.term
 cleanup:
-	-sudo rm $(build)/*
-	-mkdir $(build)/tmp
-	-mkdir $(build)/tmp/kernel
-	-sudo rm $(log_dir)/*
+	-sudo rm -rf $(build_dir)/*
+	-mkdir $(build_dir)/tmp
+	-mkdir $(build_dir)/tmp/kernel
+	-mkdir $(build_dir)/rootfs
+	-sudo rm $(build_dir)/*
