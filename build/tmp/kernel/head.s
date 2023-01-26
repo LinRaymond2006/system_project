@@ -56,8 +56,9 @@ lmode_entry:
 
 
 lmode_entry_ptr: .quad lmode_entry
-start_kernel_ptr: .quad start_kernel
-# 72 "head.S"
+.extern Start_Kernel
+start_kernel_ptr: .quad Start_Kernel
+# 73 "head.S"
 .include "pg_mask.S"
 
 .org 0x1000

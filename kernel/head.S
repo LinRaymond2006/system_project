@@ -56,8 +56,9 @@ lmode_entry:
     lretq
 
 
-lmode_entry_ptr:    .quad lmode_entry
-start_kernel_ptr:   .quad start_kernel
+lmode_entry_ptr:  .quad lmode_entry
+.extern Start_Kernel
+start_kernel_ptr: .quad Start_Kernel
 
 
 /* ============================================================================================ */

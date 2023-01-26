@@ -1,4 +1,4 @@
-void start_kernel(void) {
+void Start_Kernel(void) {
     while (1) {
         ;
     }
