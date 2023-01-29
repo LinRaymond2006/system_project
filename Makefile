@@ -20,9 +20,9 @@ all: FORCE
 
 run: FORCE
 	make all
-#	bochs -f ./run/bochsrc
+	bochs -f ./run/bochsrc
 #	terminal emulation if you don't use a desktop interface!
-	bochs -f ./run/bochsrc.term
+#	bochs -f ./run/bochsrc.term
 cleanup: FORCE
 	-sudo rm -rf $(build_dir)/*
 	-mkdir $(build_dir)/tmp

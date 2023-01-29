@@ -6,51 +6,45 @@
 
 [BITS 16]
 [ORG LOADERBASE]
-;DISK_PACKET: 0X500~0X700 (DISK_PACKET_SIZE:0X10)
-;MEM_STRUCT: 0X7C00~0X7E00 (MEM_STRUCT_SIZE:0X200)
-;MEM_STRUCT WILL OVERWRITE MASTER BOOT RECORD
-;VBE_STRUCT:
-%DEFINE MEM_STRUCT_BASE 0X500
-
-
 INIT:
-    MOV SP, 0X7C00      ;RESET THE STACK
-    MOV AX, 0XB800
-    MOV GS, AX      ;TMP TEXT FRAME BUFFER SEGMENT REGISTER
-    CALL DO_CLEAR_SCR
-    CALL DO_DISABLE_CURSOR
-
-%DEFINE SMAP_MAGIC 0X534D4150
-
-
-
-START_GET_MEM_STRUCT:
-    XOR EBX, EBX
-    MOV ES, BX      ;ES=0 (STRUCTURE ADDRESS: 0X0000:0X0700 )
-    MOV DI, MEM_STRUCT_BASE
-
-    .GET_MEM_STRUCT_LOOP:
-        MOV EAX, DWORD 0XE820
-        MOV ECX, DWORD 20
-        MOV EDX, DWORD SMAP_MAGIC
-        INT 0X15
-        JC .GET_MEM_STRUCT_FAILED
-        INC BYTE [MEM_STRUCT_COUNT]
-        ADD DI, 20
-        CMP EBX, 0
-        JNE .GET_MEM_STRUCT_LOOP
-        JMP .GET_MEM_STRUCT_DONE
-    .GET_MEM_STRUCT_FAILED:
-        ;AH=ERROR CODE (0X80:INVALID COMMAND;0X86 = "E820 NOT SUPPORTED" )
-        JMP $       ;HALT FOR NOW, TAKE FURTHER ACTION IN FUTURE (PRINT LOG)
-    .GET_MEM_STRUCT_DONE:
+    MOV SP, 0X7C00      ;RESET THE STACK    
 
 DO_ENABLE_A20_FASTGATE:
 	IN AL, 0X92
 	OR AL, 00000010B
 	OUT 0X92, AL
 
+CALL GET_MEM_STRUCT
+;+-----------+------+---------+----------------------+-------------+
+;| SVGA MODE | ROWS | COLUMNS | FRAME BUFFER ADDRESS | PIXEL WIDTH |
+;+-----------+------+---------+----------------------+-------------+
+;|   0X180   | 1440 |   900   | 0XE0000000 (PHYSICAL)| 32BIT(4BYTE)|
+;+-----------+------+---------+----------------------+-------------+
+;|   0X143   |  800 |   600   | 0XE0000000 (PHYSICAL)| 32BIT(4BYTE)|
+;+-----------+------+---------+----------------------+-------------+
 
+
+;                             0X180
+;++========================1440=PIXELS===========================>
+;||
+;||
+;||
+;||
+;||
+;||9
+;||0
+;||0
+;||
+;||P
+;||I
+;||X
+;||E
+;||L
+;||S
+;||
+;\/
+
+CALL GRAB_VBE_SVGA_INFO
 
 SETUP_PMODE:
 
@@ -79,7 +73,7 @@ SETUP_PMODE:
 
 
 PMODE_ENTRY:
-	mov	eax,	SELECTOR_DATA32
+	mov	eax, SELECTOR_DATA32
 	mov	ds,	ax
 	mov	es,	ax
 	mov	fs,	ax
@@ -393,5 +387,4 @@ IDT32PTR:
 
 [SECTION SUBROUTINE]
 
-%INCLUDE "DISPLAY.INC"
 %INCLUDE "MAIN32.INC"
