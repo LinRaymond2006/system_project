@@ -31,6 +31,7 @@ _start:
 
  movq $(0x101000), %rax
  movq %rax, %cr3
+
  movq lmode_entry_ptr(%rip), %rax
  pushq $0x08
  pushq %rax
@@ -45,19 +46,93 @@ lmode_entry:
     movq %rax, %es
  movq %rax, %gs
  movq %rax, %ss
-
     movq $vstackbase, %rsp
+
+fill_idt:
+    leaq dummy_INThandler(%rip), %rdx
+
+    movq %rdx, %rax
+    shrq $16, %rax
+    shlq $(32+16), %rax
+    movw %dx, %ax
+    movq $(0x8e00<<32), %rbx
+    orq %rbx, %rax
+    movq $(0x8<<16), %rbx
+    orq %rbx, %rax
+
+    movq %rdx, %rbx
+    shrq $32, %rbx
+
+    leaq IDT_Table(%rip), %rdi
+    mov $256, %rcx
+fill_idt_loop:
+
+    movq %rax, (%rdi)
+    movq %rbx, 8(%rdi)
+    addq $0x10, %rdi
+    loop fill_idt_loop
+
 
     movq start_kernel_ptr(%rip), %rax
     pushq $0x08
     pushq %rax
     lretq
 
+dummy_INThandler:
+
+ cld
+ pushq %rax
+ pushq %rbx
+ pushq %rcx
+ pushq %rdx
+ pushq %rbp
+ pushq %rdi
+ pushq %rsi
+ pushq %r8
+ pushq %r9
+ pushq %r10
+ pushq %r11
+ pushq %r12
+ pushq %r13
+ pushq %r14
+ pushq %r15
+
+ movq %es, %rax
+ pushq %rax
+ movq %ds, %rax
+ pushq %rax
+
+ movq $0x10, %rax
+ movq %rax, %ds
+ movq %rax, %es
+
+
+
+ popq %rax
+ movq %rax, %ds
+ popq %rax
+ movq %rax, %es
+ popq %r15
+ popq %r14
+ popq %r13
+ popq %r12
+ popq %r11
+ popq %r10
+ popq %r9
+ popq %r8
+ popq %rsi
+ popq %rdi
+ popq %rbp
+ popq %rdx
+ popq %rcx
+ popq %rbx
+ popq %rax
+ iretq
 
 lmode_entry_ptr: .quad lmode_entry
 .extern Start_Kernel
 start_kernel_ptr: .quad Start_Kernel
-# 73 "head.S"
+# 148 "head.S"
 .include "pg_mask.S"
 
 .org 0x1000
