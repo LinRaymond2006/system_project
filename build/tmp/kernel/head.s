@@ -37,8 +37,11 @@ _start:
  pushq %rax
  lretq
 
+
+
+
 .set stackbase, 0x7c00
-.set vstackbase, 0xffff800000007c00
+.set vstackbase, (0xffff800000000000+stackbase)
 
 lmode_entry:
     movq $0x10, %rax
@@ -73,14 +76,22 @@ fill_idt_loop:
     loop fill_idt_loop
 
 
+
+
     movq start_kernel_ptr(%rip), %rax
     pushq $0x08
     pushq %rax
     lretq
 
+
+
+
+
+
 dummy_INThandler:
 
  cld
+
  pushq %rax
  pushq %rbx
  pushq %rcx
@@ -96,16 +107,17 @@ dummy_INThandler:
  pushq %r13
  pushq %r14
  pushq %r15
-
  movq %es, %rax
  pushq %rax
  movq %ds, %rax
  pushq %rax
-
  movq $0x10, %rax
  movq %rax, %ds
  movq %rax, %es
 
+
+
+ nop
 
 
  popq %rax
@@ -129,10 +141,14 @@ dummy_INThandler:
  popq %rax
  iretq
 
-lmode_entry_ptr: .quad lmode_entry
+
+
+
+
 .extern Start_Kernel
+lmode_entry_ptr: .quad lmode_entry
 start_kernel_ptr: .quad Start_Kernel
-# 148 "head.S"
+# 161 "head.S"
 .include "pg_mask.S"
 
 .org 0x1000

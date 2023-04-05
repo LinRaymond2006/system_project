@@ -77,6 +77,8 @@ fill_idt_loop:
     addq    $0x10,    %rdi 		/* rdi+=16(0x10) --> set pointer to next entry */
     loop fill_idt_loop
 
+	/* please note that TSS are not initialized yet, plus there no real error handler, the system is extremely vulnerable now! */
+
 	/* perform a far jump and go to the main part of the kernel, which is implemnented in C */
     movq start_kernel_ptr(%rip), %rax
     pushq $0x08 /* segment number */
