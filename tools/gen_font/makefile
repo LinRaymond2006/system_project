@@ -1,5 +1,6 @@
 all:
 	gcc main.c -lm -lncurses -o gen_font
+	-rm font.h
 
 #install dependency libraries on debian-based systems:
 #apt-get update

@@ -4,7 +4,7 @@ char *data;
 //char data[256][ROWS]={0};
 int main() {
 	data = malloc(ROWS*256);
-	debug();
+	//debug();
     setup();
 	if (data == NULL) {
 		quit();
@@ -12,8 +12,13 @@ int main() {
 		exit(-1);
 	}
     for (int ascii=0;ascii<255;ascii++) {
-		ui(ascii);
+		if (ui(ascii) != 0) {
+			;
+		} else {
+			goto label_finished;
+		}
 	}
+	label_finished:
 	quit();
 	return 0;
 }

@@ -129,7 +129,7 @@ void bin2str(int val, char *ptr) {
     return;
 }
 
-void ui(int ascii) {
+int ui(int ascii) {
     int ch;
 	char finished=0;
 
@@ -175,9 +175,13 @@ void ui(int ascii) {
                 draw_screen((char)ascii);
                 break;
             case 'g':
-                save_data((char)ascii);
+                save_data(ascii);
                 finished=1;
                 clear_cells();
+                break;
+            case 'f':
+                save_data(ascii);
+                return 0;
                 break;
             default:
                 if (cells[cs.row][cs.col] == '0') {
@@ -188,22 +192,17 @@ void ui(int ascii) {
                 draw_screen((char)ascii);
         }
     }
-    finished=0;
-    draw_screen((char)ascii);
-    save_data(ascii);
-    return;
+    return 1;
 }
 
 void debug() {
-    data[100]=0xff;
-    write_file();
+
     exit(0);
 }
 
 void save_data(int ascii) {
     //double char array "cells" is a global variable, therefore not passed again from caller
-    int val;
-    for (int i;i<ROWS;i++) {
+    for (int i=0;i<ROWS;i++) {
         data[(ascii*ROWS)+i] = str2bin(&cells[i][0]);
     }
     return;
@@ -215,10 +214,9 @@ void load_data(int ascii) {
 }
 
 void quit() {
+    write_file();
     refresh();
 	endwin();
-    //printf("bbb");
-    write_file();
 }
 
 void char2hexa(unsigned char val, char* output) {
