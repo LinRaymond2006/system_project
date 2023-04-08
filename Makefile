@@ -12,7 +12,7 @@ all: FORCE
 	make all -C kernel
 
 	sudo mount -t vfat ./build/hd.iso $(mnt_point) -o rw,uid=$(shell id -u),gid=$(shell id -g)
-	
+
 	cp $(rootfs_dir)/* $(mnt_point)/
 
 	sync

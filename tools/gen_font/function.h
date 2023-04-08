@@ -131,7 +131,7 @@ void bin2str(int val, char *ptr) {
 
 int ui(int ascii) {
     int ch;
-	char finished=0;
+    char finished=0;
 
     clear_cells();
     while (finished!=1) {
@@ -278,7 +278,7 @@ void write_file() {
             }
         }
         *q = '\0';
-        if (fprintf(fp, "\t{%s}, \t\t// ascii order: \'0x%02x\', character: %c\n", line, i, i) < 0) {
+        if (fprintf(fp, "\t{%s}, \n", line, i, i) < 0) {
             perror("Error writing to file");
             exit(EXIT_FAILURE);
         }

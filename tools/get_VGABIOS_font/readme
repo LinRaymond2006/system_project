@@ -1,0 +1,2 @@
+the tool copy the font data out from bios area, and then use the tool mem2font to convert it into two-dimensional array
+
