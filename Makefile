@@ -18,8 +18,10 @@ all: FORCE
 	sync
 	sudo umount $(mnt_point)
 
-run: FORCE
+test:
 	make all
+	make run
+run: FORCE
 	bochs -f ./run/bochsrc
 #	terminal emulation if you don't use a desktop interface!
 #	bochs -f ./run/bochsrc.term
