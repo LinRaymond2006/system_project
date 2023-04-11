@@ -1,198 +1,197 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-c
-(0).[18278502] [0x0000001000d0] 0008:ffff8000001000d0 (unk. ctxt): push r15                  ; 4157
-Next at t=18278503
-(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+b 0x10000
 b 0x100000
+del 1
 c
-(0) Breakpoint 1, 0x0000000000100000 in ?? ()
-Next at t=36507039
+(0) Breakpoint 2, 0x0000000000100000 in ?? ()
+Next at t=18248438
 (0) [0x000000100000] 0008:0000000000100000 (unk. ctxt): mov ax, 0x0010            ; 66b81000
 n
-Next at t=36507040
+Next at t=18248439
 (0) [0x000000100004] 0008:0000000000100004 (unk. ctxt): mov ds, ax                ; 8ed8
 n
-Next at t=36507041
+Next at t=18248440
 (0) [0x000000100006] 0008:0000000000100006 (unk. ctxt): mov es, ax                ; 8ec0
 n
-Next at t=36507042
+Next at t=18248441
 (0) [0x000000100008] 0008:0000000000100008 (unk. ctxt): mov fs, ax                ; 8ee0
 n
-Next at t=36507043
+Next at t=18248442
 (0) [0x00000010000a] 0008:000000000010000a (unk. ctxt): mov ss, ax                ; 8ed0
 n
-Next at t=36507044
-(0) [0x00000010000c] 0008:000000000010000c (unk. ctxt): lgdt ds:[rip+17221]       ; 0f011545430000
+Next at t=18248443
+(0) [0x00000010000c] 0008:000000000010000c (unk. ctxt): lgdt ds:[rip+17157]       ; 0f011505430000
 n
-Next at t=36507045
-(0) [0x000000100013] 0008:0000000000100013 (unk. ctxt): lidt ds:[rip+21320]       ; 0f011d48530000
+Next at t=18248444
+(0) [0x000000100013] 0008:0000000000100013 (unk. ctxt): lidt ds:[rip+21256]       ; 0f011d08530000
 n
-Next at t=36507046
+Next at t=18248445
 (0) [0x00000010001a] 0008:000000000010001a (unk. ctxt): mov ax, 0x0010            ; 66b81000
 n
-Next at t=36507047
+Next at t=18248446
 (0) [0x00000010001e] 0008:000000000010001e (unk. ctxt): mov ds, ax                ; 8ed8
 n
-Next at t=36507048
+Next at t=18248447
 (0) [0x000000100020] 0008:0000000000100020 (unk. ctxt): mov es, ax                ; 8ec0
 n
-Next at t=36507049
+Next at t=18248448
 (0) [0x000000100022] 0008:0000000000100022 (unk. ctxt): mov fs, ax                ; 8ee0
 n
-Next at t=36507050
+Next at t=18248449
 (0) [0x000000100024] 0008:0000000000100024 (unk. ctxt): mov ss, ax                ; 8ed0
 n
-Next at t=36507051
+Next at t=18248450
 (0) [0x000000100026] 0008:0000000000100026 (unk. ctxt): mov rsp, 0x0000000000007c00 ; 48c7c4007c0000
 n
-Next at t=36507052
+Next at t=18248451
 (0) [0x00000010002d] 0008:000000000010002d (unk. ctxt): mov rax, 0x0000000000101000 ; 48c7c000101000
 n
-Next at t=36507053
+Next at t=18248452
 (0) [0x000000100034] 0008:0000000000100034 (unk. ctxt): mov cr3, rax              ; 0f22d8
 n
-Next at t=36507054
+Next at t=18248453
 (0) [0x000000100037] 0008:0000000000100037 (unk. ctxt): mov rax, qword ptr ds:[rip+203] ; 488b05cb000000
 n
-Next at t=36507055
+Next at t=18248454
 (0) [0x00000010003e] 0008:000000000010003e (unk. ctxt): push 0x00000008           ; 6a08
 n
-Next at t=36507056
+Next at t=18248455
 (0) [0x000000100040] 0008:0000000000100040 (unk. ctxt): push rax                  ; 50
 n
-Next at t=36507057
+Next at t=18248456
 (0) [0x000000100041] 0008:0000000000100041 (unk. ctxt): retf                      ; 48cb
 n
-Next at t=36507058
+Next at t=18248457
 (0) [0x000000100043] 0008:ffff800000100043 (unk. ctxt): mov rax, 0x0000000000000010 ; 48c7c010000000
 n
-Next at t=36507059
+Next at t=18248458
 (0) [0x00000010004a] 0008:ffff80000010004a (unk. ctxt): mov ds, ax                ; 488ed8
 n
-Next at t=36507060
+Next at t=18248459
 (0) [0x00000010004d] 0008:ffff80000010004d (unk. ctxt): mov es, ax                ; 488ec0
 n
-Next at t=36507061
+Next at t=18248460
 (0) [0x000000100050] 0008:ffff800000100050 (unk. ctxt): mov gs, ax                ; 488ee8
 n
-Next at t=36507062
+Next at t=18248461
 (0) [0x000000100053] 0008:ffff800000100053 (unk. ctxt): mov ss, ax                ; 488ed0
 n
-Next at t=36507063
+Next at t=18248462
 (0) [0x000000100056] 0008:ffff800000100056 (unk. ctxt): mov rsp, 0xffff800000007c00 ; 48bc007c00000080ffff
 n
-Next at t=36507064
+Next at t=18248463
 (0) [0x000000100060] 0008:ffff800000100060 (unk. ctxt): lea rdx, ds:[rip+83]      ; 488d1553000000
 n
-Next at t=36507065
+Next at t=18248464
 (0) [0x000000100067] 0008:ffff800000100067 (unk. ctxt): mov rax, rdx              ; 4889d0
 n
-Next at t=36507066
+Next at t=18248465
 (0) [0x00000010006a] 0008:ffff80000010006a (unk. ctxt): shr rax, 0x10             ; 48c1e810
 n
-Next at t=36507067
+Next at t=18248466
 (0) [0x00000010006e] 0008:ffff80000010006e (unk. ctxt): shl rax, 0x30             ; 48c1e030
 n
-Next at t=36507068
+Next at t=18248467
 (0) [0x000000100072] 0008:ffff800000100072 (unk. ctxt): mov ax, dx                ; 6689d0
 n
-Next at t=36507069
+Next at t=18248468
 (0) [0x000000100075] 0008:ffff800000100075 (unk. ctxt): mov rbx, 0x00008e0000000000 ; 48bb00000000008e0000
 n
-Next at t=36507070
+Next at t=18248469
 (0) [0x00000010007f] 0008:ffff80000010007f (unk. ctxt): or rax, rbx               ; 4809d8
 n
-Next at t=36507071
+Next at t=18248470
 (0) [0x000000100082] 0008:ffff800000100082 (unk. ctxt): mov rbx, 0x0000000000080000 ; 48c7c300000800
 n
-Next at t=36507072
+Next at t=18248471
 (0) [0x000000100089] 0008:ffff800000100089 (unk. ctxt): or rax, rbx               ; 4809d8
 n
-Next at t=36507073
+Next at t=18248472
 (0) [0x00000010008c] 0008:ffff80000010008c (unk. ctxt): mov rbx, rdx              ; 4889d3
 n
-Next at t=36507074
+Next at t=18248473
 (0) [0x00000010008f] 0008:ffff80000010008f (unk. ctxt): shr rbx, 0x20             ; 48c1eb20
 n
-Next at t=36507075
-(0) [0x000000100093] 0008:ffff800000100093 (unk. ctxt): lea rdi, ds:[rip+17096]   ; 488d3dc8420000
+Next at t=18248474
+(0) [0x000000100093] 0008:ffff800000100093 (unk. ctxt): lea rdi, ds:[rip+17032]   ; 488d3d88420000
 n
-Next at t=36507076
+Next at t=18248475
 (0) [0x00000010009a] 0008:ffff80000010009a (unk. ctxt): mov rcx, 0x0000000000000100 ; 48c7c100010000
 n
-Next at t=36507077
+Next at t=18248476
 (0) [0x0000001000a1] 0008:ffff8000001000a1 (unk. ctxt): mov qword ptr ds:[rdi], rax ; 488907
 n
-Next at t=36507078
+Next at t=18248477
 (0) [0x0000001000a4] 0008:ffff8000001000a4 (unk. ctxt): mov qword ptr ds:[rdi+8], rbx ; 48895f08
 n
-Next at t=36507079
+Next at t=18248478
 (0) [0x0000001000a8] 0008:ffff8000001000a8 (unk. ctxt): add rdi, 0x0000000000000010 ; 4883c710
 n
-Next at t=36507080
+Next at t=18248479
 (0) [0x0000001000ac] 0008:ffff8000001000ac (unk. ctxt): loop .-13  (0xffff8000001000a1) ; e2f3
 n
-Next at t=36508101
+Next at t=18249500
 (0) [0x0000001000ae] 0008:ffff8000001000ae (unk. ctxt): mov rax, qword ptr ds:[rip+92] ; 488b055c000000
 n
-Next at t=36508102
+Next at t=18249501
 (0) [0x0000001000b5] 0008:ffff8000001000b5 (unk. ctxt): push 0x00000008           ; 6a08
 n
-Next at t=36508103
+Next at t=18249502
 (0) [0x0000001000b7] 0008:ffff8000001000b7 (unk. ctxt): push rax                  ; 50
 n
-Next at t=36508104
+Next at t=18249503
 (0) [0x0000001000b8] 0008:ffff8000001000b8 (unk. ctxt): retf                      ; 48cb
 n
-Next at t=36508105
-(0) [0x0000001041b0] 0008:ffff8000001041b0 (unk. ctxt): endbranch64               ; f30f1efa
+Next at t=18249504
+(0) [0x000000104180] 0008:ffff800000104180 (unk. ctxt): endbranch64               ; f30f1efa
 n
-Next at t=36508106
-(0) [0x0000001041b4] 0008:ffff8000001041b4 (unk. ctxt): lea r8, ds:[rip-7]        ; 4c8d05f9ffffff
+Next at t=18249505
+(0) [0x000000104184] 0008:ffff800000104184 (unk. ctxt): lea r8, ds:[rip-7]        ; 4c8d05f9ffffff
 n
-Next at t=36508107
-(0) [0x0000001041bb] 0008:ffff8000001041bb (unk. ctxt): xor eax, eax              ; 31c0
+Next at t=18249506
+(0) [0x00000010418b] 0008:ffff80000010418b (unk. ctxt): xor eax, eax              ; 31c0
 n
-Next at t=36508108
-(0) [0x0000001041bd] 0008:ffff8000001041bd (unk. ctxt): mov edi, 0x00000041       ; bf41000000
+Next at t=18249507
+(0) [0x00000010418d] 0008:ffff80000010418d (unk. ctxt): mov edi, 0x00000041       ; bf41000000
 n
-Next at t=36508109
-(0) [0x0000001041c2] 0008:ffff8000001041c2 (unk. ctxt): mov r11, 0x000000000000222c ; 49bb2c22000000000000
+Next at t=18249508
+(0) [0x000000104192] 0008:ffff800000104192 (unk. ctxt): mov r11, 0x000000000000221c ; 49bb1c22000000000000
 n
-Next at t=36508110
-(0) [0x0000001041cc] 0008:ffff8000001041cc (unk. ctxt): mov rdx, 0xffffffffffffdc90 ; 48ba90dcffffffffffff
+Next at t=18249509
+(0) [0x00000010419c] 0008:ffff80000010419c (unk. ctxt): mov rdx, 0xffffffffffffdcb0 ; 48bab0dcffffffffffff
 n
-Next at t=36508111
-(0) [0x0000001041d6] 0008:ffff8000001041d6 (unk. ctxt): add r8, r11               ; 4d01d8
+Next at t=18249510
+(0) [0x0000001041a6] 0008:ffff8000001041a6 (unk. ctxt): add r8, r11               ; 4d01d8
 n
-Next at t=36508112
-(0) [0x0000001041d9] 0008:ffff8000001041d9 (unk. ctxt): add rdx, r8               ; 4c01c2
+Next at t=18249511
+(0) [0x0000001041a9] 0008:ffff8000001041a9 (unk. ctxt): add rdx, r8               ; 4c01c2
 n
-Next at t=36508113
-(0) [0x0000001041dc] 0008:ffff8000001041dc (unk. ctxt): call rdx                  ; ffd2
+Next at t=18249512
+(0) [0x0000001041ac] 0008:ffff8000001041ac (unk. ctxt): call rdx                  ; ffd2
 n
-Next at t=36508129
-(0) [0x0000001041de] 0008:ffff8000001041de (unk. ctxt): mov edx, 0x00ffffff       ; baffffff00
+Next at t=18249528
+(0) [0x0000001041ae] 0008:ffff8000001041ae (unk. ctxt): mov edx, 0x00ffffff       ; baffffff00
 n
-Next at t=36508130
-(0) [0x0000001041e3] 0008:ffff8000001041e3 (unk. ctxt): xor esi, esi              ; 31f6
+Next at t=18249529
+(0) [0x0000001041b3] 0008:ffff8000001041b3 (unk. ctxt): xor esi, esi              ; 31f6
+writemem a.mem 0xffff800000000000 0xffff800000ffffff
+:61: syntax error at 'a'
+writemem "a.mem" 0xffff800000000000 0xffff800000ffffff
 n
-Next at t=36508131
-(0) [0x0000001041e5] 0008:ffff8000001041e5 (unk. ctxt): mov rax, 0xffffffffffffdcf0 ; 48b8f0dcffffffffffff
+Next at t=18249530
+(0) [0x0000001041b5] 0008:ffff8000001041b5 (unk. ctxt): mov rax, 0xffffffffffffdd10 ; 48b810ddffffffffffff
 n
-Next at t=36508132
-(0) [0x0000001041ef] 0008:ffff8000001041ef (unk. ctxt): add rax, r8               ; 4c01c0
+Next at t=18249531
+(0) [0x0000001041bf] 0008:ffff8000001041bf (unk. ctxt): add rax, r8               ; 4c01c0
 n
-Next at t=36508133
-(0) [0x0000001041f2] 0008:ffff8000001041f2 (unk. ctxt): call rax                  ; ffd0
+Next at t=18249532
+(0) [0x0000001041c2] 0008:ffff8000001041c2 (unk. ctxt): call rax                  ; ffd0
 n
-(0).[36537105] [0x0000001000d0] 0008:ffff8000001000d0 (unk. ctxt): push r15                  ; 4157
-Next at t=36537106
-(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-n
-Next at t=36537107
-(0) [0x0000000fe05b] f000:e05b (unk. ctxt): xor ax, ax                ; 31c0
+Next at t=18251137
+(0) [0x0000001041c4] 0008:ffff8000001041c4 (unk. ctxt): jmp .-2  (0xffff8000001041c4) ; ebfe
+writemem "b.mem" 0xffff800000000000 0xffff800000ffffff
+writemem "b.mem" 0xffff800000000000 0xffff800000ffffff
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[36537107] [0x0000000fe05b] f000:e05b (unk. ctxt): xor ax, ax                ; 31c0
+(0).[18251137] [0x0000001041c4] 0008:ffff8000001041c4 (unk. ctxt): jmp .-2  (0xffff8000001041c4) ; ebfe
