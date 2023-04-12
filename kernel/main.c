@@ -1,7 +1,7 @@
 #include "screen/printf.h"
+#include "screen/fonts/colors.h"
 void Start_Kernel(void) {
-    init_vbe3_180h();
-    putchar((int)'A', 0x00000000, 0x00ffffff);
+    putchar('A', COLOR_YELLOWGREEN, 0);
     while (1) {
         ;
     }
