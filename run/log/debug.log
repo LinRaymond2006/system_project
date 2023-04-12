@@ -1,5 +1,8 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+Next at t=67502327
+(0) [0x00000010402d] 0008:ffff80000010402d (unk. ctxt): test edx, edx             ; 85d2
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[0] [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+(0).[67502327] [0x00000010402d] 0008:ffff80000010402d (unk. ctxt): test edx, edx             ; 85d2

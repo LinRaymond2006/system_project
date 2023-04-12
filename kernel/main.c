@@ -1,7 +1,9 @@
 #include "screen/printf.h"
 #include "screen/fonts/colors.h"
+#include "stdlib.h"
 void Start_Kernel(void) {
-    putchar('A', COLOR_YELLOWGREEN, 0);
+    char *abc="1234567890";
+    strlen(abc);
     while (1) {
         ;
     }

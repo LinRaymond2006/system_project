@@ -3,7 +3,7 @@ AS := as
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
-CFLAGS := -mcmodel=large -fno-builtin -m64 -c -nostdlib -nodefaultlibs -O2
+CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -c -nostdlib -nodefaultlibs -I ./stdlib/
 KERNEL_LDFLAGS :=  -b elf64-x86-64
 ASFLAGS := --64
 
