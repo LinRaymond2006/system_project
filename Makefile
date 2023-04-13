@@ -23,8 +23,9 @@ test:
 	make run
 run: FORCE
 	-bochs -f ./run/bochsrc
+run_t: FORCE
 #	terminal emulation if you don't use a desktop interface!
-#	bochs -f ./run/bochsrc.term
+	bochs -f ./run/bochsrc.term
 cleanup: FORCE
 	-sudo umount $(mnt_point)/
 	-sudo rm -rf $(build_dir)/*
