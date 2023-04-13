@@ -2,14 +2,23 @@
 
 typedef unsigned long size_t;
 
-size_t strlen(register char *str) {
-    register size_t i=0;
-    for (;;i++) {
-        if (str[i]==(char)0) {
-            return i;
-        }
-    }
+size_t strlen(const char* str) {
+    size_t len;
+    __asm__ volatile (
+        "xor %0, %0\n\t"    // Set len to zero
+        "repne scasb\n\t"   // Find the end of the string
+        "not %%rcx\n\t"        // Convert len from -1 to the actual length
+	    "dec %%rcx\n\t"
+        "movq %%rcx, %0"
+        : "=r"(len)
+        : "D"(str), "c"(0xffffffffffffffff), "a"(0)
+        : "memory", "cc"
+    );
+    return len;
 }
+
+
+
 
 void *memcpy(void *dest, void *src, size_t n) {
     __asm__ __volatile__ (                           \
@@ -21,7 +30,7 @@ void *memcpy(void *dest, void *src, size_t n) {
         "movsb              \n\t"                    \
         :                                            \
         : [destination]"m"(dest), [source]"m"(src), [count]"m"(n)   \
-        : "rax", "rcx", "rsi", "rdi", "memory"                      \
+        : "rax", "rcx", "rsi", "rdi", "memory", "cc"                   \
     );
     return dest;
 }
@@ -36,13 +45,14 @@ void *memset(void *dest, int character, size_t n) {
         "stosb  \n\t"   \
         :
         :[buffer]"m"(dest), [value]"m"(character), [count]"m"(n)
-        : "al", "rcx", "rdi", "memory"
+        : "al", "rcx", "rdi", "memory", "cc"
     );
     return dest;
 }
 
 void *memmove(void *dest, void *src, size_t n) {
-    __asm__ __volatile__
+    //__asm__ __volatile__();
+
 }
 
 

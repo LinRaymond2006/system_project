@@ -1,4 +1,28 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 c
-(0).[17956423] [0x0000000c95a0] c000:95a0 (unk. ctxt): out dx, ax                ; ef
+Next at t=183313415
+(0) [0x000000104137] 0008:ffff800000104137 (unk. ctxt): jmp .-2  (0xffff800000104137) ; ebfe
+regs
+CPU0:
+rax: 00000000_00000007
+rbx: 00000000_ffff8000
+rcx: 00000000_00000007
+rdx: ffff8000_001042ea
+rsp: ffff8000_00007be8
+rbp: ffff8000_00007bf8
+rsi: 00000000_00000734
+rdi: ffff8000_001042f2
+r8 : 00000000_00000000
+r9 : 00000000_00000000
+r10: 00000000_00000000
+r11: 00000000_00002528
+r12: 00000000_00000000
+r13: 00000000_00000000
+r14: 00000000_00000000
+r15: 00000000_00000000
+rip: ffff8000_00104137
+eflags 0x00200002: ID vip vif ac vm rf nt IOPL=0 of df if tf sf zf af pf cf
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[183313415] [0x000000104137] 0008:ffff800000104137 (unk. ctxt): jmp .-2  (0xffff800000104137) ; ebfe

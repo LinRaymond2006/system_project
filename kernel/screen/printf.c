@@ -68,6 +68,7 @@ void putchar(unsigned char ascii) {
 //use putchar as downsteam interface
 //maybe try to support ANSI color escape character later (if front and back are both 0)
 //the defualt font color will be screen->cursor->defualt_[front/back]
+
 int printf(char *fmt_str, ...) {
 	;
 }
