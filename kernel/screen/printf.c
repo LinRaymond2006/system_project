@@ -2,18 +2,32 @@
 #include <stdarg.h>
 #include <stdint.h>
 #include <stddef.h>
+#include "stdlib.h"
 #include "fonts/vgabios_font.h"
 #include "fonts/colors.h"
 
+typedef unsigned long size_t;
+
+//1440/8=180
+#define VBE_180H_TEXT_X 180
+//900/16=56.25
+#define VBE_180H_TEXT_Y 56
+unsigned char text_buf[VBE_180H_TEXT_X * VBE_180H_TEXT_Y]={0};
 
 typedef struct {
-	int posX;
-	int posY;
+	unsigned int text_resX;
+	unsigned int text_resY;
+	unsigned char *buffer;
+	unsigned int posX;
+	unsigned int posY;
 	unsigned int defualt_front;
 	unsigned int defualt_back;
 } CURSOR;
 
 CURSOR csr = {
+	.text_resX=VBE_180H_TEXT_X, 
+	.text_resY=VBE_180H_TEXT_Y, 
+	.buffer=(unsigned char *)&text_buf, 
 	.posX=0, 
 	.posY=0, 
 	.defualt_front=COLOR_WHITE, 
@@ -42,6 +56,7 @@ DISPALY_DESCRIPTOR *screen = &scrn;
 //the font isn't hardcoded into the file, instead, it is pointed by a pointer, so any 2d array holding 256 unsinged chars are valid, giving programmer more flexibility
 unsigned char *defualt_font = (unsigned char *)&VGABIOS_font;
 
+//will not update the cursor automatically
 void putchar(unsigned char ascii) {
 	int rows, cols, bitmask;
 	unsigned int *pixel_ptr;
@@ -68,7 +83,29 @@ void putchar(unsigned char ascii) {
 //use putchar as downsteam interface
 //maybe try to support ANSI color escape character later (if front and back are both 0)
 //the defualt font color will be screen->cursor->defualt_[front/back]
+//parser of variadic variable will be imple in the function too
+
+extern size_t strlen();
 
 int printf(char *fmt_str, ...) {
-	;
+	va_list args;
+	va_start(args, fmt_str);
+	int index;
+	char character;
+	for (index=0;index<strlen((void *)fmt_str);index++) {
+		character=fmt_str[index];
+		switch (character) {
+			case '%':		//take a arugment out, and then print it ('%%' for single '%')
+				break;
+			case '\r':		//move the the first character of current line (overwrite the exsisting character)
+				break;
+			case '\n':		//switch to next line
+				break;
+			case '\t':		//4 spaces as tab, aligned by 4
+				break;
+			
+		}
+	}
+
+	va_end(args);
 }
