@@ -3,7 +3,7 @@ AS := as
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
-CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -c -nostdlib -nodefaultlibs -I ./stdlib/
+CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/
 KERNEL_LDFLAGS :=  -b elf64-x86-64
 ASFLAGS := --64
 
@@ -26,5 +26,5 @@ all: ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/printf.o: screen/printf.c
 	$(CC) -shared $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/stdlib.o: stdlib/stdlib.c
+../build/tmp/kernel/stdlib.o: stdlib/src/stdlib.c stdlib/src/string.c
 	$(CC) -shared $(CFLAGS) $^ -o $@

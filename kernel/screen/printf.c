@@ -90,12 +90,39 @@ extern size_t strlen();
 int printf(char *fmt_str, ...) {
 	va_list args;
 	va_start(args, fmt_str);
-	int index;
-	char character;
+	unsigned int index;
+	unsigned char character;
+	unsigned char is_unsigned;
+	char specifiers=0;
 	for (index=0;index<strlen((void *)fmt_str);index++) {
 		character=fmt_str[index];
 		switch (character) {
 			case '%':		//take a arugment out, and then print it ('%%' for single '%')
+				do {
+					index++;
+					character=fmt_str[index];
+					switch (character) {
+						//float are not supported now
+						case 'u':
+							is_unsigned++;
+							break;
+						case '%':	//slide
+						case 'c':
+							putchar(character);
+							break;
+						case 'd':
+							
+							break;
+						case 'l':
+							break;
+						case 'x':
+							break;
+						case 'X':
+							break;
+						case 's':
+							break;
+					}
+				} while (specifiers);
 				break;
 			case '\r':		//move the the first character of current line (overwrite the exsisting character)
 				break;
