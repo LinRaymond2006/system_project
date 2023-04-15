@@ -100,11 +100,23 @@ void putstr(char *buffer, unsigned int length) {
 		putchar(buffer[i]);
 		
 	}
+	return;
 }
 
+void scroll_line(int n) {
 
+	memmove_int(screen->frame_buffer,	\
+	(screen->frame_buffer+(screen->resX*FONT_ROWS*n)),		\
+	((screen->resX*((screen->resY)-(n*FONT_ROWS)))));
 
-*/
+	memset_int(screen->frame_buffer+(screen->resX*(screen->resY-(FONT_ROWS*n))),		\
+	screen->cursor->default_back,		\
+	screen->resX*(n*FONT_ROWS));
+
+	screen->cursor->t_posY -= n;
+	return;
+}
+
 //use putchar as downsteam interface
 //maybe try to support ANSI color escape character later (if front and back are both 0)
 //the default font color will be screen->cursor->default_[front/back]
@@ -150,6 +162,8 @@ void printf(const char* format, ...) {
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'p':
+					putchar('0');
+					putchar('x');
                     ptr_arg = va_arg(arg_list, void *);
                     itoa((unsigned int)ptr_arg, buffer, 16);
                     putstr(buffer, strlen(buffer));
@@ -160,14 +174,15 @@ void printf(const char* format, ...) {
                 default:
                     break;
             }
-        } else if (*p='\n') {
+        } else if (*p=='\n') {
+			screen->cursor->t_posX=0;
 			if (screen->cursor->t_posY > screen->cursor->text_resY-1) {
 				;
 				//roll line
 			} else {
 				screen->cursor->t_posY++;
 			}
-		} else if (*p='\r') {
+		} else if (*p=='\r') {
 			screen->cursor->t_posX=0;
 		} else {
             putchar(*p);
@@ -175,4 +190,29 @@ void printf(const char* format, ...) {
     }
 
     va_end(arg_list);
+	return;
+}
+
+
+void change_color(int new_front, int new_back, int update_profile) {
+	int *pixel=screen->frame_buffer;
+	int old_front=screen->cursor->default_front;
+	int old_back=screen->cursor->default_back;
+
+	int i;
+	int max_pix = screen->resX*screen->resY;
+	for (i=0;i<max_pix;i++) {
+		if (pixel[i]==old_back) {
+			pixel[i]=new_back;
+		} else if (pixel[i]==old_front){
+			pixel[i]=new_front;
+		} else {
+			;
+		}
+	}
+	if (update_profile) {
+		screen->cursor->default_front=new_front;
+		screen->cursor->default_back=new_back;
+	}
+	return;
 }

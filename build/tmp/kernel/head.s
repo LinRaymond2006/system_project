@@ -90,7 +90,7 @@ fill_idt_loop:
 
 dummy_INThandler:
 
- cld
+ cli
 
  pushq %rax
  pushq %rbx
@@ -139,6 +139,7 @@ dummy_INThandler:
  popq %rcx
  popq %rbx
  popq %rax
+ sti
  iretq
 
 
@@ -148,7 +149,7 @@ dummy_INThandler:
 .extern Start_Kernel
 lmode_entry_ptr: .quad lmode_entry
 start_kernel_ptr: .quad Start_Kernel
-# 161 "head.S"
+# 162 "head.S"
 .include "pg_mask.S"
 
 .org 0x1000

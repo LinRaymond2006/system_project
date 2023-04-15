@@ -92,7 +92,7 @@ fill_idt_loop:
 /* some function below: */
 dummy_INThandler:
 	/* the pushad/popad is not immplement in IA32e arch so the function has to use a lot of push / pop instruction instead*/
-	cld
+	cli
 	/* save the value */
 	pushq %rax
 	pushq %rbx
@@ -141,6 +141,7 @@ dummy_INThandler:
 	popq %rcx
 	popq %rbx
 	popq %rax
+	sti
 	iretq
 
 /* ============================================================================================ */

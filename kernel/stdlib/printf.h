@@ -25,8 +25,11 @@ typedef struct {
 
 extern DISPALY_DESCRIPTOR *screen;
 
+extern void scroll_line();
+
 extern void putchar();
 extern void putstr();
 extern void printf();
+extern void change_color();
 
 #endif

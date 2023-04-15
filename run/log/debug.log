@@ -1,3 +1,8 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 c
+Next at t=1271754787
+(0) [0x00000010407e] 0008:ffff80000010407e (unk. ctxt): jmp .-2  (0xffff80000010407e) ; ebfe
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[1271754787] [0x00000010407e] 0008:ffff80000010407e (unk. ctxt): jmp .-2  (0xffff80000010407e) ; ebfe
