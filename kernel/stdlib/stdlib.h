@@ -5,8 +5,8 @@ typedef unsigned long size_t;
 typedef long ssize_t;
 
 extern ssize_t atoi();
-extern size_t atoui();
+extern size_t atou();
 extern ssize_t itoa();
-extern size_t uitoa();
+extern size_t utoa();
 
 #endif
