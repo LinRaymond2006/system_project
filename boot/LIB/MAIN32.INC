@@ -1,0 +1,275 @@
+[BITS 16]
+%DEFINE VBE_STRUCT_BASE 0X7E00
+%DEFINE TARGET_VBE_MODE 0X180
+GRAB_VBE_SVGA_INFO:
+	PUSHAD
+	
+	;DETECT SVGA EXTENSION SUPPORT
+	XOR AX, AX	;AX=0
+	MOV	ES,	AX
+	MOV DI, VBE_STRUCT_BASE
+	MOV	AX,	0X4F00
+	INT	10H
+	CMP	AX,	0X004F
+	JZ	.START_GET_SVGA_INFO
+	JMP	$ ;HALT THE PROGRAM IF FAILED TO GET SVGA INFORMATION
+
+	.START_GET_SVGA_INFO:
+	;DETECT SUPPORTED SVGA MODE IF THE SVGA EXTENSION IS SUPPORT ON THE MACHINE
+		XOR AX, AX ;AX=0
+		MOV	ES,	AX
+		MOV SI, VBE_STRUCT_BASE+0XE
+		MOV	ESI,	DWORD	[ES:SI]
+		MOV EDI, VBE_STRUCT_BASE+0X200
+
+	.GET_SVGA_STRUCT:
+	;A LOOP THAT GATHER INFORMATION AND STORE IT TO THE DESTINATION MEMORY SPACE
+		MOV	CX,	WORD	[ES:ESI]
+		CMP	CX,	0XFFFF
+		JZ	.SET_VBE_MODE
+		MOV	AX,	0X4F01
+		INT	0X10
+		CMP	AX,	0X004F
+		JNZ	.GET_STRUCT_FAILED
+		ADD	ESI,	0X2
+		ADD	EDI,	0X100
+		JMP	.GET_SVGA_STRUCT
+
+	.GET_STRUCT_FAILED:
+		JMP	$
+
+	.FAILED_SET_MODE:
+		JMP	$
+
+	.SET_VBE_MODE:
+	;SET SVGA MODE (WITH VBE EXTENSION SUPPORTED)
+		MOV	AX,	0X4F02
+		;MODE 0X180 (OR ALTERNATIVELY SET MODE 0X143)
+		MOV BX, 0X4000|TARGET_VBE_MODE
+		INT 	0X10
+		CMP	AX,	0X004F
+		JNZ	.FAILED_SET_MODE
+	
+	POPAD
+	RET
+%DEFINE SMAP_MAGIC 0X534D4150
+%DEFINE MEM_STRUCT_BASE 0xBA00
+GET_MEM_STRUCT:
+    PUSHAD
+    XOR EBX, EBX
+    MOV ES, BX      ;ES=0 (STRUCTURE ADDRESS: 0X0000:0X0700 )
+    MOV DI, MEM_STRUCT_BASE
+
+    .GET_MEM_STRUCT_LOOP:
+        MOV EAX, DWORD 0XE820
+        MOV ECX, DWORD 20
+        MOV EDX, DWORD SMAP_MAGIC
+        INT 0X15
+        JC .GET_MEM_STRUCT_FAILED
+        INC BYTE [MEM_STRUCT_COUNT]
+        ADD DI, 20
+        CMP EBX, 0
+        JNE .GET_MEM_STRUCT_LOOP
+        JMP .GET_MEM_STRUCT_DONE
+    .GET_MEM_STRUCT_FAILED:
+        ;AH=ERROR CODE (0X80:INVALID COMMAND;0X86 = "E820 NOT SUPPORTED" )
+        JMP $       ;HALT FOR NOW, TAKE FURTHER ACTION IN FUTURE (PRINT LOG)
+    .GET_MEM_STRUCT_DONE:
+        POPAD
+    	RET
+[BITS 32]
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;eax:sector offset
+;ebx:buffer location
+;cx:number of sectors to read
+%define ATA0_MASTER_base_port 0x1f0
+;0x1f0:ata0-master
+;reading via LBA24
+READ_ATA32:
+	;clear the higher part of ecx
+	shl ecx, 16
+	shr ecx, 16
+	pushad
+	mov ebp, eax
+	.1:
+		push ecx
+		mov cx, 1
+		call READ_ATA32_imp
+		inc eax
+		pop ecx
+		loop .1
+	popad
+	ret
+
+READ_ATA32_imp:
+	
+	push esi
+	push edi
+	push edx
+	push eax
+	
+	
+	mov esi, eax
+	mov di, cx
+	mov dx, ATA0_MASTER_base_port + 2
+	mov al, cl
+	out dx, al 		;how many sectors to read
+	mov eax, esi
+	mov dx, ATA0_MASTER_base_port + 3
+	out dx, al  	;LBAddr 0~7
+	mov cl, 8
+	shr eax, cl
+	mov dx, ATA0_MASTER_base_port + 4
+	out dx, al  	;LBAddr 8~15
+	shr eax, cl
+	mov dx, ATA0_MASTER_base_port + 5
+	out dx, al  	;LBAddr 16~23
+	shr eax, cl
+	and al, 0xe0    ;bit7~bit4=1110->using LBA
+	or al, 0xe0
+	mov dx, ATA0_MASTER_base_port + 6
+	out dx, al
+	mov dx, ATA0_MASTER_base_port + 7
+	mov al, 0x20
+	out dx, al  	;0x20->read
+
+.diskstat_busy: ;write->command word port. read->disk status
+	nop
+	in al, dx
+	and al, 0x88  ;bit3=1->ready, bit7=1->disk in busy
+	cmp al, 0x08
+	jnz .diskstat_busy
+	mov ax, di
+	mov dx, 256
+	mul dx
+	mov cx, ax
+	;di=loader_sect_size, each sector is composed by 512 bytes
+	;therefore need di*512/2 times to finish the operation(2bytes comprise a word)
+	mov dx, ATA0_MASTER_base_port
+.contrd:
+	in ax, dx
+	mov [ebx], ax
+	add ebx, 2
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+	loop .contrd
+	
+	pop eax
+	pop edx
+	pop edi
+	pop esi
+	
+	ret
+
+
+
+
+CMP_STOP32:
+	CMP EAX, 0X00_00_00_02
+	JGE .IN_VALID_CLUSTERNUM_RANGE
+	.IN_VALID_CLUSTERNUM_RANGE:CMP EAX, 0X0F_FF_FF_EF
+	JBE .RETURN_LABEL	;FINISH READING, RETURN
+	.NOT_VALID_COMPARE_EOF: CMP EAX, 0X0F_FF_FF_F8
+	JGE .IN_EOF_VALUE_RANGE
+	.IN_EOF_VALUE_RANGE: CMP EAX, 0X0F_FF_FF_FF
+	JnBE .RETURN_LABEL
+
+		;JMP EBP
+		PUSH EBP
+		;THAN, RETURN
+
+	.RETURN_LABEL:
+		RET
+
+
+
+
+NXT_CLUSTER32:
+	
+	
+	;CLUSTER NUMBER STARTS FROM 2
+	;THAT IS TO SAY, THE FIRST DATA SECTOR IS CLUSTER 2, AND SO ON.
+	;BUT IN THIS FUNCTION, ASSUME CLUSTER NUMBER STARTS FROM 0 (THE FIRST DATA SECTOR IS CLUSTER 0)
+
+	;STEP 1: IF THE FIRST DATA SECTOR IS CLUSTER 0, THAN PLUS 2
+	;ADD EAX, DWORD [BPB_ROOTCLUS]
+
+	;STEP 2: LOCATE THE NXTCLUS ENTRY IN FAT TABLE 
+	;NOW, THE EAX REGISTER IS THE CLUSTER NUMBER (STARTS FROM 2)
+
+	;STEP 2.1: MUL EAX BY 4 ((OPERATOR *4) = (OPERATOR << 2))
+	SHL EAX, 2
+
+	;STEP 2.2: EAX = EAX + FATBASE
+	ADD EAX, FATBASE
+
+	;STEP 3:EXTRACT THE VALUE OF "NXTCLUSTER", WRITEBACK INTO EAX
+	MOV EAX, DWORD [EAX]
+
+	;SUB EAX, DWORD [BPB_ROOTCLUS]
+
+	RET
+
+
+
+
+
+CLUSTER2SECTOR32:
+	PUSH ECX
+	PUSH EDX
+	
+
+	;MOV EDX, DWORD [BPB_ROOTCLUS]
+	;SUB EAX, EDX
+
+	XOR EDX, EDX
+	;EAX IS PASSED BY THE CALLER TO CALLEE
+	MOVZX ECX, BYTE [BPB_SECPERCLUS]
+	MUL CX
+	ADD EAX, DWORD [FIRSTDATASECTOR]
+
+	POP EDX
+	POP ECX
+	RET
+
+DETECT_CPUID_SUPPORT:
+	PUSHAD
+
+    PUSHFD
+    POP EAX
+    MOV ECX, EAX
+    XOR EAX, 0X200000
+    PUSH EAX
+    POPFD
+    PUSHFD
+    POP EAX
+    XOR EAX, ECX
+    JZ CPUID_NOT_SUPPORTED ; CPUID IS NOT SUPPORTED!
+
+	POPAD
+	RET
+
+
+
+
+DETECT_LONG_MODE_SUPPORT:
+	MOV	EAX,	0X80000000
+	CPUID
+	CMP	EAX,	0X80000001
+	SETNB	AL	
+	JB	.DONE
+	MOV	EAX,	0X80000001
+	CPUID
+	BT	EDX,	29
+	SETC	AL
+
+	.DONE:
+		MOVZX	EAX,	AL
+	TEST EAX, EAX
+	JZ LONG_MODE_NOT_SUPPORT	;LONG MODE IS NOT SUPPORTED!
+	RET
+
+
+LONG_MODE_NOT_SUPPORT:
+	JMP $
+CPUID_NOT_SUPPORTED:
+	JMP $

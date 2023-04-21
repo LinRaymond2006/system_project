@@ -3,7 +3,7 @@ AS := as
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
-CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ -I ./screen
+CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ 
 KERNEL_LDFLAGS :=  -static -b elf64-x86-64 -L ../build/tmp/kernel/
 ASFLAGS := --64
 
@@ -11,7 +11,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 
 ../build/rootfs/KERNEL.SYS: ../build/tmp/kernel/head.o ../build/tmp/kernel/kernel.o #remember to write all the object file in specifc order ($^ = all the source file list)
 #kernel.elf: complete image of kernel (in ELF64 file format)
-#KERNEL.SYS: machine code extracted from "kernel.lef"
+#KERNEL.SYS: machine code extracted from "kernel.elf"
 	ld $(KERNEL_LDFLAGS) -T kernel.lds -o ../build/tmp/kernel/kernel.elf $^ -los
 	$(OBJCOPY) -I elf64-x86-64 -S -R ".eh_frame" -R ".comment" -O binary ../build/tmp/kernel/kernel.elf $@
 
