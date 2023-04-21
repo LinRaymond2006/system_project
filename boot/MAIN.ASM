@@ -52,6 +52,9 @@ MOV ES, AX
 MOV SS, AX
 MOV SP, STACKBASE
 
+;save the drive number
+MOV BYTE [DRV_NUM], DL
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -224,5 +227,6 @@ LOAD_LOADER:
 ;=========================
 [SECTION .DATA]
 LOADER_FILENAME: DB "LOADER  SYS"
+DRV_NUM: DB 0
 [SECTION SUBROUTINE]
 %INCLUDE "MAIN.INC"

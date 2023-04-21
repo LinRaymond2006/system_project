@@ -28,7 +28,8 @@ run_t: FORCE
 	bochs -f ./run/bochsrc.term
 cleanup: FORCE
 	-sudo umount $(mnt_point)/
-	-sudo rm -rf $(build_dir)/*
+	-sudo rm -f $(build_dir)/*
+	-sudo rm -f ./run/log/*
 	-mkdir $(build_dir)/tmp
 	-mkdir $(build_dir)/tmp/boot
 	-mkdir $(build_dir)/tmp/kernel

@@ -14,6 +14,12 @@ DO_ENABLE_A20_FASTGATE:
 	OR AL, 00000010B
 	OUT 0X92, AL
 
+
+
+
+
+
+
 CALL GET_MEM_STRUCT
 ;+-----------+------+---------+----------------------+-------------+
 ;| SVGA MODE | ROWS | COLUMNS | FRAME BUFFER ADDRESS | PIXEL WIDTH |
@@ -64,7 +70,7 @@ SETUP_PMODE:
 ;the FAT table will be temporarily located at 0x100000, the FATchain will be
 ;stored at 0x500, so there is no need to worried about the memory space!
 %define FATBASE 0x100000
-%define FATCHAINBASE 0x700
+%define FATCHAINBASE 0x500
 %DEFINE SFNSHIFT 5
 %define FILENAME_LENGTH 11
 %define SFNSIZE 32
@@ -348,6 +354,7 @@ KERNEL_FILENAME: DB "KERNEL  SYS"
 
 [SECTION .GDT]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 LABEL_GDT32:  DD 0,0
 LABEL_DESCRIPTOR_CODE32:    DD 0X0000FFFF, 0X00CF9A00
 LABEL_DESCRIPTOR_DATA32:    DD 0X0000FFFF, 0X00CF9200

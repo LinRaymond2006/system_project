@@ -159,7 +159,7 @@ start_kernel_ptr: .quad Start_Kernel
 /* ============================================================================================ */
 /* ============================================================================================ */
 /* the bitmask include file! */
-.include "pg_mask.S"
+.include "def/pg_mask.S"
 
 .org 0x1000
 /* PML4E, PDPTE, and PDE will ocupy continuous memory of size 0x1000*3 */
@@ -206,6 +206,7 @@ __PDE:
 
 .globl GDT_Table
 
+.include "def/desc_mask.S"
 GDT_Table:
 	.quad 0x0000000000000000			/*0	NULL descriptor					, selector:0x00*/
 	.quad 0x0020980000000000			/*1	KERNEL	Code	64-bit	Segment	, selector:0x08*/
