@@ -30,6 +30,7 @@ cleanup: FORCE
 	-sudo umount $(mnt_point)/
 	-sudo rm -f $(build_dir)/*
 	-sudo rm -f ./run/log/*
+	-mkdir $(build_dir)
 	-mkdir $(build_dir)/tmp
 	-mkdir $(build_dir)/tmp/boot
 	-mkdir $(build_dir)/tmp/kernel
