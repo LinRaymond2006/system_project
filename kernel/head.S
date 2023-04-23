@@ -207,17 +207,21 @@ __PDE:
 .globl GDT_Table
 
 .include "def/desc_mask.S"
+
+//use 4-level paging to manage the memory, minimum descriptor are required (data/code for each privillage)
 GDT_Table:
-	.quad 0x0000000000000000			/*0	NULL descriptor					, selector:0x00*/
-	.quad 0x0020980000000000			/*1	KERNEL	Code	64-bit	Segment	, selector:0x08*/
-	.quad 0x0000920000000000			/*2	KERNEL	Data	64-bit	Segment	, selector:0x10*/
-	.quad 0x0000000000000000			/*3	USER	Code	32-bit	Segment , selector:0x18*/
-	.quad 0x0000000000000000			/*4	USER	Data	32-bit	Segment , selector:0x20*/
-	.quad 0x0020f80000000000			/*5	USER	Code	64-bit	Segment	, selector:0x28*/
-	.quad 0x0000f20000000000			/*6	USER	Data	64-bit	Segment	, selector:0x30*/
-	.quad 0x00cf9a000000ffff			/*7	KERNEL	Code	32-bit	Segment	, selector:0x38*/
-	.quad 0x00cf92000000ffff			/*8	KERNEL	Data	32-bit	Segment	, selector:0x40*/
-	.fill 10,8,0						/*10 ~ 11 TSS (jmp one segment <9>) in long-mode 128-bit 0x50*/
+	.quad 0
+	//      ++++++++----++++--------++++++++----------------++++++++++++++++
+	.quad 0b0000000000100000100110000000000000000000000000000000000000000000			/* 1: 64 bit kernel code, selector 0x08 */
+	//      ++++++++----++++--------++++++++----------------++++++++++++++++
+	.quad 0b0000000000000000100100100000000000000000000000000000000000000000			/* 2: 64 bit kernel data, selector 0x10 */
+	.quad 0			/* 3: 32 bit user code, selector 0x18 */
+	.quad 0			/* 4: 32 bit user data, selector 0x20 */
+	.quad 0b0000000000100000111110000000000000000000000000000000000000000000			/* 5: 64 bit user code, selector 0x28 */
+	.quad 0b0000000000000000111100100000000000000000000000000000000000000000			/* 6: 64 bit user data, selector 0x30 */
+	.quad 0b0000000011001111100110100000000000000000000000001111111111111111			/* 7: 32 bit kernel code, selector 0x38 */
+	.quad 0b0000000011001111100100100000000000000000000000001111111111111111			/* 8: 32 bit kernel data, selector 0x40 */
+	.fill 10,8,0						/* 10.11 TSS descriptor, selector 0x50 */
 GDT_END:
 
 GDT_POINTER:

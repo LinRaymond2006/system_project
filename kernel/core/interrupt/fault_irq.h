@@ -22,6 +22,7 @@
 #define EXCEPTION_AC                17  // #AC: Alignment Check, Fault, Error code present
 #define EXCEPTION_MC                18  // #MC: Machine Check, Abort, No error code
 #define EXCEPTION_XM                19  // #XM/#XF: SIMD Floating-Point Exception, Fault, No error code
+#define EXCEPTION_XF                EXCEPTION_XM  //alias
 #define EXCEPTION_VE                20  // #VE: Virtualization Exception, Fault, No error code
 #define EXCEPTION_CP                21  // #CP: Control Protection Exception, Fault, Error code present
 #define EXCEPTION_RESERVED22        22  // Reserved, N/A, N/A
@@ -36,7 +37,7 @@
 #define EXCEPTION_RESERVED31        31  // Reserved, N/A, N/A
 
 
-//abandoned, but compable with 486 processor
-#define EXCEPTION_FERR  13
+//abandoned, only works on legacy 486 processor
+//#define EXCEPTION_FERR  13
 
 #endif
