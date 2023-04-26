@@ -14,16 +14,15 @@ typedef struct {
 extern STRUCT_IDT IDT_TABLE;
 
 #define KERNEL_CODE64 0x8
-#define USER_CODE64 0X28
+#define USER_CODE64 0x28
 
-//not finished yet!
 void intit_sysirq() {
     set_ivte(&IDT_TABLE, EXCEPTION_DE, &handler_DE, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
     set_ivte(&IDT_TABLE, EXCEPTION_DB, &handler_DB, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
     set_ivte(&IDT_TABLE, EXCEPTION_NMI, &handler_NMI, KERNEL_CODE64, 1, GATE_INT, DPL_SYS);
-    set_ivte(&IDT_TABLE, EXCEPTION_BP, &handler_BP, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
-    set_ivte(&IDT_TABLE, EXCEPTION_OF, &handler_OF, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
-    set_ivte(&IDT_TABLE, EXCEPTION_BR, &handler_BR, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
+    set_ivte(&IDT_TABLE, EXCEPTION_BP, &handler_BP, KERNEL_CODE64, 1, GATE_TRAP, DPL_USR);
+    set_ivte(&IDT_TABLE, EXCEPTION_OF, &handler_OF, KERNEL_CODE64, 1, GATE_TRAP, DPL_USR);
+    set_ivte(&IDT_TABLE, EXCEPTION_BR, &handler_BR, KERNEL_CODE64, 1, GATE_TRAP, DPL_USR);
     set_ivte(&IDT_TABLE, EXCEPTION_UD, &handler_UD, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
     set_ivte(&IDT_TABLE, EXCEPTION_NM, &handler_NM, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);
     set_ivte(&IDT_TABLE, EXCEPTION_DF, &handler_DF, KERNEL_CODE64, 1, GATE_TRAP, DPL_SYS);

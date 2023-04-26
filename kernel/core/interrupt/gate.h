@@ -23,4 +23,6 @@ inline void set_ivte(void *ivt_base, int irq, void *target, int seg_selector, in
     *((unsigned long *)(ivt_base + (irq*2)+1)) = val1;
 }
 
+
+
 #endif

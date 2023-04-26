@@ -41,6 +41,8 @@
     1 : the PDE is specifically designed for 2M page
 */
 
+//***THE FILE HAVE TO BE REWRITE WITH MORE HUMAN-REABLE VARIABLE DEFINED DUE TO POOR READABILITY***
+
 
 /* ======================================================== */
 /* PML4E FLAGS */
