@@ -95,8 +95,7 @@ data segments:
 
 //set some more pre-defined stuff in case later program misconfigured something
 //do it someday
-
-
+.set NULL_DESC,                               0
 
 
 
@@ -117,13 +116,13 @@ data segments:
 
 //"DESC_TSS" is defined before
 
-.SET _SYSDESC_ACCESS_TYPE_BUSY_TSS_64 0xb
-.SET _SYSDESC_ACCESS_TYPE_AVAILABLE_TSS_64 0x9
-.SET _SYSDESC_ACCESS_TYPE_LDT 0x2
+.SET _SYSDESC_ACCESS_TYPE_BUSY_TSS_64,               0xb
+.SET _SYSDESC_ACCESS_TYPE_AVAILABLE_TSS_64,          0x9
+.SET _SYSDESC_ACCESS_TYPE_LDT,                       0x2
 
 
-.set BUSY_TSS64         _SYSDESC_ACCESS_TYPE_BUSY_TSS_64<<40
-.set AVAILABLE_TSS64    _SYSDESC_ACCESS_TYPE_AVAILABLE_TSS_64<<40
-.set SYSDESC_LDT        _SYSDESC_ACCESS_TYPE_LDT<<40
+.set BUSY_TSS64,        _SYSDESC_ACCESS_TYPE_BUSY_TSS_64<<40
+.set AVAILABLE_TSS64,   _SYSDESC_ACCESS_TYPE_AVAILABLE_TSS_64<<40
+.set SYSDESC_LDT,       _SYSDESC_ACCESS_TYPE_LDT<<40
 
 //set some pre-defined stuff here, working on it later

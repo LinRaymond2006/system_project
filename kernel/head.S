@@ -210,13 +210,15 @@ __PDE:
 
 //use 4-level paging to manage the memory, minimum descriptor are required (data/code for each privillage)
 GDT_Table:
-	.quad 0
+	.quad NULL_DESC
 	//      ++++++++----++++--------++++++++----------------++++++++++++++++
-	.quad 0b0000000000100000100110000000000000000000000000000000000000000000			/* 1: 64 bit kernel code, selector 0x08 */
+	//.quad 0b0000000000100000100110000000000000000000000000000000000000000000			/* 1: 64 bit kernel code, selector 0x08 */
+	.quad VALID_SEGDESC | DESC_GDT | SEG_64BIT | SEGDESC_DPL_SYS | EXEC | SEG_CODE_NONCONFIRMED
+
 	//      ++++++++----++++--------++++++++----------------++++++++++++++++
 	.quad 0b0000000000000000100100100000000000000000000000000000000000000000			/* 2: 64 bit kernel data, selector 0x10 */
-	.quad 0			/* 3: 32 bit user code, selector 0x18 */
-	.quad 0			/* 4: 32 bit user data, selector 0x20 */
+	.quad NULL_DESC			/* 3: 32 bit user code, selector 0x18 */
+	.quad NULL_DESC			/* 4: 32 bit user data, selector 0x20 */
 	//      ++++++++----++++--------++++++++----------------++++++++++++++++
  	.quad 0b0000000000100000111110000000000000000000000000000000000000000000			/* 5: 64 bit user code, selector 0x28 */
 	//      ++++++++----++++--------++++++++----------------++++++++++++++++
@@ -225,7 +227,7 @@ GDT_Table:
 	.quad 0b0000000011001111100110100000000000000000000000001111111111111111			/* 7: 32 bit kernel code, selector 0x38 */
 	//      ++++++++----++++--------++++++++----------------++++++++++++++++
 	.quad 0b0000000011001111100100100000000000000000000000001111111111111111			/* 8: 32 bit kernel data, selector 0x40 */
-	.fill 10,8,0						/* 10.11 TSS descriptor, selector 0x50 */
+	.fill 10,8,NULL_DESC						/* 10.11 TSS descriptor, selector 0x50 */
 GDT_END:
 
 GDT_POINTER:

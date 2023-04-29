@@ -7,7 +7,6 @@ dsk_image := hd.iso
 LOADER_NAME := LOADER.SYS
 KERNEL_NAME := KERNEL.SYS
 all: FORCE
-	make cleanup
 	make all -C boot
 	make all -C kernel
 
