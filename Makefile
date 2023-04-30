@@ -28,7 +28,8 @@ run_t: FORCE
 cleanup: FORCE
 	-sudo umount $(mnt_point)/
 	-rm -rf $(build_dir)/*
-	-rm -rf ./run/log/*
+	-rm -rf ./run/log/
+	-mkdir ./run/log/
 	-mkdir $(build_dir)
 	-mkdir $(build_dir)/tmp
 	-mkdir $(build_dir)/tmp/boot

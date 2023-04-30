@@ -17,8 +17,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 
 ../build/tmp/kernel/head.o: head.S
 	-rm ../build/tmp/kernel/head.s
-	$(CC) -E $^ > ../build/tmp/kernel/head.s
-	$(AS) $(ASFLAGS) ../build/tmp/kernel/head.s -o $@
+	$(AS) $(ASFLAGS) $< -o $@
 
 ../build/tmp/kernel/kernel.o: main.c
 	$(CC) -shared -c $(CFLAGS) $^ -o $@

@@ -125,4 +125,5 @@ data segments:
 .set AVAILABLE_TSS64,   _SYSDESC_ACCESS_TYPE_AVAILABLE_TSS_64<<40
 .set SYSDESC_LDT,       _SYSDESC_ACCESS_TYPE_LDT<<40
 
+.set TSS64_LIMIT,       104-1
 //set some pre-defined stuff here, working on it later
