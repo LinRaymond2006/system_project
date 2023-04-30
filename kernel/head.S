@@ -42,8 +42,8 @@ _start:
 /* ============================================================================================ */
 /* ============================================================================================ */
 /* ============================================================================================ */
-#define stackbase 0x7c00
-#define vstackbase (0xffff800000000000+stackbase)
+.set stackbase, 0x7c00
+.set vstackbase, 0xffff800000000000+stackbase
 /*  the follwing code use new global descriptor, the loader space can be reuse */
 lmode_entry:
 	cli
@@ -79,31 +79,32 @@ fill_idt_loop:
     loop fill_idt_loop
 
 	/* please note that TSS are not initialized yet, plus there no real error handler, the system is extremely vulnerable now! */
-setup_tss_desc:
-	//rax as higher bytes, rbx as lower bytes
-	movq TSS64_Table(%rip), %rax
-	shrq $32, %rax
-	movq TSS64_Table(%rip), %rbx
-	shlq $32, %rbx			//56-24
 
-	movq $0xff00000000000000, %rdx
-	andq %rdx, %rbx
-	movq TSS64_Table(%rip), %rcx
-	shlq $16, %rcx
+.include "def/desc_mask.S"
 
-	movq $0x0000ffffffff0000, %rdx
-	andq %rdx, %rcx
-	orq  %rcx, %rbx
-	orq  TSS64_LIMIT, %rbx
-	movq (tss_lower_mask), %rdx			//VALID_TSS | DESC_TSS | TSS_DPL_SYS | AVAILABLE_TSS64
-	orq %rdx, %rbx	//access field
-	//the flags and limit (higher part) alike are not set, if it works fine, just left it blank, or i have to figure out what it is later
-	leaq GDT_Table(%rip), %rdi
-	movq %rbx, 0x50(%rdi)		//TSS	(lower part)
-	movq %rax, 0x58(%rdi)		//TSS+8 (higher part)
+setup_TSS64:
+	leaq	TSS64_Table(%rip),	%rdx
 
-	movw $50, %ax
-	ltr %ax
+	xorq	%rcx,	%rcx
+	movq	$0x89,	%rax	//VALID_TSS | DESC_TSS | TSS_DPL_SYS | AVAILABLE_TSS64
+	shlq	$40,	%rax
+	movl	%edx,	%ecx
+	shrl	$24,	%ecx
+	shlq	$56,	%rcx
+	addq	%rcx,	%rax
+	xorq	%rcx,	%rcx
+	movl	%edx,	%ecx
+	andl	$0xffffff,	%ecx
+	shlq	$16,	%rcx
+	addq	%rcx,	%rax
+	addq	$103,	%rax	//TSS64_LIMIT
+	leaq	GDT_Table(%rip),	%rdi
+	movq	%rax,	0x50(%rdi)
+	shrq	$32,	%rdx
+	movq	%rdx,	0x58(%rdi)
+
+	mov	$0x50,	%ax
+	ltr	%ax
 
 	/* perform a far jump and go to the main part of the kernel, which is implemnented in C */
     movq start_kernel_ptr(%rip), %rax
@@ -182,7 +183,7 @@ lmode_entry_ptr:  .quad lmode_entry
 start_kernel_ptr: .quad Start_Kernel
 
 tss_lower_mask:
-	.quad VALID_TSS | DESC_TSS | TSS_DPL_SYS | AVAILABLE_TSS64 @ABS
+	.quad VALID_TSS | DESC_TSS | TSS_DPL_SYS | AVAILABLE_TSS64
 	/* ============================================================================================ */
 /* ============================================================================================ */
 /* ============================================================================================ */
@@ -236,7 +237,6 @@ __PDE:
 
 .globl GDT_Table
 
-.include "def/desc_mask.S"
 
 //use 4-level paging to manage the memory, minimum descriptor are required (data/code for each privillage)
 GDT_Table:

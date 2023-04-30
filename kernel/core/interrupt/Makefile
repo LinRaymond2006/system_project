@@ -5,5 +5,5 @@ CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultli
 
 all: ../../../build/tmp/kernel/int.o
 
-../../../build/tmp/kernel/int.o: int.c fault_irq.h fault.h gate.h
-	$(CC) $(CFLAGS) -c -shared $< -o $@
+#../../../build/tmp/kernel/int.o: int.c fault_irq.h fault.h gate.h
+#	$(CC) $(CFLAGS) -c -shared $< -o $@
