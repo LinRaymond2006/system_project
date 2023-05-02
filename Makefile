@@ -7,6 +7,7 @@ dsk_image := hd.iso
 LOADER_NAME := LOADER.SYS
 KERNEL_NAME := KERNEL.SYS
 all: FORCE
+	make cleanup
 	make all -C boot
 	make all -C kernel
 
@@ -36,5 +37,8 @@ cleanup: FORCE
 	-mkdir $(build_dir)/tmp/kernel
 	-mkdir $(build_dir)/rootfs
 	-mkdir $(mnt_point)
+
+sym:
+	nm build/tmp/kernel/kernel.elf
 
 FORCE: ; 

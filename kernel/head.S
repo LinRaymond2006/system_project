@@ -172,6 +172,14 @@ dummy_INThandler:
 	popq %rbx
 	popq %rax
 	sti
+	
+	label_halt:
+		nop
+		nop
+		nop
+		nop
+		jmp label_halt
+
 	iretq
 
 /* ============================================================================================ */
@@ -266,6 +274,7 @@ GDT_BASE:  .quad GDT_Table
 
 //=======	IDT_Table
 
+.globl IDT_POINTER
 .globl IDT_Table
 
 IDT_Table:

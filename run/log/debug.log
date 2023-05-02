@@ -1,270 +1,90 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+b 01000ab
+:1: syntax error at 'ab'
+b 0x01000ab
 c
-(0).[18460046] [0x00000010407b] 0008:ffff80000010407b (unk. ctxt): jmp .-3  (0xffff80000010407a) ; ebfd
-Next at t=18460047
-(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-c;info idt
-(0).[36920094] [0x00000010407b] 0008:ffff80000010407b (unk. ctxt): jmp .-3  (0xffff80000010407a) ; ebfd
-Next at t=36920095
-(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-Interrupt Descriptor Table (base=0x0000000000000000, limit=65535):
-IDT[0x00]=Code segment, base=0xf053f000, limit=0x0000ffa8, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x01]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x02]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x03]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x04]=32-Bit TSS (Available) at 0xf087f000, length 0x0fea5
-IDT[0x05]=32-Bit TSS (Available) at 0xf0e6f000, length 0x0e9e6
-IDT[0x06]=32-Bit TSS (Available) at 0xf0e6f000, length 0x0e9e6
-IDT[0x07]=32-Bit TSS (Available) at 0xf0e6f000, length 0x0ef57
-IDT[0x08]=Code segment, base=0xf04dc000, limit=0x00000156, Execute-Only, Non-Conforming, 16-bit
-IDT[0x09]=16-Bit TSS (Busy) at 0xf0fef000, length 0x0f841
-IDT[0x0a]=Code segment, base=0xf059f000, limit=0x0000e739, Execute-Only, Non-Conforming, 16-bit
-IDT[0x0b]=32-Bit Trap Gate target=0xf000:0xf000e82e, DPL=3
-IDT[0x0c]=16-Bit Interrupt Gate target=0xf000:0xf00096d2, DPL=3
-IDT[0x0d]=Code segment, base=0xf053f000, limit=0x0000fe6e, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x0e]=??? descriptor hi=0x00000000, lo=0xf000ff53
-IDT[0x0f]=Data segment, base=0xc097f000, limit=0x0000efde, Read/Write, Accessed
-IDT[0x10]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x11]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x12]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x13]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x14]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x15]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x16]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x17]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x18]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x19]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1a]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1b]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1c]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1d]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1e]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x1f]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x20]=??? descriptor hi=0x9fc0003d, lo=0xf000ec59
-IDT[0x21]=Task Gate target=0xf000:0xc000ff53, DPL=1
-IDT[0x22]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x23]=Code segment, base=0xf0539fc0, limit=0x0000004d, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x24]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x25]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x26]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x27]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x28]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x29]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2a]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2b]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2c]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2d]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2e]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x2f]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x30]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x31]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x32]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x33]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x34]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x35]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x36]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x37]=Code segment, base=0xf053f000, limit=0x0000ff53, Execute/Read, Conforming, Accessed, 16-bit
-IDT[0x38]=32-Bit TSS (Available) at 0xf0ddf000, length 0x0fe93
-IDT[0x39]=32-Bit TSS (Available) at 0xf0ecf000, length 0x0e9ec
-IDT[0x3a]=LDT 
-IDT[0x3b]=32-Bit TSS (Available) at 0xf0ecf000, length 0x09a97
-IDT[0x3c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x3d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x3e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x3f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x40]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x41]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x42]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x43]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x44]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x45]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x46]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x47]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x48]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x49]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4a]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x4f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x50]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x51]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x52]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x53]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x54]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x55]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x56]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x57]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x58]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x59]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5a]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x5f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x60]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x61]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x62]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x63]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x64]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x65]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x66]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x67]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x68]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x69]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6a]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x6f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x70]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x71]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x72]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x73]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x74]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x75]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x76]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x77]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x78]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x79]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7a]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x7f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x80]=??? descriptor hi=0x00000000, lo=0x000003f8
-IDT[0x81]=??? descriptor hi=0x9fc00000, lo=0x00000378
-IDT[0x82]=??? descriptor hi=0x00000002, lo=0x7f004227
-IDT[0x83]=??? descriptor hi=0x0000001e, lo=0x001e0000
-IDT[0x84]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x85]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x86]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x87]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x88]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x89]=Data segment, base=0x00000050, limit=0x00000300, Read-Only
-IDT[0x8a]=??? descriptor hi=0x00000000, lo=0x00001200
-IDT[0x8b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x8c]=??? descriptor hi=0xfa000003, lo=0xd4000607
-IDT[0x8d]=16-Bit TSS (Busy) at 0x00a00000, length 0x700ff
-IDT[0x8e]=16-Bit TSS (available) at 0x00000000, length 0x00000
-IDT[0x8f]=??? descriptor hi=0x0000000a, lo=0x00000014
-IDT[0x90]=Data segment, base=0x6018003e, limit=0x0000001e, Read-Only
-IDT[0x91]=??? descriptor hi=0x07000000, lo=0x000851f9
-IDT[0x92]=??? descriptor hi=0x00100000, lo=0x00000000
-IDT[0x93]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x94]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x95]=??? descriptor hi=0x00000000, lo=0xc000362a
-IDT[0x96]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x97]=??? descriptor hi=0x00000000, lo=0x01800100
-IDT[0x98]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x99]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9a]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9b]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9c]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9d]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9e]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0x9f]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xa0]=??? descriptor hi=0x00000002, lo=0x00000001
-IDT[0xa1]=??? descriptor hi=0x00000004, lo=0x00000003
-IDT[0xa2]=??? descriptor hi=0x00000006, lo=0x00000005
-IDT[0xa3]=??? descriptor hi=0x00000008, lo=0x00000007
-IDT[0xa4]=??? descriptor hi=0x0000000a, lo=0x00000009
-IDT[0xa5]=??? descriptor hi=0x0000000c, lo=0x0000000b
-IDT[0xa6]=??? descriptor hi=0x0000000e, lo=0x0000000d
-IDT[0xa7]=??? descriptor hi=0x00000010, lo=0x0000000f
-IDT[0xa8]=??? descriptor hi=0x00000012, lo=0x00000011
-IDT[0xa9]=LDT 
-IDT[0xaa]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xab]=??? descriptor hi=0x00000000, lo=0x0000026b
-IDT[0xac]=LDT 
-IDT[0xad]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xae]=??? descriptor hi=0x00000000, lo=0x0000026d
-IDT[0xaf]=LDT 
-IDT[0xb0]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xb1]=??? descriptor hi=0x00000000, lo=0x0000026f
-IDT[0xb2]=LDT 
-IDT[0xb3]=??? descriptor hi=0x00000000, lo=0xc0000000
-IDT[0xb4]=??? descriptor hi=0xc0000800, lo=0x00000201
-IDT[0xb5]=LDT 
-IDT[0xb6]=??? descriptor hi=0x00000000, lo=0x00000c06
-IDT[0xb7]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xb8]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xb9]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xba]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xbb]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xbc]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xbd]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xbe]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xbf]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc0]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc1]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc2]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc3]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc4]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc5]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc6]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc7]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc8]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xc9]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xca]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xcb]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xcc]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xcd]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xce]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xcf]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd0]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd1]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd2]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd3]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd4]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd5]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd6]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd7]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd8]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xd9]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xda]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xdb]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xdc]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xdd]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xde]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xdf]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xe0]=Code segment, base=0xffff0000, limit=0xf0013fff, Execute/Read, Conforming, Accessed, 32-bit
-IDT[0xe1]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xe2]=??? descriptor hi=0xc0000000, lo=0x000c0000
-IDT[0xe3]=??? descriptor hi=0x00000000, lo=0x0000c040
-IDT[0xe4]=??? descriptor hi=0x00000000, lo=0x02000000
-IDT[0xe5]=Data segment, base=0x00000000, limit=0x00000009, Read-Only, Accessed
-IDT[0xe6]=??? descriptor hi=0x02000000, lo=0x17cbfbff
-IDT[0xe7]=??? descriptor hi=0x00000001, lo=0x000fcc00
-IDT[0xe8]=??? descriptor hi=0x00000000, lo=0x00002028
-IDT[0xe9]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xea]=16-Bit Interrupt Gate target=0x0000:0x000f0000, DPL=1
-IDT[0xeb]=??? descriptor hi=0x00000001, lo=0x00000633
-IDT[0xec]=??? descriptor hi=0x00000000, lo=0x0000b000
-IDT[0xed]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xee]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xef]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf0]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf1]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf2]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf3]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf4]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf5]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf6]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf7]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf8]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xf9]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xfa]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xfb]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xfc]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xfd]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xfe]=??? descriptor hi=0x00000000, lo=0x00000000
-IDT[0xff]=??? descriptor hi=0x00000000, lo=0x00000000
-You can list individual entries with 'info idt [NUM]' or groups with 'info idt [NUM] [NUM]'
-clear
-:3: syntax error at 'clear'
+(0) Breakpoint 1, 0xffff8000001000ab in ?? ()
+Next at t=18262976
+(0) [0x0000001000ab] 0008:ffff8000001000ab (unk. ctxt): lea rdx, ds:[rip+26970]   ; 488d155a690000
+n
+Next at t=18262977
+(0) [0x0000001000b2] 0008:ffff8000001000b2 (unk. ctxt): xor rcx, rcx              ; 4831c9
+n
+Next at t=18262978
+(0) [0x0000001000b5] 0008:ffff8000001000b5 (unk. ctxt): mov rax, 0x0000000000000089 ; 48c7c089000000
+n
+Next at t=18262979
+(0) [0x0000001000bc] 0008:ffff8000001000bc (unk. ctxt): shl rax, 0x28             ; 48c1e028
+n
+Next at t=18262980
+(0) [0x0000001000c0] 0008:ffff8000001000c0 (unk. ctxt): mov ecx, edx              ; 89d1
+n
+Next at t=18262981
+(0) [0x0000001000c2] 0008:ffff8000001000c2 (unk. ctxt): shr ecx, 0x18             ; c1e918
+n
+Next at t=18262982
+(0) [0x0000001000c5] 0008:ffff8000001000c5 (unk. ctxt): shl rcx, 0x38             ; 48c1e138
+n
+Next at t=18262983
+(0) [0x0000001000c9] 0008:ffff8000001000c9 (unk. ctxt): add rax, rcx              ; 4801c8
+n
+Next at t=18262984
+(0) [0x0000001000cc] 0008:ffff8000001000cc (unk. ctxt): xor rcx, rcx              ; 4831c9
+n
+Next at t=18262985
+(0) [0x0000001000cf] 0008:ffff8000001000cf (unk. ctxt): mov ecx, edx              ; 89d1
+n
+Next at t=18262986
+(0) [0x0000001000d1] 0008:ffff8000001000d1 (unk. ctxt): and ecx, 0x00ffffff       ; 81e1ffffff00
+n
+Next at t=18262987
+(0) [0x0000001000d7] 0008:ffff8000001000d7 (unk. ctxt): shl rcx, 0x10             ; 48c1e110
+n
+Next at t=18262988
+(0) [0x0000001000db] 0008:ffff8000001000db (unk. ctxt): add rax, rcx              ; 4801c8
+n
+Next at t=18262989
+(0) [0x0000001000de] 0008:ffff8000001000de (unk. ctxt): add rax, 0x0000000000000067 ; 4883c067
+n
+Next at t=18262990
+(0) [0x0000001000e2] 0008:ffff8000001000e2 (unk. ctxt): lea rdi, ds:[rip+22647]   ; 488d3d77580000
+n
+Next at t=18262991
+(0) [0x0000001000e9] 0008:ffff8000001000e9 (unk. ctxt): mov qword ptr ds:[rdi+80], rax ; 48894750
+n
+Next at t=18262992
+(0) [0x0000001000ed] 0008:ffff8000001000ed (unk. ctxt): shr rdx, 0x20             ; 48c1ea20
+n
+Next at t=18262993
+(0) [0x0000001000f1] 0008:ffff8000001000f1 (unk. ctxt): mov qword ptr ds:[rdi+88], rdx ; 48895758
+n
+Next at t=18262994
+(0) [0x0000001000f5] 0008:ffff8000001000f5 (unk. ctxt): mov ax, 0x0050            ; 66b85000
+n
+Next at t=18262995
+(0) [0x0000001000f9] 0008:ffff8000001000f9 (unk. ctxt): ltr ax                    ; 0f00d8
+n
+Next at t=18262996
+(0) [0x0000001000fc] 0008:ffff8000001000fc (unk. ctxt): mov rax, qword ptr ds:[rip+94] ; 488b055e000000
+n
+Next at t=18262997
+(0) [0x000000100103] 0008:ffff800000100103 (unk. ctxt): push 0x00000008           ; 6a08
+n
+Next at t=18262998
+(0) [0x000000100105] 0008:ffff800000100105 (unk. ctxt): push rax                  ; 50
+n
+Next at t=18262999
+(0) [0x000000100106] 0008:ffff800000100106 (unk. ctxt): sti                       ; fb
+n
+Next at t=18263000
+(0) [0x000000100107] 0008:ffff800000100107 (unk. ctxt): retf                      ; 48cb
+n
+Next at t=18263001
+(0) [0x00000010401f] 0008:ffff80000010401f (unk. ctxt): endbranch64               ; f30f1efa
+n
+Next at t=132687408
+(0) [0x000000100151] 0008:ffff800000100151 (unk. ctxt): nop                       ; 90
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[132687408] [0x000000100151] 0008:ffff800000100151 (unk. ctxt): nop                       ; 90
