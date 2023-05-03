@@ -39,6 +39,8 @@ _start:
 	pushq %rax
 	lretq
 
+
+
 /* ============================================================================================ */
 /* ============================================================================================ */
 /* ============================================================================================ */
@@ -46,7 +48,7 @@ _start:
 .set vstackbase, 0xffff800000000000+stackbase
 /*  the follwing code use new global descriptor, the loader space can be reuse */
 lmode_entry:
-	cli
+	
     movq $0x10, %rax
     movq %rax, %ds
     movq %rax, %es
@@ -105,13 +107,16 @@ setup_TSS64:
 
 	mov	$0x50,	%ax
 	ltr	%ax
+	
 
 	/* perform a far jump and go to the main part of the kernel, which is implemnented in C */
     movq start_kernel_ptr(%rip), %rax
+	movq $0xffff800000007c00, %rsp
+	movq $0xffff800000007c00, %rbp
     pushq $0x08 /* segment number */
     pushq %rax /* offset */
 
-	sti
+	nop
 
     lretq
 

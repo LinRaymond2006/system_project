@@ -1,90 +1,17 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-b 01000ab
-:1: syntax error at 'ab'
-b 0x01000ab
 c
-(0) Breakpoint 1, 0xffff8000001000ab in ?? ()
-Next at t=18262976
-(0) [0x0000001000ab] 0008:ffff8000001000ab (unk. ctxt): lea rdx, ds:[rip+26970]   ; 488d155a690000
-n
-Next at t=18262977
-(0) [0x0000001000b2] 0008:ffff8000001000b2 (unk. ctxt): xor rcx, rcx              ; 4831c9
-n
-Next at t=18262978
-(0) [0x0000001000b5] 0008:ffff8000001000b5 (unk. ctxt): mov rax, 0x0000000000000089 ; 48c7c089000000
-n
-Next at t=18262979
-(0) [0x0000001000bc] 0008:ffff8000001000bc (unk. ctxt): shl rax, 0x28             ; 48c1e028
-n
-Next at t=18262980
-(0) [0x0000001000c0] 0008:ffff8000001000c0 (unk. ctxt): mov ecx, edx              ; 89d1
-n
-Next at t=18262981
-(0) [0x0000001000c2] 0008:ffff8000001000c2 (unk. ctxt): shr ecx, 0x18             ; c1e918
-n
-Next at t=18262982
-(0) [0x0000001000c5] 0008:ffff8000001000c5 (unk. ctxt): shl rcx, 0x38             ; 48c1e138
-n
-Next at t=18262983
-(0) [0x0000001000c9] 0008:ffff8000001000c9 (unk. ctxt): add rax, rcx              ; 4801c8
-n
-Next at t=18262984
-(0) [0x0000001000cc] 0008:ffff8000001000cc (unk. ctxt): xor rcx, rcx              ; 4831c9
-n
-Next at t=18262985
-(0) [0x0000001000cf] 0008:ffff8000001000cf (unk. ctxt): mov ecx, edx              ; 89d1
-n
-Next at t=18262986
-(0) [0x0000001000d1] 0008:ffff8000001000d1 (unk. ctxt): and ecx, 0x00ffffff       ; 81e1ffffff00
-n
-Next at t=18262987
-(0) [0x0000001000d7] 0008:ffff8000001000d7 (unk. ctxt): shl rcx, 0x10             ; 48c1e110
-n
-Next at t=18262988
-(0) [0x0000001000db] 0008:ffff8000001000db (unk. ctxt): add rax, rcx              ; 4801c8
-n
-Next at t=18262989
-(0) [0x0000001000de] 0008:ffff8000001000de (unk. ctxt): add rax, 0x0000000000000067 ; 4883c067
-n
-Next at t=18262990
-(0) [0x0000001000e2] 0008:ffff8000001000e2 (unk. ctxt): lea rdi, ds:[rip+22647]   ; 488d3d77580000
-n
-Next at t=18262991
-(0) [0x0000001000e9] 0008:ffff8000001000e9 (unk. ctxt): mov qword ptr ds:[rdi+80], rax ; 48894750
-n
-Next at t=18262992
-(0) [0x0000001000ed] 0008:ffff8000001000ed (unk. ctxt): shr rdx, 0x20             ; 48c1ea20
-n
-Next at t=18262993
-(0) [0x0000001000f1] 0008:ffff8000001000f1 (unk. ctxt): mov qword ptr ds:[rdi+88], rdx ; 48895758
-n
-Next at t=18262994
-(0) [0x0000001000f5] 0008:ffff8000001000f5 (unk. ctxt): mov ax, 0x0050            ; 66b85000
-n
-Next at t=18262995
-(0) [0x0000001000f9] 0008:ffff8000001000f9 (unk. ctxt): ltr ax                    ; 0f00d8
-n
-Next at t=18262996
-(0) [0x0000001000fc] 0008:ffff8000001000fc (unk. ctxt): mov rax, qword ptr ds:[rip+94] ; 488b055e000000
-n
-Next at t=18262997
-(0) [0x000000100103] 0008:ffff800000100103 (unk. ctxt): push 0x00000008           ; 6a08
-n
-Next at t=18262998
-(0) [0x000000100105] 0008:ffff800000100105 (unk. ctxt): push rax                  ; 50
-n
-Next at t=18262999
-(0) [0x000000100106] 0008:ffff800000100106 (unk. ctxt): sti                       ; fb
-n
-Next at t=18263000
-(0) [0x000000100107] 0008:ffff800000100107 (unk. ctxt): retf                      ; 48cb
-n
-Next at t=18263001
-(0) [0x00000010401f] 0008:ffff80000010401f (unk. ctxt): endbranch64               ; f30f1efa
-n
-Next at t=132687408
-(0) [0x000000100151] 0008:ffff800000100151 (unk. ctxt): nop                       ; 90
+(0).[18292755] [0x000000100132] 0008:ffff800000100132 (unk. ctxt): push r15                  ; 4157
+Next at t=18292756
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+(0).[36565620] [0x000000100132] 0008:ffff800000100132 (unk. ctxt): push r15                  ; 4157
+Next at t=36565621
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+c
+(0).[54838482] [0x000000100132] 0008:ffff800000100132 (unk. ctxt): push r15                  ; 4157
+Next at t=54838483
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[132687408] [0x000000100151] 0008:ffff800000100151 (unk. ctxt): nop                       ; 90
+(0).[54838483] [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0

@@ -40,11 +40,13 @@ _start:
 
 
 
+
+
 .set stackbase, 0x7c00
 .set vstackbase, 0xffff800000000000+stackbase
 
 lmode_entry:
- cli
+
     movq $0x10, %rax
     movq %rax, %ds
     movq %rax, %es
@@ -105,11 +107,14 @@ setup_TSS64:
  ltr %ax
 
 
+
     movq start_kernel_ptr(%rip), %rax
+ movq $0xffff800000007c00, %rsp
+ movq $0xffff800000007c00, %rbp
     pushq $0x08
     pushq %rax
 
- sti
+ nop
 
     lretq
 
@@ -170,14 +175,7 @@ dummy_INThandler:
  popq %rbx
  popq %rax
  sti
-
- label_halt:
-  nop
-  nop
-  nop
-  nop
-  jmp label_halt
-
+# 188 "head.S"
  iretq
 
 

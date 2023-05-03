@@ -1,116 +1,32 @@
-
-struct desc_struct 
-{
-	unsigned char x[8];
+struct IDT_entry {
+    unsigned short offset_low;     // offset bits 0..15
+    unsigned short selector;       // a code segment selector in GDT or LDT
+    unsigned char ist;             // bits 0..2 holds Interrupt Stack Table offset, rest of bits zero.
+    unsigned char type_attr;       // type and attributes
+    unsigned short offset_mid;     // offset bits 16..31
+    unsigned int offset_high;    // offset bits 32..63
+    unsigned int zero;           // reserved, must be zero
 };
 
-struct gate_struct
-{
-	unsigned char x[16];
-};
+// IDT table
+extern struct IDT_entry IDT_Table[];
 
-extern struct desc_struct GDT_Table[];
-extern struct gate_struct IDT_Table[];
-extern unsigned int TSS64_Table[26];
+// IDT pointer
+extern void IDT_POINTER();
 
-/*
-
-*/
-
-#define _set_gate(gate_selector_addr,attr,ist,code_addr)	\
-do								\
-{	unsigned long __d0,__d1;				\
-	__asm__ __volatile__	(	"movw	%%dx,	%%ax	\n\t"	\
-					"andq	$0x7,	%%rcx	\n\t"	\
-					"addq	%4,	%%rcx	\n\t"	\
-					"shlq	$32,	%%rcx	\n\t"	\
-					"addq	%%rcx,	%%rax	\n\t"	\
-					"xorq	%%rcx,	%%rcx	\n\t"	\
-					"movl	%%edx,	%%ecx	\n\t"	\
-					"shrq	$16,	%%rcx	\n\t"	\
-					"shlq	$48,	%%rcx	\n\t"	\
-					"addq	%%rcx,	%%rax	\n\t"	\
-					"movq	%%rax,	%0	\n\t"	\
-					"shrq	$32,	%%rdx	\n\t"	\
-					"movq	%%rdx,	%1	\n\t"	\
-					:"=m"(*((unsigned long *)(gate_selector_addr)))	,					\
-					 "=m"(*(1 + (unsigned long *)(gate_selector_addr))),"=&a"(__d0),"=&d"(__d1)		\
-					:"i"(attr << 8),									\
-					 "3"((unsigned long *)(code_addr)),"2"(0x8 << 16),"c"(ist)				\
-					:"memory"		\
-				);				\
-}while(0)
-
-
-/*
-
-*/
-
-#define load_TR(n) 							\
-do{									\
-	__asm__ __volatile__(	"ltr	%%ax"				\
-				:					\
-				:"a"(n << 3)				\
-				:"memory");				\
-}while(0)
-
-/*
-
-*/
-
-
-
-
-extern inline void set_intr_gate(unsigned int n,unsigned char ist,void * addr)
-{
-	    _set_gate(IDT_Table + n , 0x8E , ist , addr);	//P,DPL=0,TYPE=E
+void set_idt_entry(unsigned short index, unsigned long handler_address, unsigned short selector, unsigned char dpl, unsigned char type, unsigned char ist) {
+	//unregister it first
+    struct IDT_entry entry={0};							//temp entry
+	IDT_Table[index]=entry;
+    entry.offset_low = handler_address & 0xFFFF;	//low address
+    entry.selector = selector;						//selector number
+    entry.ist = ist & 0x7;							//clear the reserved field using AND
+    entry.type_attr = (dpl & 0x3) << 5 | (1 << 4) | type;	//typde filed
+    entry.offset_mid = (handler_address >> 16) & 0xFFFF;	//address middle
+    entry.offset_high = handler_address >> 32;				//address high
+    entry.zero = 0;											//high reserved field
+    IDT_Table[index] = entry;
 }
 
-/*
-
-*/
-
-extern inline void set_trap_gate(unsigned int n,unsigned char ist,void * addr)
-{
-	_set_gate(IDT_Table + n , 0x8F , ist , addr);	//P,DPL=0,TYPE=F
-}
-
-/*
-
-*/
-
-inline void set_system_gate(unsigned int n,unsigned char ist,void * addr)
-{
-	_set_gate(IDT_Table + n , 0xEF , ist , addr);	//P,DPL=3,TYPE=F
-}
-
-/*
-
-*/
-
-inline void set_system_intr_gate(unsigned int n,unsigned char ist,void * addr)	//int3
-{
-	_set_gate(IDT_Table + n , 0xEE , ist , addr);	//P,DPL=3,TYPE=E
-}
-
-
-/*
-
-*/
-
-//set Inturrupt Stack Table (IST)
-extern void set_tss64(unsigned long rsp0,unsigned long rsp1,unsigned long rsp2,unsigned long ist1,unsigned long ist2,unsigned long ist3,
-unsigned long ist4,unsigned long ist5,unsigned long ist6,unsigned long ist7)
-{
-	*(unsigned long *)(TSS64_Table+1) = rsp0;
-	*(unsigned long *)(TSS64_Table+3) = rsp1;
-	*(unsigned long *)(TSS64_Table+5) = rsp2;
-
-	*(unsigned long *)(TSS64_Table+9) = ist1;
-	*(unsigned long *)(TSS64_Table+11) = ist2;
-	*(unsigned long *)(TSS64_Table+13) = ist3;
-	*(unsigned long *)(TSS64_Table+15) = ist4;
-	*(unsigned long *)(TSS64_Table+17) = ist5;
-	*(unsigned long *)(TSS64_Table+19) = ist6;
-	*(unsigned long *)(TSS64_Table+21) = ist7;	
-}
+//https://wiki.osdev.org/I_Can%27t_Get_Interrupts_Working#My_handler_doesn.27t_get_called.3F.21_.28Assembly.29
+//https://wiki.osdev.org/IDT
