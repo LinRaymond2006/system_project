@@ -175,7 +175,14 @@ dummy_INThandler:
  popq %rbx
  popq %rax
  sti
-# 188 "head.S"
+
+ label_halt:
+  nop
+  nop
+  nop
+  nop
+  jmp label_halt
+
  iretq
 
 
