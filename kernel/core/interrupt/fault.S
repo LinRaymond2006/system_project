@@ -62,7 +62,7 @@ IsrPrologue:
     //invoke handler function
 	callq 	*%rdx
 
-	jmp	exit_isr	
+	jmp	IsrEpilogue	
 
 IsrEpilogue:
 	popq %r15
@@ -93,12 +93,13 @@ IsrEpilogue:
 
 
 
-
+.extern aaa
 registeryDE:
 	pushq	$0          //error code
 	pushq	%rax        //save old rax value
     //use rax as function pointer
-	leaq	do_divide_error(%rip),	%rax
-    //set program
+	leaq	aaa(%rip),	%rax
 	xchgq	%rax,	(%rsp)
     jmp IsrPrologue
+
+

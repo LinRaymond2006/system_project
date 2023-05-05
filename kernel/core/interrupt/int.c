@@ -9,10 +9,10 @@ struct IDT_entry {
 };
 
 // IDT table
-extern struct IDT_entry IDT_Table[];
+extern struct IDT_entry IDT_Table[255];
 
 // IDT pointer
-extern void IDT_POINTER();
+extern void *IDT_POINTER;
 
 void set_idt_entry(unsigned short index, unsigned long handler_address, unsigned short selector, unsigned char dpl, unsigned char type, unsigned char ist) {
     struct IDT_entry entry={0};							//temp entry

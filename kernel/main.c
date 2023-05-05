@@ -23,7 +23,7 @@ void Start_Kernel(void) {
     return;
 }
 
-void aaa() {
+extern void aaa() {
     printf("\n%s invoked\n", __PRETTY_FUNCTION__);
     while(1) ;
 }

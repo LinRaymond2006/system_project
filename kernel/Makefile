@@ -36,5 +36,5 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/string.o: stdlib/src/string.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/int.o: core/interrupt/int.c core/interrupt/fault.h core/interrupt/fault_irq.h core/interrupt/gate.h
+../build/tmp/kernel/int.o: core/interrupt/int.c core/interrupt/fault.S core/interrupt/fault_irq.h core/interrupt/gate.h
 	make all -C core
