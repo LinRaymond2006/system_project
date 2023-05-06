@@ -178,8 +178,8 @@ void printf(const char* format, ...) {
         } else if (*p=='\n') {
 			screen->cursor->t_posX=0;
 			if (screen->cursor->t_posY > screen->cursor->text_resY-1) {
-				;
 				//roll line
+				scroll_line(1);
 			} else {
 				screen->cursor->t_posY++;
 			}
