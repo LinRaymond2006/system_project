@@ -3,7 +3,7 @@ AS := as
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
-CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ 
+CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ -I ./def $(CFLAGS_NO_OPTIMIZE)
 CFLAGS_NO_OPTIMIZE := -O0
 KERNEL_LDFLAGS :=  -static -b elf64-x86-64 -L ../build/tmp/kernel/
 ASFLAGS := --64

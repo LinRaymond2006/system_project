@@ -4,10 +4,17 @@
 # 1 "/usr/include/stdc-predef.h" 1 3 4
 # 0 "<command-line>" 2
 # 1 "fault.S"
-# 1 "../../def/linkage.h" 1
-# 2 "fault.S" 2
 # 26 "fault.S"
-IsrPrologue:
+.globl divide_error
+
+divide_error:
+ pushq $0
+ pushq %rax
+ leaq do_divide_error(%rip), %rax
+ xchgq %rax, (%rsp)
+ jmp IsrLauncher
+
+IsrLauncher:
 
  pushq %rax
 
@@ -34,21 +41,17 @@ IsrPrologue:
 
  cld
  movq 0x90(%rsp), %rsi
- movq 0x88(%rsp), %rdx
-
 
  movq $0x10, %rdi
  movq %rdi, %ds
  movq %rdi, %es
 
-
  movq %rsp, %rdi
+
+ movq 0x88(%rsp), %rdx
 
  callq *%rdx
 
- jmp IsrEpilogue
-
-IsrEpilogue:
  popq %r15
  popq %r14
  popq %r13
@@ -71,17 +74,6 @@ IsrEpilogue:
  movq %rax, %es
 
  popq %rax
- addq $0x10, %rsp
+
+ addq $(0x8+0x8), %rsp
  iretq
-
-
-
-
-.extern aaa
-registeryDE:
- pushq $0
- pushq %rax
-
- leaq aaa(%rip), %rax
- xchgq %rax, (%rsp)
-    jmp IsrPrologue

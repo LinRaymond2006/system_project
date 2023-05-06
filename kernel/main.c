@@ -6,14 +6,15 @@
 extern void *IDT_POINTER;
 extern inline void set_idt_entry();
 extern void set_tsstable();
-void aaa();
+extern void aaa();
+extern void divide_error();
 
 void Start_Kernel(void) {
     printf("kernel started, function %s running\n", __FUNCTION__);
     set_tsstable(0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
-    set_idt_entry(0x0, (unsigned long)&aaa, 0x08, 0, 0xf, 0);
-    set_idt_entry(0x80, (unsigned long)&aaa, 0x08, 0, 0xE, 0);
-    __asm__ __volatile__ ("lidt %0": : "m"(IDT_POINTER):);
+    set_idt_entry(0x0, (unsigned long)&divide_error, 0x08, 0, 0xf, 0);
+    //set_idt_entry(0x80, (unsigned long)&aaa, 0x08, 0, 0xE, 0);
+    //__asm__ __volatile__ ("lidt %0"::"m"(IDT_POINTER):);
     //__asm__ __volatile__ ("int $0x80":::);
     int i=1;
     int b=i/0;
@@ -21,9 +22,4 @@ void Start_Kernel(void) {
         ;
     }
     return;
-}
-
-extern void aaa() {
-    printf("\n%s invoked\n", __PRETTY_FUNCTION__);
-    while(1) ;
 }

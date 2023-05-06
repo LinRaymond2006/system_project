@@ -6,6 +6,7 @@
 #include "stdlib.h"
 #include "fonts/vgabios_font.h"
 #include "fonts/colors.h"
+//test
 
 typedef unsigned long size_t;
 
@@ -165,7 +166,7 @@ void printf(const char* format, ...) {
 					putchar('0');
 					putchar('x');
                     ptr_arg = va_arg(arg_list, void *);
-                    itoa((unsigned int)ptr_arg, buffer, 16);
+                    utoa((unsigned long)ptr_arg, buffer, 16);
                     putstr(buffer, strlen(buffer));
                     break;
                 case '%':

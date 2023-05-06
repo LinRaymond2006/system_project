@@ -1,4 +1,3 @@
-#include "linkage.h"
 #define REG_R15 0x00
 #define REG_R14 0x08
 #define REG_R13 0x10
@@ -23,16 +22,26 @@
 #define CREG_RFLAGS 0xa8
 #define REG_RSP_OLD 0xb0
 #define SREG_SS_OLD 0xb8
-IsrPrologue:
-    //pushq %rax
+
+.globl divide_error
+
+divide_error:
+	pushq	$0
 	pushq	%rax
-    //pushq %es
+	leaq	do_divide_error(%rip),	%rax
+	xchgq	%rax,	(%rsp)
+	jmp IsrLauncher
+
+IsrLauncher:
+	//push rax
+	pushq	%rax
+	//push es
 	movq	%es,	%rax
 	pushq	%rax
-    //pushq %ds
+	//push ds
 	movq	%ds,	%rax
 	pushq	%rax
-    //push other registers
+
 	pushq	%rbp
 	pushq	%rdi
 	pushq	%rsi
@@ -50,56 +59,39 @@ IsrPrologue:
 	
 	cld
 	movq	ERRCODE(%rsp),	%rsi
-	movq	HANDLER_ADDR(%rsp),	%rdx	
-    
-    //kernel 64 bit data selector
+
 	movq	$0x10,	%rdi
 	movq	%rdi,	%ds
 	movq	%rdi,	%es
 
-    //save the old rsp into rdi
 	movq	%rsp,	%rdi
-    //invoke handler function
+
+	movq	HANDLER_ADDR(%rsp),	%rdx
+	//
 	callq 	*%rdx
 
-	jmp	IsrEpilogue	
-
-IsrEpilogue:
-	popq %r15
-	popq %r14
-	popq %r13
-	popq %r12
-	popq %r11
-	popq %r10
-	popq %r9
-	popq %r8
-	popq %rbx
-	popq %rcx
-	popq %rdx
-	popq %rsi
-	popq %rdi
-	popq %rbp
-    //popq %ds
-	popq %rax
-	movq %rax, %ds
-    //popq %es
-	popq %rax
-	movq %rax, %es
-    //popq %rax
-	popq %rax
-	addq $0x10, %rsp
+	popq	%r15		
+	popq	%r14		
+	popq	%r13		
+	popq	%r12		
+	popq	%r11		
+	popq	%r10		
+	popq	%r9		
+	popq	%r8		
+	popq	%rbx		
+	popq	%rcx		
+	popq	%rdx		
+	popq	%rsi		
+	popq	%rdi		
+	popq	%rbp		
+	//pop ds
+	popq	%rax		
+	movq	%rax,	%ds	
+	//pop es
+	popq	%rax		
+	movq	%rax,	%es	
+	//pop rax
+	popq	%rax		
+	//balance the stack (pushq $0;pushq %rax)
+	addq	$(0x8+0x8),	%rsp	
 	iretq
-
-
-
-
-.extern aaa
-registeryDE:
-	pushq	$0          //error code
-	pushq	%rax        //save old rax value
-    //use rax as function pointer
-	leaq	aaa(%rip),	%rax
-	xchgq	%rax,	(%rsp)
-    jmp IsrPrologue
-
-

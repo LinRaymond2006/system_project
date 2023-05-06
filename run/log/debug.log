@@ -1,0 +1,56 @@
+Next at t=0
+(0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
+b 0x104147
+c
+(0) Breakpoint 1, 0xffff800000104147 in ?? ()
+Next at t=18374186
+(0) [0x000000104147] 0008:ffff800000104147 (unk. ctxt): cdq                       ; 99
+regs
+CPU0:
+rax: 00000000_00000001
+rbx: ffff8000_00107c38
+rcx: 00000000_00000000
+rdx: 00000000_ffff8000
+rsp: ffff8000_00007bd8
+rbp: ffff8000_00007bf8
+rsi: 00000000_00000008
+rdi: 00000000_00000000
+r8 : 00000000_00000000
+r9 : 00000000_00000000
+r10: 00000000_0000000f
+r11: 00000000_00003a53
+r12: 00000000_00000000
+r13: 00000000_00000000
+r14: 00000000_00000000
+r15: ffff8000_00107c38
+rip: ffff8000_00104147
+eflags 0x00200046: ID vip vif ac vm rf nt IOPL=0 of df if tf sf ZF af PF cf
+n
+Next at t=18374187
+(0) [0x000000104148] 0008:ffff800000104148 (unk. ctxt): idiv eax, ecx             ; f7f9
+regs
+CPU0:
+rax: 00000000_00000001
+rbx: ffff8000_00107c38
+rcx: 00000000_00000000
+rdx: 00000000_00000000
+rsp: ffff8000_00007bd8
+rbp: ffff8000_00007bf8
+rsi: 00000000_00000008
+rdi: 00000000_00000000
+r8 : 00000000_00000000
+r9 : 00000000_00000000
+r10: 00000000_0000000f
+r11: 00000000_00003a53
+r12: 00000000_00000000
+r13: 00000000_00000000
+r14: 00000000_00000000
+r15: ffff8000_00107c38
+rip: ffff8000_00104148
+eflags 0x00200046: ID vip vif ac vm rf nt IOPL=0 of df if tf sf ZF af PF cf
+c
+Next at t=121391324
+(0) [0x0000001041da] 0008:ffff8000001041da (unk. ctxt): nop                       ; 90
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[121391324] [0x0000001041da] 0008:ffff8000001041da (unk. ctxt): nop                       ; 90

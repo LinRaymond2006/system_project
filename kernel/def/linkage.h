@@ -4,7 +4,7 @@
 #define L1_ALIGNMENT 32
 
 /* gcc compiler directive */
-#define asmlinkage __attribute__ ( (regparm(0)) )
+#define asmlinkage __attribute__ ((regparm(0)))
 /* alignment definition */
 #define CACHE_ALIGNED __attribute__ ( ( __aligned__(L1_ALIGNMENT) ) )
 

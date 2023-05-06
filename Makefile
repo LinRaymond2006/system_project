@@ -38,7 +38,18 @@ cleanup: FORCE
 	-mkdir $(build_dir)/rootfs
 	-mkdir $(mnt_point)
 
-sym:
+sym: FORCE
 	nm build/tmp/kernel/kernel.elf
+
+symbol ?= Start_Kernel
+file ?= $(build_dir)/tmp/kernel/kernel.elf
+
+disasm:	FORCE
+	objdump -Mintel --disassemble=$(symbol) $(file)
+
+addr ?= 0
+
+findsym: FORCE
+	nm $(file) | grep $(addr)
 
 FORCE: ; 
