@@ -145,6 +145,8 @@ void printf(const char* format, ...) {
                 case 'd':
                     int_arg = va_arg(arg_list, int);
                     itoa(int_arg, buffer, 10);
+					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+						putchar('0');
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'c':
@@ -155,11 +157,15 @@ void printf(const char* format, ...) {
                 case 'u':
                     uint_arg = va_arg(arg_list, unsigned int);
                     itoa(uint_arg, buffer, 10);
+					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+						putchar('0');
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'x':
                     uint_arg = va_arg(arg_list, unsigned int);
                     itoa(uint_arg, buffer, 16);
+					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+						putchar('0');
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'p':
@@ -167,6 +173,8 @@ void printf(const char* format, ...) {
 					putchar('x');
                     ptr_arg = va_arg(arg_list, void *);
                     utoa((unsigned long)ptr_arg, buffer, 16);
+					for (int rest_count=0;rest_count<(16-strlen(buffer));rest_count++)
+						putchar('0');
                     putstr(buffer, strlen(buffer));
                     break;
                 case '%':

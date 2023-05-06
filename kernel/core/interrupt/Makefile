@@ -11,8 +11,8 @@ all: ../../../build/tmp/kernel/int.o
 
 
 ../../../build/tmp/kernel/int.o: int.c fault_irq.h fault.S gate.h
-	#expand the fault.s first
-	$(CC) -I ../../stdlib/ -I ../../def -E fault.S > ../../../build/tmp/kernel/exception.s
-	$(CC) $(CFLAGS) -c ../../../build/tmp/kernel/exception.s -o ../../../build/tmp/kernel/exception.o
+	#$(CC) -I ../../stdlib/ -I ../../def -E fault.S > ../../../build/tmp/kernel/exception.s
+	#$(CC) $(CFLAGS) -c ../../../build/tmp/kernel/exception.s -o ../../../build/tmp/kernel/exception.o
+	$(CC) $(CFLAGS) -c fault.S -o ../../../build/tmp/kernel/exception.o
 	$(CC) $(CFLAGS) $(CFLAGS_NO_OPTIMIZE) -c -shared $< -o ../../../build/tmp/kernel/int_gate.o
 	$(LD) $(LDFLAGS) -r ../../../build/tmp/kernel/int_gate.o ../../../build/tmp/kernel/exception.o -o $@

@@ -1,8 +1,3 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 c
-Next at t=421972090
-(0) [0x0000001041da] 0008:ffff8000001041da (unk. ctxt): nop                       ; 90
-fgets() returned ERROR.
-debugger interrupt request was 0
-(0).[421972090] [0x0000001041da] 0008:ffff8000001041da (unk. ctxt): nop                       ; 90
