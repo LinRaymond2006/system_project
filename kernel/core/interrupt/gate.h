@@ -42,107 +42,169 @@ SREG:\n\
 *r9 , *r10, *r11, *r12, \
 *r13, *r14, *r15,      \
 *ds, *es              \
-);\	
-while(1);													\
-return;
+);
+
+#define PRINT_SELECTOR_ERR	\
+printf("segment selector index: %d, type: ", errcode&0b1111111111000);	\
+switch ((errcode>>1)&0b11) {	\
+	case 0b00:	\
+		printf("GDT (0b00)");	\
+		break;	\
+	case 0b10:	\
+		printf("LDT (0b10)");	\
+		break;	\
+	default:	\
+		printf("IDT (0b01 / 0b11)");	\
+}	\
+printf(", originated by external event: %s\n", ((errcode&0b1) ? "true" : "false"));
+
+
+
+#define HALT_HANDLER while(1);
+
+//check out intel 64 and IA-32 Architectures Software Developer’s Manual Vol 3A, chapter 6.14.1 for a refernce
 
 
 
 extern void DE_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void DB_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void NMI_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void BP_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void OF_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void BR_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void UD_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void NM_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void DF_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void FPU_SEG_ERR_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void TS_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
+	PRINT_SELECTOR_ERR
 	PRINT_REG
+	
+
+	HALT_HANDLER
 }
 extern void NP_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
+	PRINT_SELECTOR_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void SS_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
+	PRINT_SELECTOR_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void GP_handler(ERROR_STACK_PRAM) {
+	/*
+	1.segment error (invalid settings of descriptor fields, refererncing a null descriptor...)
+	2.privilleged instruction execution from the user ring
+	3.attemping to write value into reserved register
+	4.invalid value combinations
+	*/
 	PRINT_ERR
+	PRINT_SELECTOR_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void PF_handler(ERROR_STACK_PRAM) {
+	//with a different erro code format
 	PRINT_ERR
+
+	printf("reason:          %s", ((errcode&0b1) ? "page protection violation" : "page not presented"));
+	printf("  activity:        %s", ((errcode&0b10) ? "write attempted" : "read attemped"));
+	printf("  ring privillege: %s", ((errcode&0b100) ? "user (cpl = 3)" : "non-user (cpl != 3)"));
+	//if the reserved write is set: cr4.pse || cr4.pae is set 
+	printf("  attempt")
+
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void MF_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void AC_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void MC_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 //aka XF
 extern void XM_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void VE_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void CP_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void HV_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void VC_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 extern void SX_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_REG
+	HALT_HANDLER
 }
 

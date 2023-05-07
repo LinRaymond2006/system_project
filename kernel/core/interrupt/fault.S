@@ -170,6 +170,7 @@ Isr_NM:
 .globl Isr_DF
 .extern DF_handler
 Isr_DF:
+	//has a dummy error code of zero saved by the processor
 	pushq %rax	
 	leaq DF_handler(%rip), %rax
 	jmp IsrLauncher
