@@ -134,7 +134,9 @@ void printf(const char* format, ...) {
     unsigned int uint_arg;
     void *ptr_arg;
     const char *p;
-
+	int pad_flag=0;
+	int rest_count=0;
+	int i=0;
     for (p = format; *p != '\0'; p++) {
         if (*p == '%') {
             switch (*(++p)) {
@@ -145,27 +147,30 @@ void printf(const char* format, ...) {
                 case 'd':
                     int_arg = va_arg(arg_list, int);
                     itoa(int_arg, buffer, 10);
-					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+					for (rest_count=0;rest_count<(8-strlen(buffer));rest_count++) {
 						putchar('0');
+					}
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'c':
                     int_arg = va_arg(arg_list, int); // use int_arg instead of char_arg
-                    char_arg = (char) int_arg; // convert int_arg back to char
+                    char_arg = (char)int_arg; // convert int_arg back to char
                     putchar(char_arg);
                     break;
                 case 'u':
                     uint_arg = va_arg(arg_list, unsigned int);
-                    itoa(uint_arg, buffer, 10);
-					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+                    utoa(uint_arg, buffer, 10);
+					for (rest_count=0;rest_count<(8-strlen(buffer));rest_count++) {
 						putchar('0');
+					}
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'x':
                     uint_arg = va_arg(arg_list, unsigned int);
-                    itoa(uint_arg, buffer, 16);
-					for (int rest_count=0;rest_count<(8-strlen(buffer));rest_count++)
+                    utoa(uint_arg, buffer, 16);
+					for (rest_count=0;rest_count<(8-strlen(buffer));rest_count++) {
 						putchar('0');
+					}
                     putstr(buffer, strlen(buffer));
                     break;
                 case 'p':
@@ -173,8 +178,9 @@ void printf(const char* format, ...) {
 					putchar('x');
                     ptr_arg = va_arg(arg_list, void *);
                     utoa((unsigned long)ptr_arg, buffer, 16);
-					for (int rest_count=0;rest_count<(16-strlen(buffer));rest_count++)
+					for (rest_count=0;rest_count<(16-strlen(buffer));rest_count++) {
 						putchar('0');
+					}
                     putstr(buffer, strlen(buffer));
                     break;
                 case '%':
@@ -188,6 +194,10 @@ void printf(const char* format, ...) {
 			if (screen->cursor->t_posY > screen->cursor->text_resY-1) {
 				//roll line
 				scroll_line(1);
+				for (i=0;i<(screen->cursor->text_resX);i++) {
+					putchar(' ');
+					screen->cursor->t_posX=0;
+				}
 			} else {
 				screen->cursor->t_posY++;
 			}

@@ -3,7 +3,7 @@ AS := as
 CC := gcc
 LD := ld
 OBJCOPY := objcopy
-CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ -I ./def $(CFLAGS_NO_OPTIMIZE)
+CFLAGS := -mcmodel=large -ffreestanding -fno-builtin -m64 -nostdlib -nodefaultlibs -I ./stdlib/ -I ./def -I ./core/
 CFLAGS_NO_OPTIMIZE := -O0
 KERNEL_LDFLAGS :=  -static -b elf64-x86-64 -L ../build/tmp/kernel/
 ASFLAGS := --64
@@ -36,5 +36,5 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/string.o: stdlib/src/string.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/int.o: core/interrupt/int.c core/interrupt/fault.S core/interrupt/fault_irq.h core/interrupt/gate.h
+../build/tmp/kernel/int.o: core/interrupt/handler.c core/interrupt/fault_irq.h core/interrupt/isr_launcher.S core/interrupt/reg_irq.h core/interrupt/error_handler.h
 	make all -C core

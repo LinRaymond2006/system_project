@@ -10,9 +10,7 @@ LDFLAGS := -static -b elf64-x86-64
 all: ../../../build/tmp/kernel/int.o
 
 
-../../../build/tmp/kernel/int.o: int.c fault_irq.h fault.S gate.h
-	#$(CC) -I ../../stdlib/ -I ../../def -E fault.S > ../../../build/tmp/kernel/exception.s
-	#$(CC) $(CFLAGS) -c ../../../build/tmp/kernel/exception.s -o ../../../build/tmp/kernel/exception.o
-	$(CC) $(CFLAGS) -c fault.S -o ../../../build/tmp/kernel/exception.o
-	$(CC) $(CFLAGS) $(CFLAGS_NO_OPTIMIZE) -c -shared $< -o ../../../build/tmp/kernel/int_gate.o
-	$(LD) $(LDFLAGS) -r ../../../build/tmp/kernel/int_gate.o ../../../build/tmp/kernel/exception.o -o $@
+../../../build/tmp/kernel/int.o: handler.c fault_irq.h isr_launcher.S reg_irq.h error_handler.h
+	$(CC) $(CFLAGS) -c isr_launcher.S -o ../../../build/tmp/kernel/isr.o
+	$(CC) $(CFLAGS) -c -shared $< -o ../../../build/tmp/kernel/err_handler.o
+	$(LD) $(LDFLAGS) -r ../../../build/tmp/kernel/err_handler.o ../../../build/tmp/kernel/isr.o -o $@
