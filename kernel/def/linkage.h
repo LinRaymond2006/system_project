@@ -14,6 +14,10 @@
 #define SYM_NAME(SYMBOL) #SYMBOL
 /* define a label */
 #define DEF_LABEL(LABEL_NAME) LABEL_NAME##:
+/* function alias */
+#define FUNC_ALIAS(FUNC) __attribute__((alias(SYM_NAME(FUNC))))
+/* function alias, but can be overwritten by other function with same name*/
+#define WEAK_FUNC_ALIAS(FUNC) __attribute__((weak, alias(SYM_NAME(FUNC))))
 
 /* define a GLOBAL label */
 #define GLOBAL_LABEL(LABEL_NAME)                \

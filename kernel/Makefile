@@ -10,7 +10,7 @@ ASFLAGS := --64
 
 all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 
-../build/rootfs/KERNEL.SYS: ../build/tmp/kernel/head.o ../build/tmp/kernel/kernel.o ../build/tmp/kernel/int.o#remember to write all the object file in specifc order ($^ = all the source file list)
+../build/rootfs/KERNEL.SYS: ../build/tmp/kernel/head.o ../build/tmp/kernel/kernel.o ../build/tmp/kernel/int.o ../build/tmp/kernel/pic.o#remember to write all the object file in specifc order ($^ = all the source file list)
 #kernel.elf: complete image of kernel (in ELF64 file format)
 #KERNEL.SYS: machine code extracted from "kernel.elf"
 	ld $(KERNEL_LDFLAGS) -T kernel.lds -o ../build/tmp/kernel/kernel.elf $^ -los
@@ -36,5 +36,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/string.o: stdlib/src/string.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/int.o: core/interrupt/handler.c core/interrupt/fault_irq.h core/interrupt/isr_launcher.S core/interrupt/reg_irq.h core/interrupt/error_handler.h
+#need to be rewriten
+../build/tmp/kernel/int.o: core/interrupt/exception/handler.c core/interrupt/exception/fault_irq.h core/interrupt/exception/isr_launcher.S core/interrupt/exception/reg_irq.h core/interrupt/exception/error_handler.h
+../build/tmp/kernel/pic.o: core/interrupt/pic/8259A.c core/interrupt/pic/8259A_cw.h
 	make all -C core
