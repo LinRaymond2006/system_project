@@ -9,6 +9,9 @@ LDFLAGS := -static -b elf64-x86-64
 
 all: ../../../../build/tmp/kernel/pic.o
 
-
-../../../../build/tmp/kernel/pic.o: 8259A.c 8259A_cw.h
+../../../../build/tmp/kernel/pic.o: 8259A.c 8259A_cw.h ../../../../build/tmp/kernel/8259A_handler.o
 	$(CC) $(CFLAGS) -c $< -o ../../../../build/tmp/kernel/pic.o
+	$(LD) $(LDFLAGS) -r ../../../../build/tmp/kernel/pic.o ../../../../build/tmp/kernel/8259A_handler.o -o ../../../../build/tmp/kernel/pic_tmp.o
+	mv ../../../../build/tmp/kernel/pic_tmp.o ../../../../build/tmp/kernel/pic.o
+../../../../build/tmp/kernel/8259A_handler.o: 8259A_handler.c 8259A_cw.h
+	$(CC) $(CFLAGS) -c 8259A_handler.c -o ../../../../build/tmp/kernel/8259A_handler.o

@@ -29,7 +29,6 @@
 //--------------------------
 
 
-
 IsrLauncher:
 	//write the handler address into stack
 	xchgq %rax, (%rsp)
@@ -71,7 +70,8 @@ IsrLauncher:
 	
 
 	callq *%rdx
-
+.globl ExitIsr
+ExitIsr:
 	popq %rax
 	popq %rbx
 	popq %rcx
@@ -95,8 +95,9 @@ IsrLauncher:
 	movq %rax, %es
 
 
-	//balance the stack (pushq $0;pushq %rax)
-	addq $(0x8+0x8), %rsp	
+	//balance the stack (error code, handler)
+	//other stuff are maintain by the processor
+	addq $(0x8+0x8), %rsp
 	iretq
 
 
@@ -123,6 +124,7 @@ Isr_DB:
 .globl Isr_NMI
 .extern NMI_handler
 Isr_NMI:
+	pushq $0
 	pushq %rax	
 	leaq NMI_handler(%rip), %rax
 	jmp IsrLauncher

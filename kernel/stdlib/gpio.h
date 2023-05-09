@@ -27,7 +27,7 @@ volatile extern inline int in_d(unsigned int Port) {
 				:"memory");
 	return Data;
 }
-volatile extern inline void in_l(unsigned int Port) WEAK_FUNC_ALIAS(in_d)
+volatile extern inline void in_l(unsigned int Port) {} WEAK_FUNC_ALIAS(in_d);
 
 
 
@@ -53,7 +53,7 @@ volatile extern inline void out_d(unsigned int Port,unsigned int Data) {
 				:"memory");
 	return;
 }
-volatile extern inline void out_l(unsigned int Port,unsigned int Data) WEAK_FUNC_ALIAS(out_d)
+volatile extern inline void out_l(unsigned int Port,unsigned int Data) {} WEAK_FUNC_ALIAS(out_d);
 
 
 #endif

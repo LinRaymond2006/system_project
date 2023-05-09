@@ -1,5 +1,6 @@
 #include "8259A_cw.h"
-
+#include "reg_irq.h"
+#include "linkage.h"
 void SetMasterIrq(char Irq, char Icw1, char PinMap, char Icw4) {
     //ICW1
     out_b(MASTER_ICW1_PORT, Icw1);
@@ -34,6 +35,7 @@ void ConfigMasterOcw(char Ocw1, char Ocw2, char Ocw3) {
     out_b(MASTER_OCW2_PORT, Ocw2);
     //OCW3
     out_b(MASTER_OCW3_PORT, Ocw3);
+    return;
 
 }
 void ConfigSlaveOcw(char Ocw1, char Ocw2, char Ocw3) {
@@ -43,4 +45,5 @@ void ConfigSlaveOcw(char Ocw1, char Ocw2, char Ocw3) {
     out_b(SLAVE_OCW2_PORT, Ocw2);
     //OCW3
     out_b(SLAVE_OCW3_PORT, Ocw3);
+    return;
 }

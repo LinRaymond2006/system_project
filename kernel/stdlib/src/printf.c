@@ -59,41 +59,48 @@ DISPALY_DESCRIPTOR *screen = &scrn;
 //the font isn't hardcoded into the file, instead, it is pointed by a pointer, so any 2d array holding 256 unsinged chars are valid, giving programmer more flexibility
 unsigned char *default_font = (unsigned char *)&VGABIOS_font;
 
-//will not update the cursor automatically
 void putchar(unsigned char ascii) {
 	//screen->cursor->posX=(screen->cursor->t_posX*FONT_COLS);
 	//screen->cursor->posY=(screen->cursor->t_posY*FONT_ROWS);
-	int rows, cols, bitmask;
-	unsigned int *pixel_ptr;
-	unsigned char *line_ptr=default_font+((int)ascii*16);
-	unsigned int d_front=screen->cursor->default_front, d_back=screen->cursor->default_back;
-	for(rows=0;rows < FONT_ROWS;rows++) {
-		//increment of int pointer was in size of 4
-		pixel_ptr=screen->frame_buffer + screen->resX*((screen->cursor->t_posY*FONT_ROWS)+rows)+(screen->cursor->t_posX*FONT_COLS);
-		bitmask=0b10000000;
-		for(cols=0;cols < FONT_COLS;cols++) {
-			if(*line_ptr & bitmask) {
-				*pixel_ptr=d_front;
-			} else {
-				*pixel_ptr=d_back;
-			}
-			pixel_ptr++;
-			bitmask >>= 1;
-		}
-		line_ptr++;		
-	}
-	screen->cursor->t_posX++;
-	if (screen->cursor->t_posX > screen->cursor->text_resX) {	//new line is required
-		screen->cursor->t_posX = 0;
-		if (screen->cursor->t_posY==screen->cursor->text_resY) {	//page need to be rolled
-			;	//replace it with real page rolling function later
-			screen->cursor->t_posY--;
-		} else {
-			screen->cursor->t_posY++;
-		}
-	}
-	return;
+    int rows, cols, bitmask;
+    unsigned int *pixel_ptr;
+    unsigned char *line_ptr = default_font + ((int) ascii * 16);
+    unsigned int d_front = screen->cursor->default_front, d_back = screen->cursor->default_back;
+
+    // check if the current position is at the end of the line and move to the beginning of the next line if necessary
+    if (screen->cursor->t_posX >= screen->cursor->text_resX) {
+        screen->cursor->t_posX = 0;
+        screen->cursor->t_posY++;
+        if (screen->cursor->t_posY >= screen->cursor->text_resY) {
+            // scroll the screen up by one line
+            scroll_line(1);
+            screen->cursor->t_posY--;
+        }
+    }
+
+    // draw the character
+    for (rows = 0; rows < FONT_ROWS; rows++) {
+        pixel_ptr = screen->frame_buffer + screen->resX * ((screen->cursor->t_posY * FONT_ROWS) + rows) +
+                    (screen->cursor->t_posX * FONT_COLS);
+        bitmask = 0b10000000;
+        for (cols = 0; cols < FONT_COLS; cols++) {
+            if (*line_ptr & bitmask) {
+                *pixel_ptr = d_front;
+            } else {
+                *pixel_ptr = d_back;
+            }
+            pixel_ptr++;
+            bitmask >>= 1;
+        }
+        line_ptr++;
+    }
+
+    // update the cursor position
+    screen->cursor->t_posX++;
+
+    return;
 }
+
 
 void putstr(char *buffer, unsigned int length) {
 	unsigned int i;
@@ -196,8 +203,8 @@ void printf(const char* format, ...) {
 				scroll_line(1);
 				for (i=0;i<(screen->cursor->text_resX);i++) {
 					putchar(' ');
-					screen->cursor->t_posX=0;
 				}
+				screen->cursor->t_posX=0;
 			} else {
 				screen->cursor->t_posY++;
 			}
