@@ -36,7 +36,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/string.o: stdlib/src/string.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
-#need to be rewriten
-../build/tmp/kernel/int.o: core/interrupt/exception/handler.c core/interrupt/exception/fault_irq.h core/interrupt/exception/reg_irq.c core/interrupt/exception/isr_launcher.S core/interrupt/exception/error_handler.h
-../build/tmp/kernel/pic.o: core/interrupt/pic/8259A.c core/interrupt/pic/8259A_cw.h
+#file list need to be rewriten
+../build/tmp/kernel/int.o: core/interrupt/exception/*
+../build/tmp/kernel/pic.o: core/interrupt/pic/*
 	make all -C core

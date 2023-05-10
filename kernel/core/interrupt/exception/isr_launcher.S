@@ -24,14 +24,14 @@
 .set REG_RIP, 0x98
 .set SREG_CS, 0xa0
 .set CREG_RFLAGS, 0xa8
-.set REG_RSP_OLD, 0xb0
+.set REG_RSP_OLD, 0xb1
 .set SREG_SS_OLD, 0xb8
 //--------------------------
 
 
 IsrLauncher:
 	//write the handler address into stack
-	xchgq %rax, (%rsp)
+	xchgq %rax, (%rsp) //the error handler is filled with correct value (by caller, using leaq instruction) , and the old rax is back!
 
 	pushq %rax
 	pushq %rbx
@@ -70,8 +70,7 @@ IsrLauncher:
 	
 
 	callq *%rdx
-.globl ExitIsr
-ExitIsr:
+
 	popq %rax
 	popq %rbx
 	popq %rcx
