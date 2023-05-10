@@ -280,7 +280,10 @@ extern void Isr_SX();
 
 extern void RegisterHandlerIrq() {
 	//the B (busy) bit will be set after a TSS is loaded into TSR, and loading it again will lead to a #TS exception
+	printf("initializing TSS table\n");
     SetTssTable(0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
+	printf("done\n");
+	printf("initializing exception handler\n");
     SetIdtEntry(EXCEPTION_DE, (unsigned long)&Isr_DE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
     SetIdtEntry(EXCEPTION_DB, (unsigned long)&Isr_DB, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
     SetIdtEntry(EXCEPTION_NMI, (unsigned long)&Isr_NMI, KERNEL_CODE_SELECTOR, DPL_SYS, INT_GATE, IST_DEFAULT_SSP);
@@ -305,5 +308,6 @@ extern void RegisterHandlerIrq() {
     SetIdtEntry(EXCEPTION_HV, (unsigned long)&Isr_HV, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
     SetIdtEntry(EXCEPTION_VC, (unsigned long)&Isr_VC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
     SetIdtEntry(EXCEPTION_SX, (unsigned long)&Isr_SX, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
+	printf("done\n");
 	return;
 }

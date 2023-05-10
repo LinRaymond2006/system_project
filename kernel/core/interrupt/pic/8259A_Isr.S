@@ -37,8 +37,9 @@ Isr_8259A_General:
     jmp PIC8259A_IsrLauncher
 
 PIC8259A_IsrLauncher:
-	cld
+	cli
 
+	cld
     pushq %rax      //real eax
 	pushq %rbx
 	pushq %rcx
@@ -97,8 +98,9 @@ PIC8259A_IsrLauncher:
 	popq %rax
 	movq %rax, %es
 
-
 	//balance the stack (error code, handler)
 	//other stuff are maintain by the processor
 	addq $(0x8+0x8), %rsp
+
+	sti
 	iretq

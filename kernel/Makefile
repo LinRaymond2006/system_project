@@ -24,7 +24,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/kernel.o: main.c
 	$(CC) -shared -c $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/libos.a: ../build/tmp/kernel/string.o ../build/tmp/kernel/stdlib.o ../build/tmp/kernel/printf.o
+../build/tmp/kernel/libos.a: ../build/tmp/kernel/string.o ../build/tmp/kernel/stdlib.o ../build/tmp/kernel/printf.o ../build/tmp/kernel/gpio.o
 	ar -r $@ $^
 
 ../build/tmp/kernel/printf.o: stdlib/src/printf.c
@@ -34,6 +34,8 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
 ../build/tmp/kernel/string.o: stdlib/src/string.c
+	$(CC) -c -static $(CFLAGS) $^ -o $@
+../build/tmp/kernel/gpio.o: stdlib/src/gpio.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
 #file list need to be rewriten
