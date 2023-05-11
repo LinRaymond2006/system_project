@@ -6,6 +6,10 @@ typedef long ssize_t;
 typedef size_t reg_sz64;
 #define ERROR_STACK_PRAM reg_sz64 rsp, reg_sz64 errcode
 
+#define CLI __asm__ __volatile__ ("cli":::);
+#define STI __asm__ __volatile__ ("sti":::);
+
+
 #define PRINT_ERR 											\
 reg_sz64 *rip = (unsigned long *)(rsp + 0x98);				\
 reg_sz64 *es = (reg_sz64 *)(rsp + 0x00);				\
@@ -61,7 +65,9 @@ printf(", originated by external event: %s\n", ((errcode&0b1) ? "true" : "false"
 
 
 
-#define HALT_HANDLER while(1);
+#define HALT_HANDLER __asm__ __volatile__ ("jmp .":::);
+//#define HALT_HANDLER while (1) ;
+
 
 //check out intel 64 and IA-32 Architectures Software Developer’s Manual Vol 3A, chapter 6.14.1 for a refernce
 
@@ -121,8 +127,6 @@ extern void TS_handler(ERROR_STACK_PRAM) {
 	PRINT_ERR
 	PRINT_SELECTOR_ERR
 	PRINT_REG
-	
-
 	HALT_HANDLER
 }
 extern void NP_handler(ERROR_STACK_PRAM) {

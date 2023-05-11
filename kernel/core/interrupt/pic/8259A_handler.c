@@ -33,7 +33,7 @@ extern void Register8259AIrq() {
     for (int i=0x20;i<0x30;i++) {
         SetIdtEntry(i, Isr_8259A_General, 0x8, 0, 0xe, 1);
     }
-	__asm__ __volatile__ ("sti":::);
+	asm volatile ("sti":::"memory");
     printf("done\n");
     return;
 }

@@ -10,8 +10,9 @@ void Start_Kernel(void) {
     Register8259AIrq();
     //int i=1/0;
 
-    while (1) {
+    __asm__ __volatile__ ("jmp .":::);
+    /*while (1) {
         ;
-    }
+    }*/
     return;
 }
