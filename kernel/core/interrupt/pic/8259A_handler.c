@@ -17,8 +17,13 @@ extern void ConfigMasterOcw(char Ocw1, char Ocw2, char Ocw3);
 extern void ConfigSlaveOcw(char Ocw1, char Ocw2, char Ocw3);
 */
 extern void Register8259AIrq() {
+	__asm__ __volatile__ ("cli":::"memory");
     printf("initializing 8259A controller\n");
     //8259A master icw
+
+    for (int i=0x20;i<0x30;i++) {
+        SetIdtEntry(i, Isr_8259A_General, 0x8, 0, 0xe, 1);
+    }
 	SetMasterIcw(0x11, 0x20, 0x04, 0x01);
 
 	//8259A slave icw
@@ -29,12 +34,29 @@ extern void Register8259AIrq() {
 	InitSlaveOcw1(0xff);
 
 	printf("registering irq for pic\n");
-
-    for (int i=0x20;i<0x30;i++) {
-        SetIdtEntry(i, Isr_8259A_General, 0x8, 0, 0xe, 1);
-    }
 	asm volatile ("sti":::"memory");
     printf("done\n");
+	__asm__ __volatile__ ("sti":::"memory");
+	/* 
+	try to replace SetMasterIcw with these code below:
+	
+	//8259A-master	ICW1-4
+	out_b(0x20,0x11);
+	out_b(0x21,0x20);
+	out_b(0x21,0x04);
+	out_b(0x21,0x01);
+
+	//8259A-slave	ICW1-4
+	out_b(0xa0,0x11);
+	out_b(0xa1,0x28);
+	out_b(0xa1,0x02);
+	out_b(0xa1,0x01);
+
+	//8259A-M/S	OCW1
+	out_b(0x21,0x00);
+	out_b(0xa1,0x00);
+	
+	*/
     return;
 }
 
