@@ -232,4 +232,53 @@ normal masking mode requires the cpu to send a end of interrupt signal while 825
 
 */
 
+
+
+//8259A pin
+/*
+8259A chipset
+    8259A master
+        PIN IR0: timer clock
+        PIN IR1: keyboard
+        PIN IR2: cascaded 8259A
+        PIN IR3: serial port 2
+        PIN IR4: serial port 1
+        PIN IR5: parellel port 2
+        PIN IR6: floppy dirver
+        PIN IR7: parellel port 1
+    8259A slave
+        PIN IR0: CMOS RTC real-time clock
+        PIN IR1: (connected to master 8259A)
+        PIN IR2: RESERVED
+        PIN IR3: RESERVED
+        PIN IR4: PS/2 mouse
+        PIN IR5: coprocessor
+        PIN IR6: SATA master
+        PIN IR7: SATA slave
+
+*/
+#define MASTER_BASE_IRQ 0x20
+#define SLAVE_BASE_IRQ 0x28
+
+#define TIMER_IRQ MASTER_BASE_IRQ+0
+#define KEYBOARD_IRQ MASTER_BASE_IRQ+1
+#define SLAVE_8259A_IRQ MASTER_BASE_IRQ+2
+#define SERIAL2_IRQ MASTER_BASE_IRQ+3
+#define SERIAL1_IRQ MASTER_BASE_IRQ+4
+#define PARELLEL2_IRQ MASTER_BASE_IRQ+5
+#define FLOPPY_IRQ MASTER_BASE_IRQ+6
+#define PARELLEL1_IRQ MASTER_BASE_IRQ+7
+
+#define CMOS_RTC_IRQ SLAVE_BASE_IRQ+0
+#define MASTER_8259A_IRQ SLAVE_8259A_IRQ+1
+#define RESERVED1_IRQ SLAVE_8259A_IRQ+2
+#define RESERVED2_IRQ SLAVE_8259A_IRQ+3
+#define PS2_MOUSE_IRQ SLAVE_8259A_IRQ+4
+#define COPROCESSOR_IRQ SLAVE_8259A_IRQ+5
+#define SATA_MASTER_IRQ SLAVE_8259A_IRQ+6
+#define SATA_SLAVE_IRQ SLAVE_8259A_IRQ+7
+
+
+
+
 #endif
