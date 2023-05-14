@@ -1,7 +1,8 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
-watch w 0xfffffffffffffff8
-write watchpoint at 0xfffffffffffffff8 len=1 inserted
 c
-Next at t=3823978034
-(0) [0x00000010718a] 0008:ffff80000010718a (unk. ctxt): jmp .-2  (0xffff80000010718a) ; ebfe
+Next at t=514037988000
+(0) [0x000000104086] 0008:ffff800000104086 (unk. ctxt): jmp .-2  (0xffff800000104086) ; ebfe
+fgets() returned ERROR.
+debugger interrupt request was 0
+(0).[514037988000] [0x000000104086] 0008:ffff800000104086 (unk. ctxt): jmp .-2  (0xffff800000104086) ; ebfe

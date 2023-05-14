@@ -71,27 +71,29 @@ IsrLauncher:
 
 	callq *%rdx
 
-	popq %rax
-	popq %rbx
-	popq %rcx
-	popq %rdx
-	popq %rsi
-	popq %rdi
-	popq %rbp
-	popq %r8
-	popq %r9
-	popq %r10
-	popq %r11
-	popq %r12
-	popq %r13
-	popq %r14
-	popq %r15
-	//popq %ds is invalid
-	popq %rax
-	movq %rax, %ds
 	//popq %es is invalid
 	popq %rax
 	movq %rax, %es
+	//popq %ds is invalid
+	popq %rax
+	movq %rax, %ds
+
+	popq %r15
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rbp
+	popq %rdi
+	popq %rsi
+	popq %rdx
+	popq %rcx
+	popq %rbx
+	popq %rax
+
 
 
 	//balance the stack (error code, handler)

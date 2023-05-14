@@ -29,12 +29,8 @@
 //--------------------------
 .globl Isr_8259A_General
 .extern PicHandlerGeneral
-Isr_8259A_General:
-    pushq $0        //dummy error code (padding), pass the #NR to the program since error code field is not used. NOTE: push constant, do not ultilize any register else
-    pushq %rax      //dummy handler (padding), store the old rax
-    leaq PicHandlerGeneral(%rip), %rax 
-    xchgq %rax, (%rsp) //the error handler is filled with correct value, and the old rax is back!
-    jmp PIC8259A_IsrLauncher
+
+
 
 PIC8259A_IsrLauncher:
 	cli
@@ -76,27 +72,29 @@ PIC8259A_IsrLauncher:
 
 	callq *%rdx
 
-	popq %rax
-	popq %rbx
-	popq %rcx
-	popq %rdx
-	popq %rsi
-	popq %rdi
-	popq %rbp
-	popq %r8
-	popq %r9
-	popq %r10
-	popq %r11
-	popq %r12
-	popq %r13
-	popq %r14
-	popq %r15
-	//popq %ds is invalid
-	popq %rax
-	movq %rax, %ds
 	//popq %es is invalid
 	popq %rax
 	movq %rax, %es
+	//popq %ds is invalid
+	popq %rax
+	movq %rax, %ds
+
+	popq %r15
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rbp
+	popq %rdi
+	popq %rsi
+	popq %rdx
+	popq %rcx
+	popq %rbx
+	popq %rax
+
 
 	//balance the stack (error code, handler)
 	//other stuff are maintain by the processor
@@ -104,3 +102,136 @@ PIC8259A_IsrLauncher:
 
 	sti
 	iretq
+
+/*
+8259A chipset
+    8259A master
+        PIN IR0: timer clock
+        PIN IR1: keyboard
+        PIN IR2: cascaded 8259A
+        PIN IR3: serial port 2
+        PIN IR4: serial port 1
+        PIN IR5: parellel port 2
+        PIN IR6: floppy dirver
+        PIN IR7: parellel port 1
+    8259A slave
+        PIN IR0: CMOS RTC real-time clock
+        PIN IR1: (connected to master 8259A)
+        PIN IR2: RESERVED
+        PIN IR3: RESERVED
+        PIN IR4: PS/2 mouse
+        PIN IR5: coprocessor
+        PIN IR6: SATA master
+        PIN IR7: SATA slave
+
+*/
+
+/*
+code explanation:
+    pushq $0                                //dummy error code (padding), pass the #NR to the program since error code field is not used. NOTE: push constant, do not ultilize any register else
+    pushq %rax                              //dummy handler (padding), store the old rax
+    leaq PicHandlerGeneral(%rip), %rax		//load the address of handler into rax register
+    xchgq %rax, (%rsp)                      //the error handler is filled with correct value, and the old rax is back!
+    jmp PIC8259A_IsrLauncher                //Launch the handler with all the value saved 
+*/
+
+//master
+.globl 8259A_Timer_handler
+8259A_Timer_handler:
+    pushq $0x0
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Keyboard_handler:
+    pushq $0x1
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Slave_handler:
+    pushq $0x2
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_SerialPort2_handler:
+    pushq $0x3
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_SerialPort1_handler:
+    pushq $0x4
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_ParellelPort2_handler:
+    pushq $0x5
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Floppy_handler:
+    pushq $0x6
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_ParellelPort1_handler:
+    pushq $0x7
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+//slave
+
+8259A_CmosRtc_handler:
+    pushq $0x8
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Master_handler:
+    pushq $0x9
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Reserved1_handler:
+    pushq $0xa
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Reserved2_handler:
+    pushq $0xb
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Ps2Mouse_handler:
+    pushq $0xc
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_Coprocessor_handler:
+    pushq $0xd
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_SataMaster_handler:
+    pushq $0xe
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher
+8259A_SataSlave_handler:
+    pushq $0xf
+    pushq %rax
+    leaq PicHandlerGeneral(%rip), %rax
+    xchgq %rax, (%rsp)
+    jmp PIC8259A_IsrLauncher

@@ -52,4 +52,7 @@ addr ?= 0
 findsym: FORCE
 	nm $(file) | grep $(addr)
 
+disasm_all: FORCE
+	objdump -Mintel -D build/tmp/kernel/kernel.elf
+
 FORCE: ; 

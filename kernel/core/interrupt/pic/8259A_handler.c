@@ -9,7 +9,8 @@ extern void SetIdtEntry(unsigned short index, unsigned long handler_address, uns
 //interrupt: DPL0, 0XE
 //trap: DPL0, 0XF
 //system call: DPL3, 0XF
-extern void *Isr_8259A_General;
+
+extern void Isr_8259A_General(void); 
 /*
 extern void SetMasterIcw(char Irq, char Icw1, char PinMap, char Icw4);
 extern void SetSlaveIcw(char Irq, char Icw1, char CascadedPin, char Icw4);
@@ -62,7 +63,8 @@ extern void Register8259AIrq() {
 
 
 extern void PicHandlerGeneral(unsigned long RegTablePtr, unsigned long nr) {
-    printf("%s just got invoked\n", __PRETTY_FUNCTION__);
+	unsigned char scancode=in_b(0x60);
+    printf("%s just got invoked with scancode %c\n", __PRETTY_FUNCTION__, scancode);
 	//not sure, do not modify for now
 	out_b(PORT0_8259A_MASTER,0x20);
     return;
