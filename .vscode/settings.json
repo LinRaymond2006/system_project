@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "string.h": "c",
+        "8259a_handler.h": "c",
+        "error_handler.h": "c",
+        "int.h": "c"
+    }
+}

@@ -1,8 +1,8 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 c
-Next at t=2007912701
-(0) [0x000000104086] 0008:ffff800000104086 (unk. ctxt): jmp .-2  (0xffff800000104086) ; ebfe
+Next at t=762471958
+(0) [0x0000001040c5] 0008:ffff8000001040c5 (unk. ctxt): jmp .-2  (0xffff8000001040c5) ; ebfe
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[2007912701] [0x000000104086] 0008:ffff800000104086 (unk. ctxt): jmp .-2  (0xffff800000104086) ; ebfe
+(0).[762471958] [0x0000001040c5] 0008:ffff8000001040c5 (unk. ctxt): jmp .-2  (0xffff8000001040c5) ; ebfe

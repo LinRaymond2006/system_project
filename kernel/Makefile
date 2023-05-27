@@ -10,10 +10,16 @@ ASFLAGS := --64
 
 all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 
-../build/rootfs/KERNEL.SYS: ../build/tmp/kernel/head.o ../build/tmp/kernel/kernel.o ../build/tmp/kernel/int.o ../build/tmp/kernel/pic.o#remember to write all the object file in specifc order ($^ = all the source file list)
+#remember to write all the object file in specifc order ($^ = all the source file list)
+../build/rootfs/KERNEL.SYS: \
+	../build/tmp/kernel/head.o \
+	../build/tmp/kernel/kernel.o \
+	../build/tmp/kernel/int.o \
+	../build/tmp/kernel/pic.o \
+	../build/tmp/kernel/mm.o
 #kernel.elf: complete image of kernel (in ELF64 file format)
 #KERNEL.SYS: machine code extracted from "kernel.elf"
-	ld $(KERNEL_LDFLAGS) -T kernel.lds -o ../build/tmp/kernel/kernel.elf $^ -los
+	$(LD) $(KERNEL_LDFLAGS) -T kernel.lds -o ../build/tmp/kernel/kernel.elf $^ -los
 	$(OBJCOPY) -I elf64-x86-64 -S -R ".eh_frame" -R ".comment" -O binary ../build/tmp/kernel/kernel.elf $@
 
 ../build/tmp/kernel/head.o: head.S
@@ -24,7 +30,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/kernel.o: main.c
 	$(CC) -shared -c $(CFLAGS) $^ -o $@
 
-../build/tmp/kernel/libos.a: ../build/tmp/kernel/string.o ../build/tmp/kernel/stdlib.o ../build/tmp/kernel/printf.o ../build/tmp/kernel/gpio.o
+../build/tmp/kernel/libos.a: ../build/tmp/kernel/string.o ../build/tmp/kernel/stdlib.o ../build/tmp/kernel/printf.o ../build/tmp/kernel/asm.o
 	ar -r $@ $^
 
 ../build/tmp/kernel/printf.o: stdlib/src/printf.c
@@ -35,10 +41,11 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 
 ../build/tmp/kernel/string.o: stdlib/src/string.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
-../build/tmp/kernel/gpio.o: stdlib/src/gpio.c
+../build/tmp/kernel/asm.o: stdlib/src/asm.c
 	$(CC) -c -static $(CFLAGS) $^ -o $@
 
 #file list need to be rewriten
 ../build/tmp/kernel/int.o: core/interrupt/exception/*
 ../build/tmp/kernel/pic.o: core/interrupt/pic/*
+../build/tmp/kernel/mm.o: core/mm/*
 	make all -C core

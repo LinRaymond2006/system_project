@@ -22,7 +22,7 @@
         PIN IR7: SATA slave
 
 */
-#include "gpio.h"
+#include "asm.h"
 
 #define PORT0_8259A_MASTER 0x20
 #define PORT1_8259A_MASTER 0x21

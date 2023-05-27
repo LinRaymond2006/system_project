@@ -1,7 +1,7 @@
 extern void *IDT_POINTER;
 extern void SetIdtEntry(unsigned short index, unsigned long handler_address, unsigned short selector, unsigned char dpl, unsigned char type, unsigned char ist);
 #include "printf.h"
-#include "gpio.h"
+#include "asm.h"
 #include "8259A_handler.h"
 #include "8259A_cw.h"
 
