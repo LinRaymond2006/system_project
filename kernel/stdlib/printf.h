@@ -1,6 +1,15 @@
 #ifndef __PRINTF_H__
 #define __PRINTF_H__
 
+#include "fonts/colors.h"
+
+struct ColorSet {
+	int OldFront;
+	int OldBack;
+};
+
+extern struct ColorSet BackupColorSet;
+
 typedef struct {
 	unsigned int text_resX;
 	unsigned int text_resY;
@@ -9,8 +18,8 @@ typedef struct {
     unsigned int t_posY;
 	unsigned int posX;
 	unsigned int posY;
-	unsigned int defualt_front;
-	unsigned int defualt_back;
+	unsigned int default_front;
+	unsigned int default_back;
 } CURSOR;
 
 typedef struct {
@@ -31,5 +40,9 @@ extern void putchar();
 extern void putstr();
 extern void printf();
 extern void change_color();
+
+#define PANIC_BACK_COLOR COLOR_WHITESMOKE
+#define PANIC_FRONT_COLOR COLOR_RED
+
 
 #endif

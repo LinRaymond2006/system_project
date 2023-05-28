@@ -24,4 +24,6 @@
         .globl SYM_NAME(LABEL_NAME)                 \
         DEF_LABEL(LABEL_NAME)
 
+#define ATTR_PACKED __attribute__((packed))
+
 #endif

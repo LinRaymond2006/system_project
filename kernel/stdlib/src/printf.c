@@ -6,7 +6,16 @@
 #include "stdlib.h"
 #include "fonts/vgabios_font.h"
 #include "fonts/colors.h"
-//test
+
+struct ColorSet {
+	int OldFront;
+	int OldBack;
+};
+
+struct ColorSet BackupColorSet = {
+	.OldFront=0,
+	.OldBack=0
+};
 
 typedef unsigned long size_t;
 

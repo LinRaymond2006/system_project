@@ -28,6 +28,7 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 	$(AS) $(ASFLAGS) ../build/tmp/kernel/head.s -o $@
 
 ../build/tmp/kernel/kernel.o: main.c
+#	$(CC) -shared -c -mno-sse -mno-mmx $(CFLAGS) $^ -o $@
 	$(CC) -shared -c $(CFLAGS) $^ -o $@
 
 ../build/tmp/kernel/libos.a: ../build/tmp/kernel/string.o ../build/tmp/kernel/stdlib.o ../build/tmp/kernel/printf.o ../build/tmp/kernel/asm.o
