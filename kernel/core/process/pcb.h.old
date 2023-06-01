@@ -1,0 +1,109 @@
+#ifndef __PCB_H__
+#define __PCB_H__
+
+#include "stdlist.h"
+#include "linkage.h"
+
+
+
+/*
+my code:
+
+typedef struct {
+    //DL_Node *prevRegion;
+    //DL_Node *nextRegion;
+    SL_Node *nextRegion;
+    void *Base;
+    void *Limit;
+    long Attr;
+
+} MemoryRegion;
+
+#define DATA_SECTION_INDEX   0
+#define TEXT_SECTION_INDEX   1
+#define RODATA_SECTION_INDEX 2
+#define HEAP_SECTION_INDEX   3
+#define STACK_SECTION_INDEX  4
+#define BSS_SECTION_INDEX    5
+
+typedef struct {
+    MemoryRegion Section[16];
+} MemoryMap ATTR_PACKED;
+
+typedef struct {
+    unsigned long Pid;
+    MemoryMap VmMap;
+    unsigned long ProcStatus;
+    unsigned long ProcFlags;
+} ProcInfo ATTR_PACKED;
+
+typedef struct {
+    unsigned long Kernel_Rsp;
+    unsigned long Reg_Rip;
+    unsigned long Reg_Rsp;
+    unsigned long Sreg_Fs;
+    unsigned long Sreg_Gs;
+    unsigned long SegFaultAddr;
+    //the irq which trap the process
+    unsigned long IrqTrap;
+    unsigned long ErrCode;
+} TaskStateRegs ATTR_PACKED;
+
+struct Pcb_Struct {
+    DL_Node ContextNode;
+    TaskStateRegs *TSS_Reg;
+    
+};
+*/
+
+//reference:一個64位操作系統的設計與實現
+
+typedef struct {
+    unsigned long pml4t;
+} pml4t_t;
+
+struct mm_struct {
+    pml4t_t *pgd;
+    unsigned long start_code, end_code;
+    unsigned long start_data, end_data;
+    unsigned long start_rodata, end_rodata;
+    unsigned long start_brk, end_brk;
+    unsigned long start_stack;
+};
+
+struct thread_struct {
+    unsigned long rsp0;
+    unsigned long rip;
+    unsigned long rsp;
+    unsigned long fs;
+    unsigned long gs;
+    unsigned long cr2;
+    unsigned long trap_nr;
+    unsigned long error_code;
+};
+
+
+struct task_struct {
+    DL_Node list;
+    volatile long state;
+    unsigned long flags;
+    struct mm_struct *mm;
+    struct thread_struct *thread;
+    unsigned long addr_limit;
+    long pid;
+    long counter;
+    long signal;
+    long priority;
+};
+
+#define STACK_SIZE (32*1024*1024)
+
+union tastk_union {
+    struct task_struct task;
+    unsigned long stack[STACK_SIZE/sizeof(unsigned long)];
+};
+
+
+
+
+#endif

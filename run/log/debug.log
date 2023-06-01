@@ -1,8 +1,22 @@
 Next at t=0
 (0) [0x0000fffffff0] f000:fff0 (unk. ctxt): jmpf 0xf000:e05b          ; ea5be000f0
 c
-Next at t=242546740
-(0) [0x000000104114] 0008:ffff800000104114 (unk. ctxt): jmp .-2  (0xffff800000104114) ; ebfe
+Next at t=404872022
+(0) [0x0000001040c5] 0008:ffff8000001040c5 (unk. ctxt): jmp .-2  (0xffff8000001040c5) ; ebfe
+info tss
+tr:s=0x50, base=0xffff80000010e4ac, valid=1
+ss:esp(0): 0x8000:0x00007c00
+ss:esp(1): 0x0000:0x00000000
+ss:esp(2): 0x0000:0x00000000
+cr3: 0x00000000
+eip: 0x00000000
+eflags: 0x00007c00
+cs: 0x0000 ds: 0x0000 ss: 0x0000
+es: 0x0000 fs: 0x0000 gs: 0x0000
+eax: 0xffff8000  ebx: 0x00000000  ecx: 0x00000000  edx: 0x00000000
+esi: 0x00000000  edi: 0x00000000  ebp: 0x00000000  esp: 0x00000000
+ldt: 0x0000
+i/o map: 0x0000
 fgets() returned ERROR.
 debugger interrupt request was 0
-(0).[242546740] [0x000000104114] 0008:ffff800000104114 (unk. ctxt): jmp .-2  (0xffff800000104114) ; ebfe
+(0).[404872022] [0x0000001040c5] 0008:ffff8000001040c5 (unk. ctxt): jmp .-2  (0xffff8000001040c5) ; ebfe

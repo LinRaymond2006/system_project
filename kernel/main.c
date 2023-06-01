@@ -12,8 +12,6 @@ void Start_Kernel(void) {
     Register8259AIrq();
     cli();
     GetE820Struct(&MemoryDesc);
-    //float i=0.123;
-    //printf("%d", i);
     __asm__ __volatile__ ("jmp .":::);
     return;
 }

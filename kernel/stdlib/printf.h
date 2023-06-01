@@ -41,8 +41,5 @@ extern void putstr();
 extern void printf();
 extern void change_color();
 
-#define PANIC_BACK_COLOR COLOR_WHITESMOKE
-#define PANIC_FRONT_COLOR COLOR_RED
-
 
 #endif

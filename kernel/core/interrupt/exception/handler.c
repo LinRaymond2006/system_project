@@ -240,7 +240,7 @@ extern void SX_handler(ERROR_STACK_PRAM) {
 #define TRAP_GATE 0xf
 #define DPL_SYS 0
 #define DPL_USR 3
-#define IST_DEFAULT_SSP 0
+#define INT_IST 1
 #define IST_SSP1 1
 #define IST_SSP2 2
 #define IST_SSP3 3
@@ -280,38 +280,42 @@ extern void Isr_HV();
 extern void Isr_VC();
 extern void Isr_SX();
 
+#define IST1SPACE_SZ (8*1024)
 
+extern char Ist1Space[IST1SPACE_SZ] = {0};
+
+#define IST1END (Ist1Space+IST1SPACE_SZ)
 
 extern void RegisterHandlerIrq() {
 	//the B (busy) bit will be set after a TSS is loaded into TSR, and loading it again will lead to a #TS exception
 	printf("initializing TSS table\n");
-    SetTssTable(0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
+    SetTssTable(0xffff800000007c00, IST1END, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
 	printf("done\n");
 	printf("initializing exception handler\n");
-    SetIdtEntry(EXCEPTION_DE, (unsigned long)&Isr_DE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_DB, (unsigned long)&Isr_DB, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_NMI, (unsigned long)&Isr_NMI, KERNEL_CODE_SELECTOR, DPL_SYS, INT_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_BP, (unsigned long)&Isr_BP, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_OF, (unsigned long)&Isr_OF, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_BR, (unsigned long)&Isr_BR, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_UD, (unsigned long)&Isr_UD, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_NM, (unsigned long)&Isr_NM, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_DF, (unsigned long)&Isr_DF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_FPU_SEG_ERR, (unsigned long)&Isr_FPU_SEG_ERR, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_TS, (unsigned long)&Isr_TS, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_NP, (unsigned long)&Isr_NP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_SS, (unsigned long)&Isr_SS, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_GP, (unsigned long)&Isr_GP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_PF, (unsigned long)&Isr_PF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_MF, (unsigned long)&Isr_MF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_AC, (unsigned long)&Isr_AC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_MC, (unsigned long)&Isr_MC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_XM, (unsigned long)&Isr_XM, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_VE, (unsigned long)&Isr_VE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_CP, (unsigned long)&Isr_CP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_HV, (unsigned long)&Isr_HV, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_VC, (unsigned long)&Isr_VC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
-    SetIdtEntry(EXCEPTION_SX, (unsigned long)&Isr_SX, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, IST_DEFAULT_SSP);
+    SetIdtEntry(EXCEPTION_DE, (unsigned long)&Isr_DE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_DB, (unsigned long)&Isr_DB, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_NMI, (unsigned long)&Isr_NMI, KERNEL_CODE_SELECTOR, DPL_SYS, INT_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_BP, (unsigned long)&Isr_BP, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_OF, (unsigned long)&Isr_OF, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_BR, (unsigned long)&Isr_BR, KERNEL_CODE_SELECTOR, DPL_USR, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_UD, (unsigned long)&Isr_UD, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_NM, (unsigned long)&Isr_NM, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_DF, (unsigned long)&Isr_DF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_FPU_SEG_ERR, (unsigned long)&Isr_FPU_SEG_ERR, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_TS, (unsigned long)&Isr_TS, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_NP, (unsigned long)&Isr_NP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_SS, (unsigned long)&Isr_SS, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_GP, (unsigned long)&Isr_GP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_PF, (unsigned long)&Isr_PF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_MF, (unsigned long)&Isr_MF, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_AC, (unsigned long)&Isr_AC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_MC, (unsigned long)&Isr_MC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_XM, (unsigned long)&Isr_XM, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_VE, (unsigned long)&Isr_VE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_CP, (unsigned long)&Isr_CP, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_HV, (unsigned long)&Isr_HV, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_VC, (unsigned long)&Isr_VC, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
+    SetIdtEntry(EXCEPTION_SX, (unsigned long)&Isr_SX, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
 	printf("done\n");
 	return;
 }

@@ -30,48 +30,40 @@ extern void SetIdtEntry(unsigned short index, unsigned long handler_address, uns
     return;
 }
 
-/*
-extern unsigned long *TSS64_Table;
-extern void SetTssTable(unsigned long rsp0,unsigned long rsp1,unsigned long rsp2,unsigned long ist1,unsigned long ist2,unsigned long ist3, unsigned long ist4,unsigned long ist5,unsigned long ist6,unsigned long ist7) {
-    //printf("updateing TSS table:\n  rsp0: %p    rsp1: %p    rsp2: %p    ist1: %p    \n  ist2: %p    ist3: %p    ist4: %p    ist5: %p    \n  ist6: %p    ist7: %p\n", rsp0, rsp1, rsp2, ist1, ist2, ist3, ist4, ist5, ist6, ist7);
-    TSS64_Table[1]=rsp0;
-    TSS64_Table[3]=rsp1;
-    TSS64_Table[5]=rsp2;
-    TSS64_Table[9]=ist1;
-    TSS64_Table[11]=ist2;
-    TSS64_Table[13]=ist3;
-    TSS64_Table[15]=ist4;
-    TSS64_Table[17]=ist5;
-    TSS64_Table[19]=ist6;
-    TSS64_Table[21]=ist7;
-    //printf("done");
-    return;
-}
-*/
 
-extern unsigned int TSS64_Table[];
+typedef struct {
+    unsigned int RES1;
+    unsigned long RSP0;
+    unsigned long RSP1;
+    unsigned long RSP2;
+    unsigned long RES2;
+    unsigned long IST1;
+    unsigned long IST3;
+    unsigned long IST2;
+    unsigned long IST4;
+    unsigned long IST5;
+    unsigned long IST6;
+    unsigned long IST7;
+    unsigned long RES3;
+    unsigned short RES4;
+    unsigned short IOBP;
+} __attribute__((packed)) StructTssTable;
+
+extern StructTssTable TSS64_Table;
 extern void SetTssTable(unsigned long rsp0,unsigned long rsp1,unsigned long rsp2,unsigned long ist1,unsigned long ist2, unsigned long ist3, unsigned long ist4, unsigned long ist5, unsigned long ist6, unsigned long ist7) {
      //printf("updateing TSS table:\n rsp0: %p rsp1: %p rsp2: %p ist1: %p \n ist2: %p ist3: %p ist4:> TSS64_Table[1]=rsp0 & 0xffffffff;
-TSS64_Table[2]=rsp0 >> 32;
-TSS64_Table[3]=rsp1 & 0xffffffff;
-TSS64_Table[4]=rsp1 >> 32;
-TSS64_Table[5]=rsp2 & 0xffffffff;
-TSS64_Table[6]=rsp2 >> 32;
 
-TSS64_Table[9]=ist1 & 0xffffffff;
-TSS64_Table[10]=ist1 >> 32;
-TSS64_Table[11]=ist2 & 0xffffffff;
-TSS64_Table[12]=ist2 >> 32;
-TSS64_Table[13]=ist3 & 0xffffffff;
-TSS64_Table[14]=ist3 >> 32;
-TSS64_Table[15]=ist4 & 0xffffffff;
-TSS64_Table[16]=ist4 >> 32;
-TSS64_Table[17]=ist5 & 0xffffffff;
-TSS64_Table[18]=ist5 >> 32;
-TSS64_Table[19]=ist6 & 0xffffffff;
-TSS64_Table[20]=ist6 >> 32;
-TSS64_Table[21]=ist7 & 0xffffffff;
-TSS64_Table[22]=ist7 >> 32;
-//printf("done");
+
+    TSS64_Table.IOBP=0;
+    TSS64_Table.IST1=ist1;
+    TSS64_Table.IST1=ist2;
+    TSS64_Table.IST1=ist3;
+    TSS64_Table.IST1=ist4;
+    TSS64_Table.IST1=ist5;
+    TSS64_Table.IST1=ist6;
+    TSS64_Table.IST1=ist7;
+    TSS64_Table.RSP0=rsp0;
+    TSS64_Table.RSP0=rsp1;
+    TSS64_Table.RSP0=rsp2;
 return;
 }
