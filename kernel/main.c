@@ -1,8 +1,6 @@
 #include "printf.h"
 #include "stdlib.h"
 #include "string.h"
-//#include "interrupt/exception/error_handler.h"
-//#include "interrupt/pic/8259A_handler.h"
 #include "interrupt/int.h"
 #include "mm/memory.h"
 

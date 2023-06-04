@@ -4,8 +4,9 @@
 extern void SetIdtEntry();
 extern void SetTssTable();
 
-
+//interrupts issued by external source
 #define INT_GATE 0xe
+//interrupts issued by "int" instruction
 #define TRAP_GATE 0xf
 #define DPL_SYS 0
 #define DPL_USR 3
@@ -20,8 +21,12 @@ extern void SetTssTable();
 #define KERNEL_CODE64_SELECTOR 0x8
 #define USER_CODE64_SELECTOR 0x28
 
+
 #define RegSystemTrap(index, handler_address,ist) \
     SetIdtEntry(index, handler_address, KERNEL_CODE64_SELECTOR, DPL_SYS, TRAP_GATE, ist)
+
+#define RegSystemInt(index, handler_address, ist) \
+    SetIdtEntry(index, handler_address, KERNEL_CODE64_SELECTOR, DPL_SYS, INT_GATE, ist)
 
 #define RegSyscall(index, handler_address, ist) \
     SetIdtEntry(index, handler_address, USER_CODE64_SELECTOR, DPL_USR, TRAP_GATE, ist)

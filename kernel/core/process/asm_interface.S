@@ -3,7 +3,5 @@
 //load the new register set of the next context
 //iretq to jump to the new context
 
-
-
-SaveRegs:
-    
+.global switch_context
+switch_context:

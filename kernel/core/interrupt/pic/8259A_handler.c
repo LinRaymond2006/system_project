@@ -1,9 +1,9 @@
 extern void *IDT_POINTER;
-extern void SetIdtEntry(unsigned short index, unsigned long handler_address, unsigned short selector, unsigned char dpl, unsigned char type, unsigned char ist);
 #include "printf.h"
 #include "asm.h"
 #include "8259A_handler.h"
 #include "8259A_cw.h"
+#include "reg_irq.h"
 
 //Isr_8259A_General
 //interrupt: DPL0, 0XE
@@ -36,29 +36,28 @@ extern void ConfigMasterOcw(char Ocw1, char Ocw2, char Ocw3);
 extern void ConfigSlaveOcw(char Ocw1, char Ocw2, char Ocw3);
 */
 
-#define SYSTEM_INT_ENTRY(IRQ, TARGET, IST) SetIdtEntry(IRQ, TARGET, 0x8, 0, 0xe, IST)
 
 extern void Register8259AIrq() {
 	__asm__ __volatile__ ("cli":::"memory");
     printf("initializing 8259A controller\n");
     //8259A master icw
 
-    SYSTEM_INT_ENTRY(TIMER_IRQ, PIC_8259A_Timer_handler, 1);
-    SYSTEM_INT_ENTRY(KEYBOARD_IRQ, PIC_8259A_Keyboard_handler, 1);
-    SYSTEM_INT_ENTRY(SLAVE_8259A_IRQ, PIC_8259A_Slave_handler, 1);
-    SYSTEM_INT_ENTRY(SERIAL2_IRQ, PIC_8259A_SerialPort2_handler, 1);
-    SYSTEM_INT_ENTRY(SERIAL1_IRQ, PIC_8259A_SerialPort1_handler, 1);
-    SYSTEM_INT_ENTRY(PARELLEL2_IRQ, PIC_8259A_ParellelPort2_handler, 1);
-    SYSTEM_INT_ENTRY(FLOPPY_IRQ, PIC_8259A_Floppy_handler, 1);
-    SYSTEM_INT_ENTRY(PARELLEL1_IRQ, PIC_8259A_ParellelPort1_handler, 1);
-    SYSTEM_INT_ENTRY(CMOS_RTC_IRQ, PIC_8259A_CmosRtc_handler, 1);
-    SYSTEM_INT_ENTRY(MASTER_8259A_IRQ, PIC_8259A_Master_handler, 1);
-    SYSTEM_INT_ENTRY(RESERVED1_IRQ, PIC_8259A_Reserved1_handler, 1);
-    SYSTEM_INT_ENTRY(RESERVED2_IRQ, PIC_8259A_Reserved2_handler, 1);
-    SYSTEM_INT_ENTRY(PS2_MOUSE_IRQ, PIC_8259A_Reserved2_handler, 1);
-    SYSTEM_INT_ENTRY(COPROCESSOR_IRQ, PIC_8259A_Coprocessor_handler, 1);
-    SYSTEM_INT_ENTRY(SATA_MASTER_IRQ, PIC_8259A_SataMaster_handler, 1);
-    SYSTEM_INT_ENTRY(SATA_SLAVE_IRQ, PIC_8259A_SataSlave_handler, 1);
+    RegSystemInt(TIMER_IRQ, PIC_8259A_Timer_handler, 1);
+    RegSystemInt(KEYBOARD_IRQ, PIC_8259A_Keyboard_handler, 1);
+    RegSystemInt(SLAVE_8259A_IRQ, PIC_8259A_Slave_handler, 1);
+    RegSystemInt(SERIAL2_IRQ, PIC_8259A_SerialPort2_handler, 1);
+    RegSystemInt(SERIAL1_IRQ, PIC_8259A_SerialPort1_handler, 1);
+    RegSystemInt(PARELLEL2_IRQ, PIC_8259A_ParellelPort2_handler, 1);
+    RegSystemInt(FLOPPY_IRQ, PIC_8259A_Floppy_handler, 1);
+    RegSystemInt(PARELLEL1_IRQ, PIC_8259A_ParellelPort1_handler, 1);
+    RegSystemInt(CMOS_RTC_IRQ, PIC_8259A_CmosRtc_handler, 1);
+    RegSystemInt(MASTER_8259A_IRQ, PIC_8259A_Master_handler, 1);
+    RegSystemInt(RESERVED1_IRQ, PIC_8259A_Reserved1_handler, 1);
+    RegSystemInt(RESERVED2_IRQ, PIC_8259A_Reserved2_handler, 1);
+    RegSystemInt(PS2_MOUSE_IRQ, PIC_8259A_Reserved2_handler, 1);
+    RegSystemInt(COPROCESSOR_IRQ, PIC_8259A_Coprocessor_handler, 1);
+    RegSystemInt(SATA_MASTER_IRQ, PIC_8259A_SataMaster_handler, 1);
+    RegSystemInt(SATA_SLAVE_IRQ, PIC_8259A_SataSlave_handler, 1);
 
 
 	SetMasterIcw(0x11, 0x20, 0x04, 0x01);
@@ -72,7 +71,7 @@ extern void Register8259AIrq() {
 
     printf("done\n");
 	printf("enableing PS/2 keyboard\n");
-	EnableKeyboard();
+	//EnableKeyboard();
 	printf("done\n");
 	__asm__ __volatile__ ("sti":::"memory");
     return;
@@ -87,9 +86,11 @@ extern void PicHandlerGeneral(unsigned long RegTablePtr, unsigned long nr) {
     return;
 }
 
-void EnableKeyboard(void){
-	return;
-}
+//void EnableKeyboard(void){
+//	return;
+//}
+
+
 //nothing is changed
 static const char SCANCODE2CHAR[128] = {	\
   0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b', '\t',	\
