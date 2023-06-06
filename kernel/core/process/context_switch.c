@@ -74,11 +74,17 @@ inline unsigned long get_cr3() {
 #define TEST_SCHEDULER_IRQ 0x31
 
 pcb initproc_pcb;
-pcb *current_context=&initproc_pcb;
+/*volatile*/ pcb *current_context=&initproc_pcb;
+
+volatile struct RegisterSet *cur_regstruct_ptr;
 
 void InitScheduler() {
-    //create and set "init" process (pid 0)
+    //load the first context
     current_context=&initproc_pcb;
+    cur_regstruct_ptr=&initproc_pcb.regs
+
+    //create and set "init" process (pid 0)
+
     current_context->pid=INIT_PROC_PID;
     current_context->prev_context=NULL;
     current_context->next_context=NULL;

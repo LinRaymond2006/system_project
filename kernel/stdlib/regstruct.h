@@ -1,6 +1,9 @@
 #ifndef __REGSTRUCT_H__
 #define __REGSTRUCT_H__
 
+//both two structs are not corret
+
+
 struct IntRegisterSet {
 	unsigned long es;
 	unsigned long ds;
@@ -17,6 +20,7 @@ struct IntRegisterSet {
 	unsigned long rsi;
 	unsigned long rdx;
 	unsigned long rcx;
+	unsigned long rbx;
 	unsigned long rax;
 	unsigned long handler;
 	unsigned long errorcode;
@@ -25,13 +29,13 @@ struct IntRegisterSet {
 	unsigned long rflags;
 	unsigned long rsp;
 	unsigned long ss;
-};
+} __attribute__ ((packed));
 
 struct RegisterSet {
-	unsigned long es;
-	unsigned long ds;
     unsigned long gs;
     unsigned long fs;
+	unsigned long es;
+	unsigned long ds;
 	unsigned long r15;
 	unsigned long r14;
 	unsigned long r13;
@@ -45,12 +49,13 @@ struct RegisterSet {
 	unsigned long rsi;
 	unsigned long rdx;
 	unsigned long rcx;
+	unsigned long rbx;
 	unsigned long rax;
 	unsigned long rip;
 	unsigned long cs;
 	unsigned long rflags;
 	unsigned long rsp;
 	unsigned long ss;
-};
+} __attribute__ ((packed));
 
 #endif

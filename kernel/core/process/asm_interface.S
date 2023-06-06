@@ -4,4 +4,31 @@
 //iretq to jump to the new context
 
 .global switch_context
+.extern 
+.extern 
 switch_context:
+    xchgq (%rsp), %rax
+/*
+	pushq %rax
+	pushq %rbx
+	pushq %rcx
+	pushq %rdx
+	pushq %rsi
+	pushq %rdi
+	pushq %rbp
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	pushq %r12
+	pushq %r13
+	pushq %r14
+	pushq %r15
+	//pushq %ds is invalid
+	movq %ds, %rax
+	pushq %rax
+	//pushq %es is invalid
+	movq %es, %rax
+	pushq %rax
+*/
+    leaq (  )

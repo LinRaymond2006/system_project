@@ -238,9 +238,12 @@ extern void SX_handler(ERROR_STACK_PRAM) {
 
 #define INT_GATE 0xe
 #define TRAP_GATE 0xf
+
 #define DPL_SYS 0
 #define DPL_USR 3
+
 #define INT_IST 1
+
 #define IST_SSP1 1
 #define IST_SSP2 2
 #define IST_SSP3 3
@@ -285,11 +288,13 @@ extern void Isr_SX();
 extern char Ist1Space[IST1SPACE_SZ] = {0};
 
 #define IST1END (Ist1Space+IST1SPACE_SZ)
+#define IST1_STACK IST1END
 
+//umm, the stack is not switching (from ring0->ring0), but i'm not sure with different privilleges (i.e. ring3->ring0)
 extern void RegisterHandlerIrq() {
 	//the B (busy) bit will be set after a TSS is loaded into TSR, and loading it again will lead to a #TS exception
 	printf("initializing TSS table\n");
-    SetTssTable(0xffff800000007c00, IST1END, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
+    SetTssTable(0xffff800000007c00, IST1_STACK, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00, 0xffff800000007c00);
 	printf("done\n");
 	printf("initializing exception handler\n");
     SetIdtEntry(EXCEPTION_DE, (unsigned long)&Isr_DE, KERNEL_CODE_SELECTOR, DPL_SYS, TRAP_GATE, INT_IST);
