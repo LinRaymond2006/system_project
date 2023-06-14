@@ -1,8 +1,54 @@
 #ifndef __REGSTRUCT_H__
 #define __REGSTRUCT_H__
 
-//both two structs are not corret
+/*
+struct memory layout, for example:
+struct {
+	//lower part of memory
+	int a;	//offset: 0
+	int b;	//offset: 4
+	int c;	//offset: 8
+	//higher part of memory
+}
 
+
+
+
+*/
+
+
+
+//the struct IntRegisterSet isn't tested, not sure whether it's correct or not
+/*
+
+
+	//write the handler address into stack
+	xchgq %rax, (%rsp) //the error handler is filled with correct value (by caller, using leaq instruction) , and the old rax is back!
+
+	pushq %rax
+	pushq %rbx
+	pushq %rcx
+	pushq %rdx
+	pushq %rsi
+	pushq %rdi
+	pushq %rbp
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	pushq %r12
+	pushq %r13
+	pushq %r14
+	pushq %r15
+	//pushq %ds is invalid
+	movq %ds, %rax
+	pushq %rax
+	//pushq %es is invalid
+	movq %es, %rax
+	pushq %rax
+
+
+*/
 
 struct IntRegisterSet {
 	unsigned long es;
@@ -31,7 +77,10 @@ struct IntRegisterSet {
 	unsigned long ss;
 } __attribute__ ((packed));
 
+
+
 struct RegisterSet {
+	//low memory
     unsigned long gs;
     unsigned long fs;
 	unsigned long es;
@@ -56,6 +105,12 @@ struct RegisterSet {
 	unsigned long rflags;
 	unsigned long rsp;
 	unsigned long ss;
+	//high memory
 } __attribute__ ((packed));
+
+
+
+
+typedef struct Register_set ctxt_regs;
 
 #endif

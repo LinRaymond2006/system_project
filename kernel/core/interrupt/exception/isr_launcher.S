@@ -28,6 +28,13 @@
 .set SREG_SS_OLD, 0xb8
 //--------------------------
 
+//when rsp points to handler_addr
+//rsp+0x8=errcode
+//rsp+0x10=rip
+//rsp+0x18=cs
+//rsp+0x20=rflags
+//rsp+0x28=old_rsp
+//rsp+0x30=ss
 
 IsrLauncher:
 	//write the handler address into stack

@@ -4,10 +4,13 @@
 //iretq to jump to the new context
 
 .global switch_context
-.extern 
-.extern 
+.extern cur_regstruct_ptr
+
 switch_context:
+	//not sure whether to fill in the errorcode or not, if error code is needed, restore the next line
+	//pushq $0
     xchgq (%rsp), %rax
+	movq (cur_regstruct_ptr), %rax
 /*
 	pushq %rax
 	pushq %rbx

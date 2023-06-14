@@ -81,7 +81,7 @@ volatile struct RegisterSet *cur_regstruct_ptr;
 void InitScheduler() {
     //load the first context
     current_context=&initproc_pcb;
-    cur_regstruct_ptr=&initproc_pcb.regs
+    cur_regstruct_ptr=&initproc_pcb.regs;
 
     //create and set "init" process (pid 0)
 
