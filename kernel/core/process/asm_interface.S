@@ -6,13 +6,67 @@
 .global switch_context
 .extern cur_regstruct_ptr
 
+.set regstruct_GS 0x0
+.set regstruct_FS 0x8
+.set regstruct_ES 0x10
+.set regstruct_DS 0x18
+.set regstruct_R15 0x20
+.set regstruct_R14 0x28
+.set regstruct_R13 0x30
+.set regstruct_R12 0x38
+.set regstruct_R11 0x40
+.set regstruct_R10 0x48
+.set regstruct_R9 0x50
+.set regstruct_R8 0x58
+.set regstruct_RBP 0x60
+.set regstruct_RDI 0x68
+.set regstruct_RSI 0x70
+.set regstruct_RDX 0x78
+.set regstruct_RCX 0x80
+.set regstruct_RBX 0x88
+.set regstruct_RAX 0x90
+.set regstruct_RIP 0x98
+.set regstruct_CS 0xa0
+.set regstruct_RFLAGS 0xa8
+.set regstruct_RSP 0xb0
+.set regstruct_SS 0xb8
+
+.set 
+
 switch_context:
 	//not sure whether to fill in the errorcode or not, if error code is needed, restore the next line
 	//pushq $0
     xchgq (%rsp), %rax
 	movq (cur_regstruct_ptr), %rax
-/*
-	pushq %rax
+	//store SS
+	//store rsp
+	//store rflags
+	//store cs
+	//store rip
+	//store rax, not sure how.
+	xchg %rax, %rsp	
+	//rsp is now the pointer to register struct
+	//rax points to the the interrupt stack
+
+	//firstly, retrieve the information on the stack saved by processor!
+
+	//when rsp points to handler_addr
+	//rsp+0x8=errcode
+	//rsp+0x10=rip
+	//rsp+0x18=cs
+	//rsp+0x20=rflags
+	//rsp+0x28=old_rsp
+	//rsp+0x30=ss
+
+	pushq 0x30(%rax)	//ss
+	pushq 0x28(%rax)	//rsp
+	pushq 0x20(%rax)	//rflags
+	pushq 0x18(%rax)	//cs
+	pushq 0x10(%rax)	//rip
+	pushq (%rax)		//rax
+
+	//rax is still holding the interrupt stack rsp, do not overwrite it!
+
 	pushq %rbx
 	pushq %rcx
 	pushq %rdx
@@ -27,11 +81,33 @@ switch_context:
 	pushq %r13
 	pushq %r14
 	pushq %r15
-	//pushq %ds is invalid
-	movq %ds, %rax
-	pushq %rax
-	//pushq %es is invalid
-	movq %es, %rax
-	pushq %rax
-*/
-    leaq (  )
+	//pushq %ds
+	movq %ds, %rbx
+	pushq %rbx
+	//pushq %es
+	movq %es, %rbx
+	pushq %rbx
+
+	//gs and fs are accessed throughout special MSR register
+
+	//i will fill them will zero now for convenience
+	//dummy fs
+	pushq $0
+	//dummy gs
+	pushq $0
+	xchgq %rax, %rsp	//the interrupt stack is now back!
+	
+	//movq (handler_ptr), %rdx
+	//call *%rdx
+
+	//restore the registers
+	//NOT FINISHED HERE!
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	//DO THE RESTORE STUFF HERE
+
+
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	//return (rsp should point to the address of errorcode)
+	iretq
