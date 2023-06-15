@@ -74,9 +74,9 @@ inline unsigned long get_cr3() {
 #define TEST_SCHEDULER_IRQ 0x31
 
 pcb initproc_pcb;
-/*volatile*/ pcb *current_context=&initproc_pcb;
+extern volatile pcb *current_context=&initproc_pcb;
 
-volatile struct RegisterSet *cur_regstruct_ptr;
+extern volatile struct RegisterSet *cur_regstruct_ptr;
 
 void InitScheduler() {
     //load the first context
@@ -110,8 +110,17 @@ void InitScheduler() {
     return;
 }
 
-void Schedule(pcb *current_context, pcb *target_context) {
-    //the schedling function is not implemented yet, scheduler is called throught a trap gate with "int" instruction (for now)
+extern void *Schedule() {
+    //the function is responsible for updating the listed pointers: current_context, cur_regstruct_ptr
+    //do some scheduling stuff here!
 
-    return;
+
+    //the schedling function is not implemented yet, scheduler is called throught a trap gate with "int" instruction (for now)
+    //for test purpose, i'm assuming the next context is the current_context->next_context
+    current_context = current_context->next_context;
+    cur_regstruct_ptr = &current_context->regs;
+    return cur_regstruct_ptr = &current_context->regs;    //for now
+
+    //algroithms!
+    //return xxx;
 }

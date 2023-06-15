@@ -5,6 +5,7 @@
 
 .global switch_context
 .extern cur_regstruct_ptr
+.extern Schedule
 
 .set regstruct_GS 0x0
 .set regstruct_FS 0x8
@@ -34,8 +35,8 @@
 .set 
 
 switch_context:
-	//not sure whether to fill in the errorcode or not, if error code is needed, restore the next line
-	//pushq $0
+	//not sure whether to fill in the errorcode or not, if error code is needed/not needed, restore/comment the next line
+	pushq $0
     xchgq (%rsp), %rax
 	movq (cur_regstruct_ptr), %rax
 	//store SS
@@ -95,19 +96,81 @@ switch_context:
 	pushq $0
 	//dummy gs
 	pushq $0
-	xchgq %rax, %rsp	//the interrupt stack is now back!
-	
-	//movq (handler_ptr), %rdx
-	//call *%rdx
+	xchgq %rax, %rsp	//switch the interrupt stack back
 
-	//restore the registers
+	//switch to kernel 64 bit data segment
+	movq $0x10, %rdi
+	movq %rdi, %ds
+	movq %rdi, %es
+
+	//determine which context to switch to
+	leaq (Schedule), %rdx
+	callq *%rdx
+
+	//rax (return value) will hold the pointer of new context register set
+	//switch to the context!
+
+	//restore the registers (update the pointers in the interrupt stack first!)
 	//NOT FINISHED HERE!
-	
+	//when rsp points to handler_addr
+	//rsp+0x8=errcode
+	//rsp+0x10=rip
+	//rsp+0x18=cs
+	//rsp+0x20=rflags
+	//rsp+0x28=old_rsp
+	//rsp+0x30=ss
+	movq regstruct_SS(%rax), %rbx
+	movq %rbx, 0x30(%rsp)
+	movq regstruct_RSP(%rax), %rbx
+	movq %rbx, 0x28(%rsp)
+	movq regstruct_RFLAGS(%rax), %rbx
+	movq %rbx, 0x20(%rsp)
+	movq regstruct_CS(%rax), %rbx
+	movq %rbx, 0x18(%rsp)
+	movq regstruct_CS(%rax), %rbx
+	movq %rbx, 0x10(%rsp)
+
+	xchgq %rax, %rsp
+	//remember the stack is switched
+
+	//dummy gs
+	popq %rbx
+	//dummy fs
+	popq %rbx
+
+	//es
+	popq %rbx
+	movq %rbx, %es
+
+	//ds
+	popq %rbx
+	movq %rbx, %ds
+
+	popq %r15
+	popq %r14
+	popq %r13
+	popq %r12
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rbp
+	popq %rdi
+	popq %rsi
+	popq %rdx
+	popq %rcx
+	popq %rbx
+	//popq %rax
+
+	//...
+
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	//DO THE RESTORE STUFF HERE
+	//REMEMBER TO STORE THE NEW PROCESS'S STATE ON INTERRUPT STACK!
+	
 
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-	//return (rsp should point to the address of errorcode)
+	//execute the process!
 	iretq
