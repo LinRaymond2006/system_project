@@ -16,7 +16,8 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 	../build/tmp/kernel/kernel.o \
 	../build/tmp/kernel/int.o \
 	../build/tmp/kernel/pic.o \
-	../build/tmp/kernel/mm.o
+	../build/tmp/kernel/mm.o \
+	../build/tmp/kernel/pm.o
 #kernel.elf: complete image of kernel (in ELF64 file format)
 #KERNEL.SYS: machine code extracted from "kernel.elf"
 	$(LD) $(KERNEL_LDFLAGS) -T kernel.lds -o ../build/tmp/kernel/kernel.elf $^ -los
@@ -49,4 +50,5 @@ all:  ../build/tmp/kernel/libos.a ../build/rootfs/KERNEL.SYS
 ../build/tmp/kernel/int.o: core/interrupt/exception/*
 ../build/tmp/kernel/pic.o: core/interrupt/pic/*
 ../build/tmp/kernel/mm.o: core/mm/*
+../build/tmp/kernel/pm.o: core/process/*
 	make all -C core

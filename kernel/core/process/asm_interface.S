@@ -7,32 +7,31 @@
 .extern cur_regstruct_ptr
 .extern Schedule
 
-.set regstruct_GS 0x0
-.set regstruct_FS 0x8
-.set regstruct_ES 0x10
-.set regstruct_DS 0x18
-.set regstruct_R15 0x20
-.set regstruct_R14 0x28
-.set regstruct_R13 0x30
-.set regstruct_R12 0x38
-.set regstruct_R11 0x40
-.set regstruct_R10 0x48
-.set regstruct_R9 0x50
-.set regstruct_R8 0x58
-.set regstruct_RBP 0x60
-.set regstruct_RDI 0x68
-.set regstruct_RSI 0x70
-.set regstruct_RDX 0x78
-.set regstruct_RCX 0x80
-.set regstruct_RBX 0x88
-.set regstruct_RAX 0x90
-.set regstruct_RIP 0x98
-.set regstruct_CS 0xa0
-.set regstruct_RFLAGS 0xa8
-.set regstruct_RSP 0xb0
-.set regstruct_SS 0xb8
+.set regstruct_GS, 0x0
+.set regstruct_FS, 0x8
+.set regstruct_ES, 0x10
+.set regstruct_DS, 0x18
+.set regstruct_R15, 0x20
+.set regstruct_R14, 0x28
+.set regstruct_R13, 0x30
+.set regstruct_R12, 0x38
+.set regstruct_R11, 0x40
+.set regstruct_R10, 0x48
+.set regstruct_R9, 0x50
+.set regstruct_R8, 0x58
+.set regstruct_RBP, 0x60
+.set regstruct_RDI, 0x68
+.set regstruct_RSI, 0x70
+.set regstruct_RDX, 0x78
+.set regstruct_RCX, 0x80
+.set regstruct_RBX, 0x88
+.set regstruct_RAX, 0x90
+.set regstruct_RIP, 0x98
+.set regstruct_CS, 0xa0
+.set regstruct_RFLAGS, 0xa8
+.set regstruct_RSP, 0xb0
+.set regstruct_SS, 0xb8
 
-.set 
 
 switch_context:
 	//not sure whether to fill in the errorcode or not, if error code is needed/not needed, restore/comment the next line
@@ -91,11 +90,14 @@ switch_context:
 
 	//gs and fs are accessed throughout special MSR register
 
-	//i will fill them will zero now for convenience
-	//dummy fs
-	pushq $0
-	//dummy gs
-	pushq $0
+	//remember to MSRs for fs and gs
+	//fs
+	movq %fs, %rbx
+	pushq %rbx
+	//gs
+	movq %gs, %rbx
+	pushq %rbx
+
 	xchgq %rax, %rsp	//switch the interrupt stack back
 
 	//switch to kernel 64 bit data segment
@@ -111,14 +113,8 @@ switch_context:
 	//switch to the context!
 
 	//restore the registers (update the pointers in the interrupt stack first!)
-	//NOT FINISHED HERE!
-	//when rsp points to handler_addr
-	//rsp+0x8=errcode
-	//rsp+0x10=rip
-	//rsp+0x18=cs
-	//rsp+0x20=rflags
-	//rsp+0x28=old_rsp
-	//rsp+0x30=ss
+	//NOT TESTED!
+
 	movq regstruct_SS(%rax), %rbx
 	movq %rbx, 0x30(%rsp)
 	movq regstruct_RSP(%rax), %rbx
@@ -133,10 +129,12 @@ switch_context:
 	xchgq %rax, %rsp
 	//remember the stack is switched
 
-	//dummy gs
+	//gs
 	popq %rbx
-	//dummy fs
+	movq %rbx, %gs
+	//fs
 	popq %rbx
+	movq %rbx, %fs
 
 	//es
 	popq %rbx
@@ -160,17 +158,8 @@ switch_context:
 	popq %rdx
 	popq %rcx
 	popq %rbx
-	//popq %rax
-
-	//...
-
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//DO THE RESTORE STUFF HERE
-	//REMEMBER TO STORE THE NEW PROCESS'S STATE ON INTERRUPT STACK!
-	
-
-
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	xchgq %rax, %rsp
+	movq (%rax), %rax
 
 	//execute the process!
 	iretq
