@@ -37,7 +37,7 @@ switch_context:
 	//not sure whether to fill in the errorcode or not, if error code is needed/not needed, restore/comment the next line
 	pushq $0
     xchgq (%rsp), %rax
-	movq (cur_regstruct_ptr), %rax
+	leaq cur_regstruct_ptr(%rip), %rax
 	//store SS
 	//store rsp
 	//store rflags
@@ -106,7 +106,7 @@ switch_context:
 	movq %rdi, %es
 
 	//determine which context to switch to
-	leaq (Schedule), %rdx
+	leaq Schedule(%rip), %rdx
 	callq *%rdx
 
 	//rax (return value) will hold the pointer of new context register set

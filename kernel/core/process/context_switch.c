@@ -59,7 +59,7 @@ source code that may be useful in linux 2.6:
 
 #define PRIORITY_NOT_IMPELEMENTED_YET 0
 
-inline unsigned long get_cr3() {
+extern inline unsigned long get_cr3() {
     register unsigned long reg_cr3;
     __asm__ __volatile__ ("movq %%cr3, %0" : "=r" (reg_cr3));
     return reg_cr3;
@@ -73,10 +73,17 @@ inline unsigned long get_cr3() {
 //just for a test
 #define TEST_SCHEDULER_IRQ 0x31
 
+extern pcb initproc_pcb;
+extern pcb *current_context;
 pcb initproc_pcb;
-extern volatile pcb *current_context=&initproc_pcb;
+pcb *current_context=&initproc_pcb;
 
-extern volatile struct RegisterSet *cur_regstruct_ptr;
+extern struct RegisterSet *cur_regstruct_ptr;
+struct RegisterSet *cur_regstruct_ptr;
+
+extern void *switch_context;
+
+
 
 void InitScheduler() {
     //load the first context
@@ -86,6 +93,7 @@ void InitScheduler() {
     //create and set "init" process (pid 0)
 
     current_context->pid=INIT_PROC_PID;
+    //circulated doubly linked list
     current_context->prev_context=NULL;
     current_context->next_context=NULL;
     current_context->status=PROC_STATUS_READY;
@@ -98,11 +106,13 @@ void InitScheduler() {
     current_context->procmap[INIT_PROC_KERNEL_SEG_NR].start=0xffff800000000000;
     current_context->procmap[INIT_PROC_KERNEL_SEG_NR].end=0xffffffffffffffff;
     current_context->procmap[INIT_PROC_KERNEL_SEG_NR].attr=VALID_SEGMENT | SEGMENT_R | SEGMENT_W | SEGMENT_X | SEGMENT_SYS;
+    //the address of the init_process() function
     current_context->rip=NULL;
+    //the stack of init process
     current_context->rsp=NULL;
+    //init process is run under the privillage of 0, just replace it with current_context->rsp
     current_context->rsp_kernel=NULL;
 
-    extern void *switch_context;
     //register the experimental context-switching handler
     RegSystemTrap(TEST_SCHEDULER_IRQ, &switch_context, 1);
 
