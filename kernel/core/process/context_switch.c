@@ -61,9 +61,15 @@ source code that may be useful in linux 2.6:
 
 extern inline unsigned long get_cr3() {
     register unsigned long reg_cr3;
-    __asm__ __volatile__ ("movq %%cr3, %0" : "=r" (reg_cr3));
+    __asm__ __volatile__ ("movq %%cr3, %0" : "=r" (reg_cr3)::"memory");
     return reg_cr3;
 }
+
+extern inline void load_cr3(unsigned long cr3_val) {
+    __asm__ __volatile__ ("movq %0, %%cr3" :: "r"(cr3_val):"memory");
+    return;
+}
+
 
 #define INIT_PROC_PID 1
 
